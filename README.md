@@ -67,6 +67,7 @@ A infraestrutura será expandida gradualmente conforme novos conteúdos forem es
 
 # 📂 Estrutura do repositório
 
+```text
 cybersecurity-roadmap/
 │
 ├── README.md
@@ -86,6 +87,7 @@ cybersecurity-roadmap/
 ├── projects/
 │
 └── resources/
+```
 
 ---
 
