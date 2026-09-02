@@ -41,7 +41,7 @@ Durante as 24 semanas, serão realizados laboratórios, exercícios, análises e
   * Introduction to Cybersecurity
   * Endpoint Security
   * Network Defense
-* **ITIL 5 Foundation**
+* **ITIL 4 Foundation**
 
 ---
 
@@ -196,36 +196,6 @@ Cada semana seguirá uma metodologia prática:
 
 ---
 
-# 📂 Estrutura do Repositório
-
-```text
-cybersecurity-roadmap/
-│
-├── README.md
-│
-├── week-01/
-├── week-02/
-├── week-03/
-├── ...
-├── week-24/
-│
-├── projects/
-│   ├── cyberlab/
-│   ├── network-analysis/
-│   ├── web-security/
-│   ├── soc/
-│   ├── dfir/
-│   └── cloud-security/
-│
-├── resources/
-├── notes/
-├── evidence/
-└── docs/
-
-text```
-
----
-
 # 📈 Evolução
 
 Este repositório será atualizado continuamente durante a jornada, registrando:
@@ -260,8 +230,28 @@ Ao final da jornada, espero consolidar conhecimentos em:
 
 ---
 
-## 👨‍💻 Autor
+# 📂 Estrutura do Repositório
 
-**Thiago S. Silva**  
-*Técnico de Suporte N2 | Graduando em Segurança da Informação*  
-*Construindo conhecimento, praticando todos os dias e transformando aprendizado em experiência.*
+```text
+cybersecurity-roadmap/
+│
+├── README.md
+│
+├── week-01/
+├── week-02/
+├── week-03/
+├── ...
+├── week-24/
+│
+├── projects/
+│   ├── cyberlab/
+│   ├── network-analysis/
+│   ├── web-security/
+│   ├── soc/
+│   ├── dfir/
+│   └── cloud-security/
+│
+├── resources/
+├── notes/
+├── evidence/
+└── docs/
