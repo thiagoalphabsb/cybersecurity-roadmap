@@ -1,53 +1,155 @@
-# Semana 01 — Fundamentos de Linux, Redes e CyberLab
+# 🛡️ Week 01 — Fundamentos de Computação, Linux e CyberLab
 
-## 🎯 Objetivo
-Estruturar o ambiente de estudos, configurar a rede isolada do laboratório e dominar comandos essenciais de inspeção de sistema e redes no Linux.
+> Primeira semana do projeto **Cybersecurity Roadmap**  
+> **Foco:** Fundamentos de hardware, virtualização, redes isoladas no VirtualBox, inspeção de processos no Linux e mentalidade investigativa.
+
+---
+
+## 🎯 Objetivo da Semana
+
+Construir uma base técnica sólida para Cybersecurity, unindo teoria e prática:
+1. **Fundamentos:** Entender a interação entre hardware, sistema operacional, memória e processos.
+2. **Infraestrutura:** Criar a rede isolada do **CyberLab** no VirtualBox com Debian e Kali Linux.
+3. **Análise de Processos & Investigação:** Praticar a observação, monitoramento e respostas a eventos no terminal Linux com foco em segurança.
 
 ---
 
 ## 📅 Progresso Diário
 
-- **Dia 01:** Conceitos fundamentais de hardware, processos e gerenciamento de máquinas virtuais.
-- **Dia 02:** Inventário do Debian e Kali Linux, criação da rede interna `CYBERLAB-INTERNAL`, atribuição de IPs estáticos (`10.10.10.10` e `10.10.10.20`), validação de conectividade ICMP e criação de snapshots.
+| Dia | Tema Principal | Foco Prático | Status |
+|---|---|---|:---:|
+| **Day 01** | Fundamentos de Computação & Hardware | CPU, RAM, armazenamento, OS e gerencia de VMs | 🟢 Concluído |
+| **Day 02** | Virtualização, Redes Internas & Snapshots | Atribuição de IPs estáticos, interface de rede isolada e conectividade ICMP | 🟢 Concluído |
+| **Day 03** | Linux Debian & Inspeção do Sistema | Comandos de inspeção (`ls`, `df`, `free`, `hostnamectl`) e inventário | 🟢 Concluído |
+| **Day 04** | Sistemas Operacionais, Processos & `/proc` | Estrutura de PIDs/PPIDs e análise do diretório `/proc` | 🟢 Concluído |
+| **Day 05** | Processos Linux & Investigação de Incidentes | Simulações de alto consumo, sinais (`SIGTERM`/`SIGKILL`) e investigação | 🟢 Concluído |
+| **Day 06** | Revisão, Hardening & Documentação | Organização do portfólio no GitHub e consolidação das evidências | 🟢 Concluído |
+| **Day 07** | Encerramento & Avaliação | Fechamento do relatório da semana e planejamento da Week 02 | 🟢 Concluído |
+
+> **Status da Semana:** 🟢 **WEEK 01 CONCLUÍDA**
 
 ---
 
-## 🛠️ Comandos Aprendidos (Dia 02)
+## 🧭 Evolução do Aprendizado
 
-| Comando | Para que serve | O que observei no laboratório |
+```text
+  [ Hardware & OS ]
+         ↓
+  [ Virtualização ]
+         ↓
+ [ Redes Isoladas (Lab) ]
+         ↓
+  [ Linux / Terminal ]
+         ↓
+[ Análise de Processos ]
+         ↓
+ [ Coleta & Inspeção ]
+         ↓
+ [ Investigação / SOC ]
+```
+
+📚 Principais Competências Desenvolvidas
+
+💻 Fundamentos & Hardware
+Arquitetura: Interação entre CPU, memória RAM, disco e Kernel.
+
+Sistemas Operacionais: Ciclo de vida de um processo, estados de execução, PIDs e PPIDs.
+
+🖥️ Virtualização & Infraestrutura de Laboratório
+VirtualBox: Criação, isolamento e gerenciamento de máquinas virtuais Debian 13 e Kali Linux.
+
+Snapshots: Criação de pontos de restauração de segurança (BASE-LINUX-INSTALADO).
+
+Arquitetura de Rede: Configuração dual-adapter (Placa 1 em NAT para acesso à internet / Placa 2 em Rede Interna CYBERLAB-INTERNAL para comunicação isolada).
+
+🐧 Linux & Administração
+Estrutura do Sistema: Navegação no sistema de arquivos e abstração do diretório /proc.
+
+Análise do Sistema: Diagnóstico de recursos com free, df, hostnamectl e uname.
+
+🔎 Investigação & Monitoramento
+Análise de Processos: Inspeção avançada usando ps aux, ps -ef e top.
+
+Encerramento de Processos: Controle e envio de sinais do Kernel (kill -15 SIGTERM e kill -9 SIGKILL).
+
+Formulação de Hipóteses: Diagnóstico de anomalias (diferenciando consumo legítimo de comportamento suspeito).
+
+## 🛠️ Comandos & Práticas do Laboratório
+
+### 1. Comandos do Sistema e Redes
+
+| Comando | Descrição / Finalidade | Aplicação no Laboratório |
 | :--- | :--- | :--- |
-| `pwd` | Mostra o diretório atual | Identifica a pasta de trabalho atual |
-| `ls -la` | Lista todos os arquivos com detalhes | Exibe permissões, donos e arquivos ocultos |
-| `ps aux` | Lista todos os processos do sistema | Exibe usuário, PID, consumo de CPU e RAM |
-| `df -h` | Mostra uso do disco/sistema de arquivos | Exibe espaço livre em GB de forma legível |
-| `free -h` | Mostra utilização da memória RAM e Swap | Exibe RAM total, em uso e disponível |
-| `hostnamectl` | Mostra detalhes do sistema e hostname | Exibe nome da VM, Kernel, Arquitetura e SO |
-| `ip addr` | Lista as interfaces de rede e seus IPs | Mostra os IPs das placas NAT e Rede Interna |
-| `ip route` | Exibe a tabela de roteamento e gateway | Identifica a rota padrão (`default via 10.0.2.2`) |
-| `sudo ip addr add <IP/MÁSCARA> dev <IF>` | Atribui IP estático temporário | Configurado `10.10.10.10` (Debian) e `10.10.10.20` (Kali) |
-| `sudo ip link set <IF> up` | Ativa a interface de rede | Habilita a placa interna para tráfego de pacotes |
-| `ping -c <QTD> <DESTINO>` | Testa a conectividade (ICMP) | Validou 0% de perda entre Kali e Debian na rede isolada |
+| `hostnamectl` | Detalhes da VM e Kernel | Identificação da versão e arquitetura do Debian |
+| `free -h` / `df -h` | Leitura de RAM e Disco | Análise de capacidade e recursos disponíveis |
+| `ip addr` / `ip route` | Exibe placas e rotas de rede | Identificação dos adaptadores NAT e Rede Interna |
+| `sudo ip addr add <IP/MÁSCARA> dev <IF>` | Atribui IP estático temporário | Atribuídos 10.10.10.10 (Debian) e 10.10.10.20 (Kali) |
+| `sudo ip link set <IF> up` | Ativa a interface de rede | Habilita a placa interna para tráfego isolado |
+| `ping -c 4 <DESTINO>` | Teste de conectividade ICMP | Validação de comunicação entre Kali e Debian (0% perda) |
 
----
+2. Inspeção de Processos & Simulação
+Simulação controlada de processo em segundo plano:
+sleep 120 &
+ps aux | grep sleep
 
-## 📸 Evidências do Laboratório (Dia 02)
+Simulação de alto consumo de CPU:
+yes > /dev/null &
+top -b -n 1 | head -n 20
+cat /proc/<PID>/status
+ls -l /proc/<PID>/exe
+kill -9 <PID>
 
-### 1. Painel Geral do VirtualBox
-![Visão Geral das VMs](evidence/day-02/vms-virtualbox.png)
-*Painel de gerenciamento do VirtualBox exibindo as VMs preparadas para o CyberLab v1.0.*
+🛡️ Mentalidade de Cybersecurity & Investigação
+A principal habilidade cultivada nesta semana foi a análise orientada a evidências. Um processo consumindo elevado uso de CPU ou memória não é automaticamente malicioso.
 
-### 2. Status de Execução do Debian
-![Status VM Debian](evidence/day-02/day-02-running.png)
-*VM Debian 13 (CyberLab-Linux) ativa no VirtualBox com configurações base.*
+Fluxo de Investigação Praticado:
+[ Observar anomalia ]
+        ↓
+[ Identificar PID / Usuário ]
+        ↓
+[ Inspecionar /proc e binário ]
+        ↓
+[ Formular hipótese ]
+        ↓
+[ Validar impacto no sistema ]
+        ↓
+[ Tomar ação (Controle / Interrupção) ]
 
-### 3. Snapshot de Segurança
-![Snapshot Debian](evidence/day-02/day-02-snapshot-debian.png)
-*Ponto de restauração BASE-LINUX-INSTALADO criado no VirtualBox.*
+📸 Evidências do Laboratório
+1. Visão Geral do VirtualBox
+Painel de gerenciamento do VirtualBox exibindo as VMs configuradas para o CyberLab.
 
-### 4. Configuração da Placa NAT (Adaptador 1)
-![Configuração NAT](evidence/day-02/day-02-redeNAT.png)
-*Adaptador 1 habilitado em modo NAT para acesso à internet.*
+2. Status do Debian & Snapshot
+Ponto de restauração BASE-LINUX-INSTALADO garantindo a integridade do ambiente.
 
-### 5. Teste de Conectividade na Rede Interna
-![Ping Debian para Kali](evidence/day-02/day-02-debian-ping.png)
-*Sucesso no ping do Debian (10.10.10.10) para o Kali Linux (10.10.10.20) com 0% de perda.*
+3. Configuração de Rede Interna
+Configuração do adaptador NAT e da rede interna isolada CYBERLAB-INTERNAL.
+
+4. Teste de Conectividade entre VMs
+Validação de comunicação ICMP do Debian (10.10.10.10) para o Kali Linux (10.10.10.20) com 0% de perda de pacotes.
+
+## 📊 Avaliação de Desempenho — Week 01
+
+| Área de Conhecimento | Avaliação | Status |
+| :--- | :---: | :--- |
+| Fundamentos de Hardware & OS | 5/5 | 🟢 Excelente |
+| Virtualização & Snapshots | 5/5 | 🟢 Excelente |
+| Redes Internas & Conectividade | 5/5 | 🟢 Concluído |
+| Comandos Linux & Terminal | 5/5 | 🟢 Excelente |
+| Análise de Processos & /proc | 5/5 | 🟢 Excelente |
+| Raciocínio de Investigação | 5/5 | 🟢 Excelente |
+
+Resultado Geral: 🟢 Base Consolidada
+
+🧠 Retrospectiva & Lições Aprendidas
+"Fundamentos fortes primeiro. Base de segurança solida depois."
+
+🚀 Próximos Passos (Week 02)
+Na Week 02, o roadmap continuará explorando:
+
+Aprofundamento em arquitetura de redes (Modelos OSI e TCP/IP, sub-redes, portas e serviços).
+
+Ferramentas de análise de pacotes e inspeção de rede (tcpdump, wireshark e nmap).
+
+Práticas continuadas de administração e defesa no CyberLab.
+EOF
