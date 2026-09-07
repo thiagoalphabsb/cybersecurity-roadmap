@@ -41,7 +41,7 @@ Durante as 24 semanas, serão realizados laboratórios, exercícios, análises e
   * Introduction to Cybersecurity
   * Endpoint Security
   * Network Defense
-* **ITIL 4 Foundation**
+* **ITIL 5 Foundation**
 
 ---
 
@@ -49,8 +49,8 @@ Durante as 24 semanas, serão realizados laboratórios, exercícios, análises e
 
 | Semana | Tema                      | Status          |
 | :----: | ------------------------- | :-------------: |
-| **01** | Fundamentos de Computação | 🟢 Em andamento |
-| **02** | Virtualização + CyberLab  | ⚪              |
+| **01** | Fundamentos de Computação | 🟢 Conluído     |
+| **02** | Virtualização + CyberLab  | 🟡 Em andamento |
 | **03** | Linux                     | ⚪              |
 | **04** | Redes                     | ⚪              |
 | **05** | Windows                   | ⚪              |
@@ -74,7 +74,7 @@ Durante as 24 semanas, serão realizados laboratórios, exercícios, análises e
 | **23** | Projeto Final             | ⚪              |
 | **24** | Revisão + Portfólio       | ⚪              |
 
-> **Legenda:** 🟢 Concluído / Em andamento | 🟡 Parcial | ⚪ Não iniciado
+> **Legenda:** 🟢 Concluído | 🟡 Parcial | ⚪ Não iniciado
 
 ---
 
@@ -161,6 +161,11 @@ O laboratório será utilizado para realizar os exercícios e projetos práticos
 * Ambiente reversível e documentado
 * Testes somente em sistemas autorizados
 
+O CyberLab é o ambiente virtual isolado construído no VirtualBox para realização dos experimentos práticos:
+CyberLab-Linux (Debian 13): Servidor/Host de testes e serviços (10.10.10.10).
+CyberLab-Kali (Kali Linux): Estação de análise, auditoria e testes (10.10.10.20).
+Rede Interna: CYBERLAB-INTERNAL (Isolada da rede local e segura para simulação de incidentes).
+
 ### 🛠️ Tecnologias
 * Virtualização (VirtualBox / VMware)
 * Linux & Windows Server / Client
@@ -224,9 +229,13 @@ Ao final da jornada, espero consolidar conhecimentos em:
 
 ## 🚀 Status Atual
 
-* **Semana Atual:** 01 — Fundamentos de Computação (Finalizando o Dia 02)
+* **Semana Atual:** 02 — Linux + Networking + Laboratório 
+* 📅 **Início:** 07/09/2026
+* 📍 **Status:** 🟡 Em Andamento
+
+* **Semana 01:** — Fundamentos de Computação 
 * 📅 **Início:** 31/08/2026
-* 📍 **Status:** 🟢 Em andamento
+* 📍 **Status:** 🟢 Concluído
 
 ---
 
@@ -255,3 +264,12 @@ cybersecurity-roadmap/
 ├── notes/
 ├── evidence/
 └── docs/
+```
+
+🧠 Retrospectiva & Lições Aprendidas
+"Fundamentos fortes primeiro. Base de segurança sólida depois."
+
+📬 Contato & Links
+GitHub: @thiagoalphabsb
+
+LinkedIn: www.linkedin.com/in/thiago-souza-silva-5607223aa
