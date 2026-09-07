@@ -1,0 +1,18 @@
+# Processo de Auditoria e Avaliação de Riscos
+
+## Metodologia
+A avaliação foi conduzida mapeando 9 contas de serviços críticos, analisando a robustez da senha,
+presença de MFA, sessões ativas e aplicativos terceiros conectados (OAuth).
+
+## Matriz de Classificação de Risco
+
+| Nível de Risco | Critérios |
+| :--- | :--- |
+| 🔴 **Crítico / Alto** | Senha fraca, reutilizada em múltiplos serviços ou ausência de MFA em serviços essenciais. |
+| 🟡 **Médio** | Senha forte sem gerenciamento centralizado, sessões antigas não encerradas ou permissões OAuth desnecessárias. |
+| 🟢 **Baixo** | Senha única/aleatória (20+ chars), MFA ativo, cofre configurado e escopo OAuth sanitizado. |
+
+## Mapeamento Inicial
+- Contas Auditadas: 9
+- Senhas Reutilizadas Identificadas: 7
+- Senhas de Baixa Complexidade: 6
