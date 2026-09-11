@@ -1,0 +1,35 @@
+week 02 - day 01 e 02 
+
+ * Rede de Computadores: Dois ou mais dispositivos conectados entre si para compartilhar recursos, arquivos, serviços ou dados.
+ * LAN vs. WAN vs. Internet:
+   * LAN (Local Area Network): Rede local limitada a um espaço físico pequeno (sua casa, um escritório, uma sala).
+   * WAN (Wide Area Network): Rede de longa distância que conecta redes locais distantes (ex.: filiais de uma empresa em cidades diferentes).
+   * Internet: A maior WAN do mundo; uma coleção global de redes interconectadas que utilizam a suíte de protocolos TCP/IP.
+ * Cliente x Servidor: Modelo de arquitetura onde o Cliente (seu navegador, por exemplo) solicita recursos ou serviços, e o Servidor (a máquina onde o site está hospedado) processa e entrega essa resposta.
+Endereçamento e Camada de Rede
+ * IP vs. MAC:
+   * MAC Address (Media Access Control): Endereço físico gravado na placa de rede (NIC). É único no mundo e opera na camada de enlace (L2).
+   * IP Address (Internet Protocol): Endereço lógico usado para rotear dados entre redes (L3).
+ * IPv4: Estrutura de endereçamento de 32 bits dividida em 4 octetos decimais separados por pontos (ex.: 192.168.1.1).
+ * Máscara de Rede (Subnet Mask): Define qual parte do endereço IP identifica a rede e qual parte identifica o host (dispositivo).
+   * Exemplo: Em 192.168.1.50/24 (máscara 255.255.255.0), 192.168.1 é a rede e .50 é o host.
+ * Gateway Padrão (Default Gateway): O ponto de saída da sua rede local (geralmente o roteador). Se um pacote precisa ir para fora da sua LAN, ele é enviado ao Gateway.
+Serviços Essenciais de Rede
+ * DNS (Domain Name System): Traduz nomes de domínio legíveis por humanos (exemplo.com) em endereços IP numéricos (93.184.216.34) que os computadores usam para se comunicar.
+ * DHCP (Dynamic Host Configuration Protocol): Protocolo que atribui automaticamente endereços IP, máscaras de rede, gateway e servidores DNS aos dispositivos quando eles se conectam à rede.
+Camada de Transporte e Portas
+ * TCP vs. UDP:
+   * TCP (Transmission Control Protocol): Orientado à conexão (Handshake de 3 vias). Garante a entrega na ordem correta, reenvia pacotes perdidos e checa erros (ex.: HTTP/HTTPS, SSH).
+   * UDP (User Datagram Protocol): Sem conexão. Não garante entrega nem ordem, mas é extremamente rápido e leve (ex.: DNS, streaming ao vivo, jogos online).
+ * Portas de Rede: Numeração (0 a 65535) que identifica qual serviço ou aplicação específica dentro do sistema operacional deve receber os dados.
+   * Exemplos comuns: HTTP (80), HTTPS (443), SSH (22), DNS (53).
+O que acontece ao acessar um site ([https://exemplo.com](https://exemplo.com))
+ * Resolução DNS: O computador verifica seu cache local. Se não encontrar o IP de exemplo.com, consulta o servidor DNS (via UDP 53) para obter o IP do servidor destino.
+ * Obtenção do MAC do Gateway (ARP): Caso precise sair da LAN, o computador descobre o endereço MAC do roteador local usando o protocolo ARP.
+ * Estabelecimento de Conexão TCP: Seu computador inicia o 3-Way Handshake com o IP do servidor na porta 443:
+   * SYN \rightarrow Cliente envia pedido de conexão.
+   * SYN-ACK \leftarrow Servidor responde confirmando.
+   * ACK \rightarrow Cliente estabelece a conexão.
+ * Negociação TLS/SSL: Para conexões HTTPS, ocorre a troca de chaves e certificados de criptografia para proteger a comunicação.
+ * Requisição e Resposta HTTP: O cliente envia um GET /, o servidor processa e responde com o código do site (HTTP 200 OK + HTML/CSS/JS).
+ * Renderização: O navegador processa os arquivos recebidos e exibe a página na tela. 

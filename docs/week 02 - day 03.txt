@@ -1,0 +1,15 @@
+week 02 - day 03
+
+Abaixo estão os dados identificados na imagem para cada uma das interfaces físicas ativas no sistema (note que o comando `ip addr / route` não exibe os servidores DNS, os quais ficam registrados no arquivo `/etc/resolv.conf`).
+
+| Informação | Placa 1 (NAT - Internet) | Placa 2 (Rede Interna - Lab) |
+| --- | --- | --- |
+| **Interface** | `enp0s3` | `enp0s8` |
+| **IPv4** | `10.0.2.15` | `10.10.10.10` |
+| **Máscara/prefixo** | `/24` (`255.255.255.0`) | `/24` (`255.255.255.0`) |
+| **Gateway** | `10.0.2.2` | *Nenhum* (rede isolada sem roteamento) |
+
+---
+
+InformaçãoValor IdentificadoDomínio de Busca (search)saude.govServidores DNS Primários (Ativos)10.1.1.12710.1.2.1110.1.2.12Servidores DNS Adicionais (Excedentes)10.1.2.1310.1.2.1410.1.1.12010.1.1.12fd17:625c:f037:2::3 (IPv6)
+
