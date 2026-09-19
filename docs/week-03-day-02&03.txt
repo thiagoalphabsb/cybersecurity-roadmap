@@ -1,0 +1,373 @@
+# 🛡️ Week 03 — Linux para Cybersecurity
+
+> Terceira semana do projeto **Cybersecurity Roadmap**
+> **Foco:** gerenciamento de privilégios, processos e serviços Linux sob a perspectiva de Cybersecurity.
+
+---
+
+## 🎯 Objetivo da Semana
+
+A Semana 03 tem como objetivo aprofundar o conhecimento em Linux, deixando de utilizar o sistema apenas como ambiente de laboratório e passando a analisá-lo também como uma fonte de informações para segurança.
+
+Nesta etapa, o foco está em compreender:
+
+* usuários e privilégios;
+* gerenciamento administrativo;
+* princípio do menor privilégio;
+* processos em execução;
+* serviços do sistema;
+* relação entre serviços e processos;
+* identificação de comportamentos que merecem investigação.
+
+---
+
+# 📅 Dia 02 — Sudo e Privilégio Mínimo
+
+## 🎯 Objetivo
+
+Compreender como o Linux controla privilégios administrativos e como o `sudo` permite executar determinadas tarefas com privilégios elevados.
+
+O estudo foi realizado considerando o princípio de **Least Privilege (Menor Privilégio)**.
+
+---
+
+## 🔐 Conceitos estudados
+
+### Root
+
+O usuário `root` possui privilégios administrativos elevados no sistema.
+
+### Sudo
+
+O `sudo` permite que um usuário autorizado execute comandos com privilégios administrativos sem precisar utilizar diretamente a sessão do usuário `root`.
+
+### Sudoers
+
+O arquivo:
+
+```bash
+/etc/sudoers
+```
+
+contém regras relacionadas à autorização do uso do `sudo`.
+
+Também foi analisado o diretório:
+
+```bash
+/etc/sudoers.d/
+```
+
+---
+
+## 🔎 Comandos utilizados
+
+```bash
+whoami
+id
+groups
+sudo -l
+sudo whoami
+```
+
+Também foram analisadas as configurações relacionadas ao:
+
+```bash
+/etc/sudoers
+/etc/sudoers.d/
+```
+
+---
+
+## 🧪 Investigação
+
+Foi realizada uma análise dos privilégios disponíveis para o usuário e da capacidade de executar comandos utilizando `sudo`.
+
+A investigação permitiu compreender a diferença entre:
+
+```text
+Usuário comum
+      ↓
+Privilégios limitados
+      ↓
+sudo
+      ↓
+Privilégio administrativo
+```
+
+---
+
+## 🛡️ Segurança
+
+Foi estudado o princípio do **menor privilégio**, segundo o qual um usuário ou processo deve possuir somente os privilégios necessários para realizar sua função.
+
+A concessão excessiva de privilégios administrativos aumenta a superfície de impacto caso uma conta seja comprometida ou utilizada de maneira indevida.
+
+---
+
+## 🧠 Principais aprendizados
+
+* Diferença entre usuário comum e `root`.
+* Funcionamento básico do `sudo`.
+* Consulta dos privilégios disponíveis através de `sudo -l`.
+* Importância do `/etc/sudoers`.
+* Utilização do diretório `/etc/sudoers.d/`.
+* Relação entre privilégios administrativos e segurança.
+* Princípio do menor privilégio.
+
+---
+
+# 📅 Dia 03 — Processos e Serviços no Linux
+
+## 🎯 Objetivo
+
+Analisar processos e serviços Linux, compreendendo como eles são executados e gerenciados pelo sistema.
+
+O objetivo foi desenvolver uma visão investigativa sobre aquilo que está efetivamente em execução no sistema.
+
+---
+
+## ⚙️ Conceitos estudados
+
+### Processo
+
+Um processo representa um programa em execução.
+
+Cada processo possui um identificador chamado:
+
+```text
+PID
+```
+
+Também foi estudado:
+
+```text
+PPID
+```
+
+que representa o processo pai responsável pela criação de determinado processo.
+
+---
+
+## 🔎 Comandos utilizados
+
+### Processos
+
+```bash
+ps
+ps -ef
+pstree -p
+top
+pgrep
+```
+
+Esses comandos permitiram observar:
+
+* PID;
+* PPID;
+* usuário responsável;
+* processos em execução;
+* relação entre processos;
+* consumo de recursos.
+
+---
+
+## 🔧 Serviços
+
+Foi utilizado o `systemctl` para analisar os serviços gerenciados pelo sistema.
+
+Comandos utilizados:
+
+```bash
+systemctl --type=service --state=running
+systemctl status <serviço>
+systemctl is-active <serviço>
+systemctl is-enabled <serviço>
+```
+
+---
+
+# 🧪 Laboratório — CyberLab Service
+
+Foi criado um serviço controlado para compreender na prática a relação entre **serviço e processo**.
+
+Serviço utilizado:
+
+```text
+cyberlab.service
+```
+
+O serviço foi iniciado através do:
+
+```bash
+systemctl start cyberlab.service
+```
+
+Depois foi analisado com:
+
+```bash
+systemctl status cyberlab.service
+```
+
+A partir do `Main PID`, foi possível identificar o processo associado.
+
+Foi então estabelecida a relação:
+
+```text
+cyberlab.service
+        ↓
+     systemd
+        ↓
+     Main PID
+        ↓
+      processo
+        ↓
+ comando executado
+```
+
+Após a conclusão do exercício, o serviço de laboratório foi interrompido e removido.
+
+---
+
+# 🕵️ Investigação de Serviços
+
+Também foi realizada a análise de um serviço real do Debian.
+
+Foram observados:
+
+* estado do serviço;
+* PID principal;
+* processo associado;
+* usuário responsável;
+* configuração de inicialização automática.
+
+Essa análise demonstrou como um analista pode partir de um serviço e chegar ao processo responsável por sua execução.
+
+---
+
+# 🛡️ Perspectiva de Cybersecurity
+
+A análise de processos e serviços é importante durante atividades de monitoramento e investigação.
+
+Um processo desconhecido não deve ser considerado automaticamente malicioso.
+
+Uma investigação adequada deve seguir uma sequência semelhante a:
+
+```text
+Encontrar
+   ↓
+Identificar
+   ↓
+Verificar processo pai
+   ↓
+Identificar usuário
+   ↓
+Verificar comando executado
+   ↓
+Analisar comportamento
+   ↓
+Correlacionar com outras evidências
+```
+
+Esse método evita conclusões precipitadas e cria uma base para investigações posteriores.
+
+---
+
+# 🧠 Principais aprendizados
+
+* Diferença entre processo e serviço.
+* Identificação de processos através de PID.
+* Relação entre PID e PPID.
+* Visualização da árvore de processos.
+* Monitoramento de processos.
+* Gerenciamento de serviços através do `systemctl`.
+* Identificação do `Main PID`.
+* Relação entre serviço e processo.
+* Importância da análise de processos durante uma investigação de segurança.
+
+---
+
+# 🔗 Conexão entre os Dias 02 e 03
+
+Os dois dias complementam o entendimento de segurança no Linux:
+
+```text
+DIA 01
+Usuários
+   ↓
+Grupos
+   ↓
+Permissões
+        ↓
+DIA 02
+Privilégios
+   ↓
+sudo
+   ↓
+Root
+        ↓
+DIA 03
+Processos
+   ↓
+Serviços
+   ↓
+Comportamento do sistema
+```
+
+A partir dessa sequência, é possível começar a responder perguntas importantes durante uma investigação:
+
+> **Quem está executando?**
+
+> **Quais privilégios possui?**
+
+> **O que está executando?**
+
+> **Qual serviço iniciou o processo?**
+
+> **Qual usuário está associado ao processo?**
+
+---
+
+# 📸 Evidências
+
+As evidências foram coletadas exclusivamente no ambiente controlado do **CyberLab**, incluindo:
+
+* identificação do usuário;
+* grupos e privilégios;
+* análise de `sudo`;
+* processos em execução;
+* árvore de processos;
+* serviços ativos;
+* laboratório `cyberlab.service`;
+* relação entre serviço e processo;
+* investigação de serviço Linux.
+
+---
+
+# 🚀 Próximo passo
+
+O próximo conteúdo da Semana 03 será:
+
+## **Dia 04 — Logs e Investigação no Linux**
+
+A partir dos processos e serviços, o próximo passo será descobrir:
+
+> **O que aconteceu no sistema?**
+
+Serão estudados logs, eventos e evidências que podem ser utilizados durante uma investigação de segurança.
+
+---
+
+## 🏁 Status
+
+| Dia | Tema                                     | Status      |
+| --- | ---------------------------------------- | ----------- |
+| 01  | Usuários, grupos e permissões            | ✅ Concluído |
+| 02  | Sudo e privilégio mínimo                 | ✅ Concluído |
+| 03  | Processos e serviços                     | ✅ Concluído |
+| 04  | Logs e investigação                      | ⏳ Próximo   |
+| 05  | Sistema de arquivos e arquivos sensíveis | ⏳           |
+| 06  | Bash e automação                         | ⏳           |
+| 07  | Laboratório integrado e documentação     | ⏳           |
+
+---
+

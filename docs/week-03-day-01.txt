@@ -1,0 +1,81 @@
+# Dia 01 — Usuários, Grupos e Permissões Linux
+
+## 🎯 Objetivo
+
+Compreender o gerenciamento de usuários, grupos e permissões
+no Linux sob a perspectiva de segurança da informação.
+
+## 🧪 Ambiente
+
+- Debian Linux
+- VirtualBox
+- CyberLab
+
+## 👤 Usuários
+
+Foram utilizados comandos como:
+
+```bash
+whoami
+id
+groups
+```
+
+👥 Grupos
+
+Foi criado o grupo:
+cyberlab
+
+E associado um usuário de laboratório ao grupo.
+
+🔐 Permissões
+
+Foram estudadas as permissões:
+
+r — leitura
+w — escrita
+x — execução
+
+Também foi estudada a representação numérica:
+
+r = 4
+w = 2
+x = 1
+
+🧪 Laboratório
+
+Foram criados arquivos com diferentes níveis de permissão:
+
+publico.txt
+privado.txt
+restrito.txt
+evidencia.txt
+
+🔎 Investigação
+
+Foi realizada uma comparação entre permissões 600,
+640, 644 e 777.
+
+🛡️ Segurança
+
+Foi observado que permissões excessivas podem ampliar
+desnecessariamente o acesso aos arquivos.
+
+A aplicação de permissões adequadas está relacionada
+ao princípio do menor privilégio.
+
+🧠 O que aprendi
+Identificar usuários através de UID.
+Identificar grupos através de GID.
+Interpretar permissões rwx.
+Utilizar chmod.
+Utilizar chown.
+Analisar propriedades com stat.
+Relacionar permissões Linux com segurança.
+
+📸 Evidências
+
+As evidências foram coletadas exclusivamente
+no CyberLab.
+
+
