@@ -52,8 +52,8 @@ Durante as 24 semanas, serão realizados laboratórios, exercícios, análises e
 |:-:|-|:-:|
 |**01**|Fundamentos de Computação|🟢 Concluído|
 |**02**|Virtualização + CyberLab|🟢 Concluído|
-|**03**|Linux|🟡 Em andamento|
-|**04**|Redes|⚪|
+|**03**|Linux|🟢 Concluído|
+|**04**|Redes|🟡 Em andamento|
 |**05**|Windows|⚪|
 |**06**|Active Directory|⚪|
 |**07**|Python|⚪|
@@ -250,8 +250,8 @@ Ao final da jornada, espero consolidar conhecimentos em:
 
 ## 🚀 Status Atual
 
-* **Semana Atual:** 03 — Linux 
-* 📅 **Início:** 14/09/2026
+* **Semana Atual:** 04 — Redes 
+* 📅 **Início:** 21/09/2026
 * 📍 **Status:** 🟡 Em Andamento
 
 \---
