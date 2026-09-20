@@ -33,7 +33,7 @@ Durante as 24 semanas, serão realizados laboratórios, exercícios, análises e
 
 ### 🎓 Formação
 
-* **Graduação:** Segurança da Informação — Gran Faculdade
+* **Graduação:** Segurança da Informação
 
 ### 🏆 Cursos e Certificações
 
@@ -42,6 +42,23 @@ Durante as 24 semanas, serão realizados laboratórios, exercícios, análises e
   * Introduction to Cybersecurity
   * Endpoint Security
   * Network Defense
+  * Cyber Threat Management
+  * Analista de Cibersegurança Júnior — Trilha Profissionalizante
+    
+* **FIAP**
+  
+  * Cyber Security
+  * Cloud Fundamentals
+  * Python Development
+  * Linux Fundamentos
+
+* **Solyd**
+  * Introdução ao Hacking e Pentest 2.0
+
+* **DIO.me**
+
+ * Segurança e boas práticas em projetos feitos com Vibe Coding
+
 * **ITIL 5 Foundation**
 
 \---
