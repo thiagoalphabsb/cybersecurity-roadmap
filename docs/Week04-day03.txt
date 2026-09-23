@@ -1,0 +1,159 @@
+---
+
+```markdown
+# 🌐 Dia 03 — ARP, MAC Address e Descoberta na Rede Local
+
+## 🎯 Objetivo
+
+Aprofundar o entendimento da comunicação na Camada de Enlace (L2) e Camada de Rede (L3), analisando como o protocolo **ARP (Address Resolution Protocol)** mapeia e descobre dinamicamente os endereços físicos (**MAC Address**) correspondentes aos endereços **IP** dentro da rede local (`10.10.10.0/24`).
+
+Ao final do laboratório, compreendeu-se que a comunicação local não ocorre diretamente via IP, mas sim pelo encadear de:
+`MAC → IP → TCP/UDP → Porta → Serviço → Processo`
+
+---
+
+## 🧠 Conceitos Estudados
+
+### 1️⃣ Endereço MAC (Media Access Control)
+Identificador físico único de 48 bits gravado na placa de rede (NIC). Opera na **Camada 2 (Enlace)** do modelo OSI.
+
+### 2️⃣ Protocolo ARP (Address Resolution Protocol)
+Protocolo de infraestrutura encarregado de traduzir um endereço de camada de rede (**IPv4**) em um endereço de camada de enlace (**MAC Address**).
+
+### 3️⃣ Fluxo de Resolução ARP (Request/Reply)
+
+```text
+Kali (10.10.10.20)                                Debian (10.10.10.10)
+   |                                                        |
+   | --- ARP Request (Broadcast: ff:ff:ff:ff:ff:ff) ------> |
+   |     "Quem possui 10.10.10.10? Responda a 10.10.10.20" |
+   |                                                        |
+   | <--- ARP Reply (Unicast: MAC_Debian) ----------------- |
+   |      "10.10.10.10 está no MAC 08:00:27:ee:8e:5f"       |
+   |                                                        |
+       [ Entrada salva no Cache ARP / Neighbor Table ]
+
+```
+
+---
+
+## 🧪 Atividades Práticas & Comandos Executados
+
+### 1. Inspeção de Interfaces e Tabela de Vizinhos (ARP Cache)
+
+Mapeamento do endereço MAC das placas físicas e leitura da tabela de vizinhos do sistema operacional:
+
+```bash
+# Inspecionar MAC Address no Debian (enp0s8) e Kali (eth1)
+ip link
+
+# Consultar a tabela ARP / Neighbor
+ip neigh
+
+```
+
+### 2. Manipulação e Limpeza Controlada de Cache ARP
+
+Demonstração do comportamento do sistema operacional ao ter uma entrada ARP invalidada:
+
+```bash
+# 1. Eliminar a entrada cache do IP do Kali no Debian
+sudo ip neigh del 10.10.10.20 dev enp0s8
+
+# 2. Confirmar a remoção da tabela
+ip neigh
+
+# 3. Forçar nova descoberta com disparo ICMP
+ping -c 1 10.10.10.20
+
+# 4. Validar o recadastramento automático do MAC na tabela
+ip neigh
+
+```
+
+---
+
+### 3. Análise da Captura de Pacotes no Wireshark
+
+Com o filtro de exibição `arp` aplicado na interface `eth1` do Kali:
+
+1. Foi enviado um disparo ICMP (`ping -c 2 10.10.10.10`).
+2. O pacote **ARP Request** foi capturado em modo *Broadcast* (`ff:ff:ff:ff:ff:ff`).
+3. O pacote **ARP Reply** foi capturado em modo *Unicast* confirmando a resposta da interface do Debian.
+
+---
+
+## 🔍 Diferença Conceitual: Roteamento vs. Resolução de Nomes/MAC
+
+| Mecanismo | Comando | Camada OSI | Pergunta Responda |
+| --- | --- | --- | --- |
+| **Roteamento** | `ip route` | Camada 3 (Rede) | *Para qual gateway/interface devo encaminhar o pacote?* |
+| **Tabela ARP** | `ip neigh` | Camada 2/3 | *Qual é o MAC Address físico do dispositivo para entrega direta?* |
+
+---
+
+## 🧩 Solução do Desafio / Questionário Final
+
+### 1. Qual é a diferença entre IP e MAC?
+
+O **IP** é um endereço lógico de Camada 3 atribuído via software para roteamento entre redes. O **MAC** é um endereço físico de Camada 2 atribuído pelo fabricante da placa de rede para comunicação dentro da mesma rede local.
+
+### 2. Para que serve o ARP?
+
+Serve para traduzir um endereço IPv4 conhecido no endereço MAC físico correspondente do destinatário na rede local.
+
+### 3. Qual comando mostra a tabela de vizinhos?
+
+O comando `ip neigh` (ou o legado `arp -an`).
+
+### 4. Qual comando mostra a tabela de rotas?
+
+O comando `ip route`.
+
+### 5. O que acontece quando o computador não conhece o MAC de um IP local?
+
+O sistema interrompe temporariamente o envio dos pacotes da aplicação, envia um **ARP Request** em *Broadcast* para toda a rede local e, assim que recebe o **ARP Reply** com o MAC do destino, atualiza o cache e realiza a entrega dos quadros Ethernet.
+
+### 6. Como o Wireshark permite observar esse processo?
+
+Através do filtro `arp`, onde é possível inspecionar no cabeçalho do pacote os campos *Sender MAC*, *Sender IP*, *Target MAC* e *Target IP*.
+
+---
+
+## 📸 Evidências do Laboratório
+
+Para manter o padrão do repositório `cybersecurity-roadmap`, as evidências do dia devem ser salvas na pasta `/evidence`:
+
+```markdown
+## 📸 Evidências do laboratório
+
+* **Inspeção de MAC Address e Tabela ARP no Debian (`ip link` / `ip neigh`):**  
+  [![Debian ARP](https://img.shields.io/badge/Evid%C3%AAncia-Debian%20ip%20neigh-blue?style=flat-square)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day03-ipneigh-debian.png)
+
+* **Inspeção de MAC Address e Tabela ARP no Kali (`ip link` / `ip neigh`):**  
+  [![Kali ARP](https://img.shields.io/badge/Evid%C3%AAncia-Kali%20ip%20neigh-1793D1?style=flat-square&logo=kalilinux)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day03-ipneigh-kali.png)
+
+* **Limpeza e Redescoberta de Tabela ARP (`ip neigh del` + `ping`):**  
+  [![ARP Refresh](https://img.shields.io/badge/Evid%C3%AAncia-ARP%20Del%20%26%20Ping-success?style=flat-square)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day03-arp-del-ping.png)
+
+* **Captura de Pacotes ARP Request e Reply no Wireshark (`arp`):**  
+  [![Wireshark ARP](https://img.shields.io/badge/Evid%C3%AAncia-Wireshark%20ARP%20Packets-1793D1?style=flat-square&logo=wireshark)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day03-wireshark-arp.png)
+
+```
+
+---
+
+**Status:** ✅ Concluído
+
+**Projeto:** Cybersecurity Roadmap
+
+**Semana:** 04 — Redes
+
+**Dia:** 03 — ARP, MAC Address e Descoberta na Rede
+
+> *Desenvolvido por Thiago S. Silva*
+> 
+
+```
+
+---

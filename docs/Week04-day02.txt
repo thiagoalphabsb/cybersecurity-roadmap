@@ -1,0 +1,199 @@
+Aqui está o conteúdo do arquivo **`Week04-day02.txt`** totalmente atualizado, estruturado e integrado com as evidências reais capturadas nas suas imagens.
+
+Você pode copiar o bloco de código abaixo e colar diretamente no seu arquivo local antes de realizar o commit no GitHub.
+
+```markdown
+# 🌐 Dia 02 — TCP, UDP, Portas e Serviços
+
+## 🎯 Objetivo
+
+Aprofundar a investigação na cadeia de conexão do ecossistema Linux/Redes:
+
+```text
+IP → Protocolo → Porta → Serviço → Processo → Conexão
+
+```
+
+Ao final deste laboratório, a análise de uma porta em estado de escuta (`LISTEN`) ou estabelecida (`ESTABLISHED`) passa a ser explicada a partir do comportamento interno do sistema e da comunicação real capturada na rede, relacionando processos, PIDs, unidades do `systemd` e o tráfego capturado via Wireshark.
+
+---
+
+## 🧠 Conceitos Estudados
+
+### 1️⃣ TCP vs. UDP
+
+* **TCP (Transmission Control Protocol):** Protocolo orientado à conexão. Utiliza o mecanismo de **Three-Way Handshake** (SYN → SYN/ACK → ACK) para garantir a entrega, controle de fluxo, retransmissão de pacotes e encerramento ordenado (FIN/RST).
+* **UDP (User Datagram Protocol):** Protocolo não orientado à conexão. Não possui confirmação de recebimento ou estados de sessão, sendo focado em baixa latência (ex: DNS, DHCP).
+
+### 2️⃣ O Three-Way Handshake do TCP
+
+```text
+Cliente (Kali: 10.10.10.20)               Servidor (Debian: 10.10.10.10)
+    |                                                 |
+    | ------------ SYN (Seq=0) ---------------------> |
+    | <----------- SYN, ACK (Seq=0, Ack=1) ---------- |
+    | ------------ ACK (Seq=1, Ack=1) --------------> |
+    |                                                 |
+                 [ Conexão Estabelecida ]
+
+```
+
+---
+
+## 🧪 Atividades Práticas & Comandos Executados
+
+### 1. Investigação Interna de Sockets no Debian
+
+Mapeamento dos sockets ativos, estados de escuta e identificação dos serviços/processos associados:
+
+```bash
+# Sockets TCP e UDP em estado LISTEN com indicação numérica
+ss -tulnp
+
+# Mapeamento completo de sockets TCP ativos e em escuta
+ss -tan
+
+```
+
+### 2. Mapeamento Encadeado: Porta → Serviço → Processo → Systemd
+
+1. **Identificação do Socket e PID:**
+Ao executar `ss -tulnp`, a porta **TCP 22** foi identificada vinculada ao processo daemon do SSH (`sshd`).
+2. **Consulta de Status e Gerenciamento no Systemd:**
+```bash
+systemctl status ssh
+systemctl is-active ssh
+systemctl is-enabled ssh
+
+```
+
+
+* **Resultado observado:** O serviço `ssh.service` apresentou estado `active (running)` com o `Main PID: 831 (sshd)`.
+
+
+
+**Cadeia Mapeada:**
+
+`Porta 22/TCP` → `Serviço SSH` → `Processo sshd (PID 831)` → `systemd (ssh.service)`
+
+---
+
+### 3. Reconhecimento Externo a partir do Kali Linux
+
+A partir da VM do Kali (`10.10.10.20`), foi realizada a análise de escaneamento de portas apontando para a interface interna do Debian (`10.10.10.10`):
+
+```bash
+# Varredura simples de portas TCP expostas
+nmap -n 10.10.10.10
+
+# Varredura direcionada na porta 22
+nmap -n -p 22 10.10.10.10
+
+```
+
+---
+
+### 4. Captura de Tráfego e Verificação da Conexão Ativa
+
+1. **Captura no Wireshark (Kali Linux):**
+Iniciada a escuta na interface `eth1` (`CYBERLAB-INTERNAL`) com o filtro de exibição:
+```text
+tcp.port == 22
+
+```
+
+
+2. **Estabelecimento da Conexão SSH:**
+Conexão iniciada do Kali em direção ao Debian:
+```bash
+ssh debian@10.10.10.10
+
+```
+
+
+3. **Isolamento do Pacote SYN:**
+Aplicação do filtro no Wireshark para validar a abertura de sessão:
+```text
+tcp.flags.syn == 1
+
+```
+
+
+4. **Inspeção de Conexão Estabelecida (`ESTABLISHED`) no Debian:**
+Enquanto a sessão SSH permaneceu aberta, executou-se no Debian:
+```bash
+sudo ss -tnp
+
+```
+
+
+* **Resultado observado:**
+`ESTAB` | Local: `10.10.10.10:22` | Peer: `10.10.10.20:35612` | Processo: `sshd-session` (PID 3192 / 3202)
+
+
+
+---
+
+## 🔍 Análise Comparativa: Nmap vs. SS vs. Wireshark
+
+| Ferramenta | O que responde? | Visão / Perspectiva |
+| --- | --- | --- |
+| **Nmap** | *O que está acessível a partir da rede?* | **Superfície Exposta** (Perspectiva Externa) |
+| **SS (`ss`)** | *O que está acontecendo internamente no SO?* | **Estado Interno** (Processos e Sockets) |
+| **Wireshark** | *O que realmente está trafegando na rede?* | **Comunicação Observada** (Análise de Pacotes) |
+
+---
+
+## 🧩 Solução do Desafio do Day 02
+
+### Explicação do Fluxo Fim a Fim (Kali → Debian)
+
+1. **Início da Ação (Kali):** O usuário dispara `ssh debian@10.10.10.10` no Kali (`10.10.10.20`). O kernel do Kali aloca a porta de origem dinâmica `35612` e envia um pacote TCP com a flag **SYN** para a porta `22` do destino `10.10.10.10`.
+2. **Tráfego na Rede (Wireshark):** Na interface `eth1`, o Wireshark registra a troca de pacotes do **Three-Way Handshake**:
+* `10.10.10.20:35612 → 10.10.10.10:22` `[SYN] Seq=0`
+* `10.10.10.10:22 → 10.10.10.20:35612` `[SYN, ACK] Seq=0 Ack=1`
+* `10.10.10.20:35612 → 10.10.10.10:22` `[ACK] Seq=1 Ack=1`
+
+
+3. **Recepção e Processamento (Debian):** A placa de rede `enp0s8` do Debian encaminha os quadros ao kernel, que direciona ao socket escutando na porta `22`.
+4. **Associação ao Processo:** O daemon `sshd` (serviço `ssh.service` via `systemd`) gera um processo filho de sessão (`sshd-session`, PIDs 3192/3202) para tratar a autenticação.
+5. **Estado Final:** O estado do socket no Debian muda de `LISTEN` para **`ESTABLISHED`** (`ESTAB`), mantendo a sessão bidirecional entre `10.10.10.20:35612` e `10.10.10.10:22`.
+
+---
+
+## 📸 Evidências do laboratório
+
+* **Sockets em Escuta e Sockets TCP no Debian (`ss -tulnp` / `ss -tan`):**  
+  [![Debian Sockets](https://img.shields.io/badge/Evid%C3%AAncia-Debian%20ss--tulnp-blue?style=flat-square)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day02-sstul.png)
+
+* **Status do Serviço SSH no Systemd (`systemctl status ssh`):**  
+  [![Systemd SSH](https://img.shields.io/badge/Evid%C3%AAncia-Systemd%20SSH-blue?style=flat-square)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day02-sshstatus.png)
+
+* **Varredura Nmap no Kali Linux (`nmap -n 10.10.10.10`):**  
+  [![Nmap Scan Kali](https://img.shields.io/badge/Evid%C3%AAncia-Nmap%20Scan-1793D1?style=flat-square&logo=kalilinux)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day02-nmapscankali.png)
+
+* **Conexão TCP Estabelecida no Debian (`sudo ss -tnp`):**  
+  [![Conexão ESTAB](https://img.shields.io/badge/Evid%C3%AAncia-ss--tnp%20ESTAB-blue?style=flat-square)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day02-tnp.png)
+
+* **Filtro da Flag SYN no Wireshark (`tcp.flags.syn == 1`):**  
+  [![Wireshark SYN Flag](https://img.shields.io/badge/Evid%C3%AAncia-Wireshark%20SYN-1793D1?style=flat-square&logo=wireshark)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day02-wiresharkSYN.jpg)
+
+* **Captura da Sessão SSH no Wireshark (`tcp.port == 22`):**  
+  [![Wireshark SSH Traffic](https://img.shields.io/badge/Evid%C3%AAncia-Wireshark%20SSH-1793D1?style=flat-square&logo=wireshark)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day02-wireshark3way.jpg)
+
+---
+
+**Status:** ✅ Concluído
+
+**Projeto:** Cybersecurity Roadmap
+
+**Semana:** 04 — Redes
+
+**Dia:** 02 — TCP, UDP, Portas e Serviços
+
+> *Desenvolvido por Thiago S. Silva*
+
+```
+
+---
+
