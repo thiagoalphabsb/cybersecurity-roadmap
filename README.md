@@ -216,7 +216,7 @@ Rede Interna: CYBERLAB-INTERNAL (Isolada da rede local e segura para simulação
 |Projeto|Área|Status|
 |-|-|:-:|
 |🧪 CyberLab|Virtualização|🟢|
-|🌐 Network Traffic Analysis|Redes|⚪|
+|🌐 Network Traffic Analysis|Redes|🟢|
 |🔎 Vulnerability Analysis|Segurança|⚪|
 |💉 SQL Injection Lab|Web Security|⚪|
 |🛡️ SOC Home Lab|Blue Team|⚪|
