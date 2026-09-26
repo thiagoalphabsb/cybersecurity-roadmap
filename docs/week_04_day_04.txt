@@ -1,0 +1,146 @@
+🌐 Dia 04 — DNS, Resolução de Nomes e Análise de Consultas
+
+🎯 Objetivo
+
+Compreender o funcionamento do protocolo **DNS (Domain Name System)**, o processo de tradução de nomes de domínio (FQDN) em endereços IP e a inspeção técnica de consultas/respostas através de utilitários no terminal (`getent`, `nslookup`, `dig`) e captura de pacotes no Wireshark.
+
+Ao final deste laboratório, a cadeia de conexão em uma investigação defensiva foi expandida para:
+
+Nome → DNS → IP → ARP → MAC → TCP/UDP → Porta → Serviço → Processo
+
+---
+🧠 Conceitos Estudados
+
+1️⃣ Estrutura e Papel do DNS
+Propósito: Traduzir nomes legíveis por humanos em endereços IP roteáveis. O DNS não estabelece conectividade direta, apenas indica o endereço IP de destino.
+Portas de Transporte:
+  UDP/53: Utilizado para consultas tradicionais e respostas rápidas.
+  TCP/53:** Utilizado para respostas que excedem o tamanho limite de pacotes UDP ou transferências de zona (Zone Transfers).
+
+2️⃣ Principais Tipos de Registros DNS
+A: Mapeia um nome para um endereço IPv4.
+AAAA: Mapeia um nome para um endereço IPv6.
+MX (Mail Exchange): Especifica os servidores responsáveis pelo recebimento de e-mail de um domínio.
+PTR: Mapeia um endereço IP para um nome (DNS Reverso).
+
+---
+🧪 Atividades Práticas & Comandos Executados
+
+1. Inspecionar Configuração Local de DNS no Debian
+Verificação dos servidores de nomes (nameservers) e domínios configurados localmente:
+
+cat /etc/resolv.conf
+
+Resultado observado:
+  `domain saude.gov`
+  `nameserver 10.1.1.12`
+  `nameserver 10.1.1.127`
+  `nameserver fd17:625c:f037:2::3`
+
+---
+
+2. Resolução de Nomes via Sistema (`getent`)
+Teste das rotinas de resolução padrão do sistema operacional:
+
+getent hosts google.com
+getent hosts debian.org
+
+Resultado observado:
+   `google.com` → `2800:3f0:4001:83c::200e` (IPv6)
+   `debian.org` → Endereços IPv6 correspondentes (`2a04:4e42:...`).
+
+---
+
+3. Consultas com `nslookup`
+Inspecionando os registros `A` e `MX` através do `nslookup`:
+
+# Consulta geral
+nslookup google.com
+
+# Registro A (IPv4)
+nslookup -type=A google.com
+
+# Servidores de e-mail (MX)
+nslookup -type=MX gmail.com
+
+Resultado observado:
+  Servidor DNS utilizado: `10.1.1.12#53`
+  Endereço IPv4 retornado para `google.com`: `172.217.30.78`
+  Registros MX retornados para `gmail.com`: `gmail-smtp-in.l.google.com`, `alt1.gmail-smtp-in.l.google.com`, etc.
+
+---
+
+4. Análise Detalhada com `dig`
+Inspecionando os blocos da resposta DNS e realizando consultas sintetizadas e direcionadas a servidores externos:
+
+# Consulta padrão completa
+dig google.com
+
+# Saída simplificada para registros IPv4 (A) e IPv6 (AAAA)
+dig +short google.com A
+dig +short google.com AAAA
+
+# Consulta direta ao DNS Público do Google (8.8.8.8)
+dig @8.8.8.8 google.com
+
+Resultado observado:
+  `dig +short google.com A` → `172.217.30.78`
+  `dig +short google.com AAAA` → `2800:3f0:4001:83c::200e`
+  `dig @8.8.8.8 google.com` → `SERVER: 8.8.8.8#53(8.8.8.8) (UDP)` e IP retornado `172.217.172.46`.
+
+---
+
+5. Análise de Tráfego DNS no Wireshark
+No Kali Linux (`10.0.2.15` / `10.10.10.20`), foi iniciada uma captura na interface de rede com o filtro de exibição `dns`:
+
+Filtro: dns
+
+Estrutura do Pacote Capturado:
+1. Frame 1 (Query):** `10.0.2.15` → `10.1.1.12` | `DNS Standard query 0xf761 A google.com`
+2. Frame 2 (Response):** `10.1.1.12` → `10.0.2.15` | `DNS Standard query response 0xf761 A google.com`
+   Transaction ID:** `0xf761`
+   Flags:** `0x8180 Standard query response, No error`
+   Queries:** `google.com: type A, class IN`
+   Answers:** `google.com: type A, class IN, addr 172.217.30.78`
+   Porta de Origem/Destino:** `Src Port: 53`, `Dst Port: 39788` (UDP)
+
+---
+
+🔍 Análise Comparativa & Importância em Cybersecurity
+
+| Camada / Elemento  | Ferramenta                 | O que revela? |
+| :---               | :---                       |          :--- |
+| Configuração Local | `cat /etc/resolv.conf`     | Qual servidor DNS o sistema está instruído a consultar. |
+| Terminal / Cliente | `dig` / `nslookup`         | Os tipos de registros vinculados ao domínio e qual servidor respondeu. |
+| Tráfego de Rede    | Wireshark (`dns`)          | Pacotes reais trafegando via UDP/53, Transaction ID e integridade das respostas. |
+
+🛡️ Por que o DNS é relevante para a Segurança?
+Em investigações e operações defensivas (Blue Team/SOC), as consultas DNS permitem:
+* Mapear domínios maliciosos ou infraestruturas de C2 (Command and Control).
+* Detectar exfiltração de dados via DNS Tunneling.
+* Identificar padrões de comunicação de malware e tentativas de conexão externas a partir de um host comprometido.
+
+---
+
+📸 Evidências do Laboratório
+
+Configuração DNS Local e Resolução com `getent`:
+  [week04-day04-resolv-conf.png](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day04-resolv-conf.png)
+
+Consultas de Registros `A` e `MX` com `nslookup`: 
+  [week04-day04-nslookup-records.png](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day04-nslookup-records.png)
+
+Análise de Consultas e Servidores com `dig`: 
+  [week04-day04-dig-queries.png](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day04-dig-queries.png)
+
+Captura e Inspeção de Pacotes DNS no Wireshark: 
+  [week04-day04-wireshark-dns.png](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day04-wireshark-dns.png)
+
+---
+
+Status: ✅ Concluído  
+Projeto: Cybersecurity Roadmap  
+Semana: 04 — Redes  
+Dia: 04 — DNS, Resolução de Nomes e Análise de Consultas  
+>Desenvolvido por Thiago S. Silva
+---

@@ -1,92 +1,75 @@
-# 🌐 Dia 01 — Fundamentos de Redes e Reconhecimento
+🌐 Dia 01 — Fundamentos de Redes e Reconhecimento
 
-## 🎯 Objetivo
+🎯 Objetivo
 
 Compreender e verificar, na prática, a configuração de rede do CyberLab, analisando interfaces, endereçamento IP, rotas, conectividade e portas abertas.
 
 O objetivo também foi relacionar os conhecimentos de redes com os conceitos estudados anteriormente em Linux, principalmente processos e serviços.
 
 ---
+🧠 Conceitos estudados
 
-## 🧠 Conceitos estudados
-
-### Interface de rede
+Interface de rede
 
 A interface de rede é o componente responsável pela comunicação do sistema com uma rede.
 
 Comandos utilizados:
 
-```bash
 ip addr
 ip link
-```
 
 Esses comandos permitem verificar interfaces, endereços IP, estado da interface e outras informações relacionadas à conectividade.
 
 ---
 
-### Endereço IP
+Endereço IP
 
 O endereço IP identifica logicamente um dispositivo dentro de uma rede.
 
 No CyberLab, a comunicação entre as máquinas foi configurada utilizando a rede:
 
-```text
 10.10.10.0/24
-```
 
 Com as máquinas do laboratório utilizando:
 
-```text
 Debian → 10.10.10.10/24
 Kali   → 10.10.10.20/24
-```
 
 ---
 
-### Tabela de rotas
+Tabela de rotas
 
 A tabela de rotas informa ao sistema como os pacotes devem ser encaminhados.
 
 Comando utilizado:
 
-```bash
 ip route
-```
 
 Também foi utilizado:
 
-```bash
 ip route get 10.10.10.20
-```
 
 e, no Kali:
 
-```bash
 ip route get 10.10.10.10
-```
 
 Esse comando permite verificar qual rota e interface serão utilizadas para alcançar determinado destino.
 
 ---
 
-## 🔄 Teste de conectividade
+🔄 Teste de conectividade
 
 Foi realizado o teste de comunicação entre Debian e Kali utilizando ICMP:
 
-```bash
 ping -c 4 10.10.10.20
-```
 
 No sentido contrário:
 
-```bash
 ping -c 4 10.10.10.10
-```
 
 O teste permitiu verificar a conectividade entre as duas máquinas do CyberLab.
 
-### 🔎 Observação de segurança
+🔎 Observação de segurança
 
 O funcionamento do `ping` demonstra conectividade através de ICMP, mas não significa que todos os serviços TCP ou UDP estejam disponíveis.
 
@@ -94,33 +77,28 @@ Por isso, a análise precisa avançar para portas e serviços.
 
 ---
 
-## 🔍 Análise de portas
+🔍 Análise de portas
 
 No Debian foi utilizado:
 
-```bash
 ss -tuln
-```
 
 O comando permite visualizar sockets TCP e UDP em estado de escuta.
 
 No Kali foi utilizado:
 
-```bash
 nmap -n 10.10.10.10
-```
 
 O Nmap permitiu observar as portas TCP acessíveis no Debian a partir do Kali.
 
 ---
 
-## 🔗 Correlação entre rede e Linux
+🔗 Correlação entre rede e Linux
 
 Um dos principais aprendizados do dia foi relacionar conceitos de redes com o conhecimento adquirido na Week 03.
 
 A investigação pode seguir a cadeia:
 
-```text
 IP
  ↓
 Porta
@@ -130,7 +108,6 @@ Serviço
 Processo
  ↓
 Evidência
-```
 
 Por exemplo, uma porta aberta não deve ser analisada isoladamente.
 
@@ -144,8 +121,7 @@ Por exemplo, uma porta aberta não deve ser analisada isoladamente.
 * O serviço deveria estar disponível?
 
 ---
-
-## 🛡️ Perspectiva de Cybersecurity
+🛡️ Perspectiva de Cybersecurity
 
 A identificação de portas e serviços é uma etapa importante no reconhecimento de um ambiente.
 
@@ -161,7 +137,7 @@ O objetivo não é apenas descobrir uma porta aberta, mas entender **por que ela
 
 ---
 
-## 🔗 Conexão com as semanas anteriores
+🔗 Conexão com as semanas anteriores
 
 ### Week 01
 
@@ -179,15 +155,12 @@ Usuários, permissões, privilégios, processos, serviços, logs, arquivos e aut
 
 Integração desses conhecimentos através da análise de:
 
-```text
 Rede → IP → Porta → Serviço → Processo
-```
 
 ---
 
-## 📌 Comandos praticados
+📌 Comandos praticados
 
-```bash
 ip addr
 ip link
 ip route
@@ -195,45 +168,43 @@ ip route get <IP>
 ping -c 4 <IP>
 ss -tuln
 nmap -n <IP>
-```
 
 ---
 
-## 📸 Evidências do laboratório
+📸 Evidências do laboratório
 
 As evidências do dia registram a configuração de interfaces, tabela de rotas, comunicação entre VMs e o reconhecimento de portas:
 
 * **Configuração de IP e Rotas no Debian (`10.10.10.10`):**  
-  [![Debian IP e Rotas](https://img.shields.io/badge/Evid%C3%AAncia-Debian%20IP%20%26%20Route-blue?style=flat-square&logo=debian)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day01-ipdebian.png)
+  [![Debian IP e Rotas](https://img.shields.io/badge/Evid%C3%AAncia-Debian%20IP%20%26%20Route-blue?style=flat-square&logo=debian)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day01-ipdebian.png)
 
 * **Configuração de IP e Rotas no Kali Linux (`10.10.10.20`):**  
-  [![Kali IP e Rotas](https://img.shields.io/badge/Evid%C3%AAncia-Kali%20IP%20%26%20Route-1793D1?style=flat-square&logo=kalilinux)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day01-ipkali.png)
+  [![Kali IP e Rotas](https://img.shields.io/badge/Evid%C3%AAncia-Kali%20IP%20%26%20Route-1793D1?style=flat-square&logo=kalilinux)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day01-ipkali.png)
 
 * **Teste de Conectividade ICMP (Ping Bidirecional):**  
-  [![Ping Debian e Kali](https://img.shields.io/badge/Evid%C3%AAncia-Ping%20Debian%20%20Kali-success?style=flat-square)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day01-pingvms.jpg)
+  [![Ping Debian e Kali](https://img.shields.io/badge/Evid%C3%AAncia-Ping%20Debian%20%20Kali-success?style=flat-square)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day01-pingvms.jpg)
 
 * **Portas em estado LISTEN no Debian (`ss -tuln` / `ss -tulpn`):**  
-  [![Sockets Debian](https://img.shields.io/badge/Evid%C3%AAncia-Debian%20ss--tuln-blue?style=flat-square)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day01-ss-tuln-debian.png)
+  [![Sockets Debian](https://img.shields.io/badge/Evid%C3%AAncia-Debian%20ss--tuln-blue?style=flat-square)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day01-ss-tuln-debian.png)
 
 * **Varredura e Reconhecimento com Nmap a partir do Kali (`nmap -n 10.10.10.10`):**  
-  [![Scan Nmap Kali](https://img.shields.io/badge/Evid%C3%AAncia-Kali%20Nmap%20Scan-1793D1?style=flat-square&logo=kalilinux)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04-day01-nmap-kali.png)
+  [![Scan Nmap Kali](https://img.shields.io/badge/Evid%C3%AAncia-Kali%20Nmap%20Scan-1793D1?style=flat-square&logo=kalilinux)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day01-nmap-kali.png)
 
 ---
-
-## 🧠 Principal aprendizado
+🧠 Principal aprendizado
 
 O Day 01 mostrou que uma análise de segurança de rede não deve ser separada da análise do próprio sistema.
 
 Uma porta aberta representa apenas o início da investigação.
 
-O próximo passo é descobrir **qual serviço está por trás dela, qual processo o executa e quais evidências o sistema registra sobre seu funcionamento**.
+O próximo passo é descobrir - qual serviço está por trás dela, qual processo o executa e quais evidências o sistema registra sobre seu funcionamento.
 
 ---
 
-**Status:** ✅ Concluído
+Status:✅ Concluído
 
-**Projeto:** Cybersecurity Roadmap
-**Semana:** 04 — Redes
-**Dia:** 01 — Fundamentos de Redes e Reconhecimento
+Projeto: Cybersecurity Roadmap
+Semana: 04 — Redes
+Dia: 01 — Fundamentos de Redes e Reconhecimento
 
 > Desenvolvido por Thiago S. Silva

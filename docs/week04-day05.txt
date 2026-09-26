@@ -1,0 +1,133 @@
+🛡️ Dia 05 — Firewall Linux com nftables (Análise, Regras e Bloqueios)
+
+🎯 Objetivo
+
+Compreender e validar o funcionamento do firewall no Linux utilizando o motor nativo nftables. O objetivo principal é demonstrar que a presença de um serviço em escuta (LISTEN) no sistema operacional não garante o acesso ao recurso via rede se existir uma regra de filtragem de pacotes (DROP/ACCEPT) ativa no kernel.
+
+A meta é consolidar a cadeia defensiva completa de investigação:
+`Cliente (Kali) → IP → TCP/UDP → Porta → nftables (Firewall) → Serviço/Socket → Processo (PID) → Log`
+
+---
+
+🧠 Conceitos Estudados
+
+Linux Netfilter & nftables: O `nftables` é o subsistema nativo do kernel Linux moderno para classificação e filtragem de pacotes de rede, substituindo a arquitetura clássica do `iptables`.
+Hierarquia do nftables: `Tabela (Table) → Cadeia (Chain) → Regra (Rule) → Ação (accept / drop / counter)`.
+Sintaxe de Exclusão (Handle): No `nftables`, a remoção de regras não aceita o texto do filtro (`tcp dport 8080 counter drop`). Ela exige a especificação do identificador numérico interno (`# handle X`) exibido ao listar a tabela com a flag `-a` (`sudo nft -a list table inet cyberlab`).
+LISTEN vs. ACCESSIBLE: O processo em execução no SO aloca o socket e mantém a porta em estado `LISTEN` (`0.0.0.0:8080`). Porém, se o pacote TCP for descartado pelo firewall (`drop`), a comunicação é interrompida na camada de rede, sendo observada externamente como `filtered` ou resultando em timeout.
+Contadores de Auditoria (`counter`): Permitem contabilizar pacotes e bytes retidos ou permitidos por cada regra, servindo como evidência objetiva de que o tráfego atingiu a filtragem.
+
+---
+🧪 Atividades Práticas & Comandos Executados
+
+1. Verificação do Estado Inicial e Baseline
+No Debian (`10.10.10.10`), validou-se a presença do `nftables` (v1.1.3) e a ausência de regras ativas na inicialização:
+
+sudo nft --version
+sudo nft list ruleset
+sudo systemctl status nftables
+
+No Kali Linux (`10.10.10.20`), executou-se a varredura inicial para estabelecer a linha de base do Debian:
+
+sudo ss -tulnp
+nmap -n -sV 10.10.10.10
+
+2. Criação da Aplicação Temporária de Teste
+
+No Debian, confirmou-se que a porta `8080/tcp` estava livre e iniciou-se um servidor HTTP temporário em Python:
+
+sudo ss -tulnp | grep ':8080'
+python3 -m http.server 8080 --bind 0.0.0.0
+ss -tlnp | grep ':8080'
+
+No Kali Linux, validou-se o acesso à aplicação antes da criação das regras de firewall:
+
+nmap -n -p 8080 10.10.10.10
+curl [http://10.10.10.10:8080](http://10.10.10.10:8080)
+
+Resultado: A porta foi identificada como `8080/tcp open` e o `curl` retornou o código HTML da listagem de diretórios.
+
+3. Construção da Tabela Isolada de Laboratório (`inet cyberlab`)
+
+Criou-se uma tabela isolada e uma cadeia de entrada (*input*) com política padrão de aceitação para evitar o bloqueio acidental do SSH (porta 22):
+
+sudo nft add table inet cyberlab
+sudo nft add chain inet cyberlab input '{ type filter hook input priority 0; policy accept; }'
+sudo nft list table inet cyberlab
+
+4. Implementação e Teste da Regra de Bloqueio (`DROP`)
+
+Adicionou-se uma regra para descartar e contabilizar o tráfego destinado à porta TCP 8080:
+
+sudo nft add rule inet cyberlab input tcp dport 8080 counter drop
+sudo nft list table inet cyberlab
+
+Testes a partir do Kali Linux:
+
+nmap -n -p 8080 10.10.10.10
+curl --connect-timeout 3 [http://10.10.10.10:8080](http://10.10.10.10:8080)
+
+Resultado observado: O Nmap reportou a porta como `8080/tcp filtered` e o `curl` apresentou estouro de tempo (`Connection timed out after 3002 milliseconds`). O servidor Python permaneceu ativo em estado `LISTEN` no Debian, comprovando o bloqueio na camada de rede.
+
+Verificação dos Contadores de Auditoria:
+
+No Debian, inspecionou-se o incremento dos contadores da regra:
+
+sudo nft list table inet cyberlab
+# Resultado: tcp dport 8080 counter packets 5 bytes 268 drop
+
+5. Remoção por Handle e Liberação Explícita (`ACCEPT`)
+
+Mapeou-se o identificador numérico interno (*handle*) da regra de bloqueio, removeu-se a regra `drop` e inseriu-se a regra explícita `accept`:
+
+Consultar handle da regra
+sudo nft -a list table inet cyberlab
+Resultado exibido: tcp dport 8080 counter packets 5 bytes 268 drop # handle 2
+
+Remover a regra pelo handle
+sudo nft delete rule inet cyberlab input handle 2
+
+Inserir regra de permissão com contador
+sudo nft add rule inet cyberlab input tcp dport 8080 counter accept
+sudo nft list table inet cyberlab
+
+Testes de Validação a partir do Kali Linux:
+
+nmap -n -p 8080 10.10.10.10
+curl [http://10.10.10.10:8080](http://10.10.10.10:8080)
+
+Resultado observado: A porta retornou ao estado `8080/tcp open`, a requisição HTTP foi entregue com sucesso e os logs do servidor Python registraram o código `HTTP/1.1 200`.
+
+6. Encerrando o Laboratório e Limpeza Completa
+
+Encerraram-se os testes e removeu-se a tabela do laboratório para retornar o Debian ao estado limpo original:
+
+# Interromper o servidor Python no terminal (Ctrl + C)
+sudo nft delete table inet cyberlab
+sudo nft list ruleset
+
+---
+
+📸 Evidências do Laboratório
+
+[Estado Inicial do nftables e Sockets Ativos no Debian](https://www.google.com/search?q=https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-nft-initial.png&utm_source=gemini)
+[Servidor Temporário Python em Execução (0.0.0.0:8080)](https://www.google.com/search?q=https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-python-listen.png&utm_source=gemini)
+[Teste de Conectividade Nmap e Curl Antes do Bloqueio (Baseline)](https://www.google.com/search?q=https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-baseline-kali.png&utm_source=gemini)
+[Criação da Tabela Cyberlab e Regra DROP no nftables](https://www.google.com/search?q=https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-nft-drop-rule.png&utm_source=gemini)
+[Resultado Nmap Filtered e Timeout no Curl após Ativação do DROP](https://www.google.com/search?q=https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-nmap-filtered.png&utm_source=gemini)
+[Contador de Pacotes da Regra DROP Incrementado no Debian](https://www.google.com/search?q=https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-counter-drop.png&utm_source=gemini)
+[Mapeamento de Handle, Troca para Regra ACCEPT e Acesso Liberado](https://www.google.com/search?q=https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-nft-accept-rule.png&utm_source=gemini)
+[Encerramento do Processo e Limpeza Completa da Tabela no nftables](https://www.google.com/search?q=https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-cleanup.png&utm_source=gemini)
+
+---
+
+Status: ✅ Concluído
+
+Projeto: Cybersecurity Roadmap
+
+Semana: 04 — Redes
+
+Dia: 05 — Firewall Linux com nftables (Análise, Regras e Bloqueios)
+
+> Desenvolvido por Thiago S. Silva
+---

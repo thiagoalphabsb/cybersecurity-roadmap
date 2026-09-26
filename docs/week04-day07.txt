@@ -1,0 +1,61 @@
+🌐 Dia 07 — Consolidação da Semana 04 (Redes), Revisão Geral e Atualização do Repositório
+
+🎯 Objetivo
+
+Consolidar todos os conceitos de redes estudados e aplicados durante a Semana 04 no ambiente CyberLab. O objetivo principal é revisar o encadeamento defensivo completo (Blue Team / SOC), correlacionando o tráfego capturado no nível de rede com o comportamento interno dos serviços e sistemas operacionais.
+
+A meta é validar a cadeia defensiva integrada de investigação:
+`Nome → DNS → IP → ARP → MAC → TCP/UDP → Porta → Firewall (nftables) → Serviço/Socket → Processo (PID) → Log`
+
+---
+
+🧠 Conceitos Consolidados na Semana
+
+1. Camada de Enlace (L2) & ARP:
+   - O tráfego local entre os hosts do CyberLab (Debian `10.10.10.10` e Kali `10.10.10.20`) depende da resolução dinâmica do endereço físico (**MAC Address**).
+   - Validação da tabela de vizinhos via `ip neigh` e captura das mensagens de *Broadcast* (`ARP Request`) e *Unicast* (`ARP Reply`) no Wireshark.
+
+2. Camada de Rede (L3) & Resolução de Nomes (DNS):
+   - Roteamento local e validação de interfaces de rede (`ip addr` / `ip route`).
+   - Mapeamento do serviço DNS (UDP/53) usando `dig` e `nslookup`, identificando consultas (*Queries*) e respostas (*Answers*) com registros do tipo `A`, `AAAA` e `MX`.
+
+3. Camada de Transporte (L4) & Sockets:
+   - Diferenciação prática entre o protocolo **TCP** (orientado à conexão, confiável, Three-Way Handshake `SYN → SYN/ACK → ACK`) e **UDP** (não orientado, focado em baixa latência).
+   - Inspeção de conexões ativas no Linux com `ss -tulnp` e `ss -tnp`, identificando sockets em estado `LISTEN` e `ESTABLISHED`.
+
+4. Filtragem de Pacotes & Firewall (`nftables`):
+   - Comprovação do conceito **LISTEN vs. ACCESSIBLE**: ter um processo ativo vinculando uma porta em `0.0.0.0:8080` não garante o acesso remoto se houver uma regra de descarte no firewall.
+   - Construção de tabela isolada (`inet cyberlab`), aplicação de regras `DROP`/`ACCEPT`, inspeção de contadores de pacotes (`counter`) e remoção por identificadores numéricos internos (`handle`).
+
+5. Investigação & Correlação de Incidentes:
+   - Rastreamento de processos suspeitos no diretório do kernel (`/proc/PID/exe` e `/proc/PID/cmdline`).
+   - Mapeamento de unidades de serviço gerenciadas pelo `systemd` (`systemctl status ssh`).
+   - Elaboração de relatório técnico de investigação de incidentes para sessões ativas e portas não reconhecidas.
+
+---
+
+🧪 Resumo dos Comandos e Ferramentas Praticadas
+
+Rede e Sockets: `ip addr`, `ip route`, `ip neigh`, `ss -tulnp`, `ss -tnp`, `ss -tan`.
+DNS e Resolução: `cat /etc/resolv.conf`, `getent hosts`, `nslookup`, `dig`, `dig +short`, `dig @8.8.8.8`.
+Firewall Linux: (`nftables`):** `sudo nft --version`, `sudo nft list ruleset`, `sudo nft add table inet cyberlab`, `sudo nft add chain inet cyberlab input ...`, `sudo nft add rule inet cyberlab input tcp dport 8080 counter drop`, `sudo nft -a list table inet cyberlab`, `sudo nft delete rule inet cyberlab input handle X`, `sudo nft delete table inet cyberlab`.
+Auditoria de Processos e Logs: `ps -p PID -f`, `sudo ls -l /proc/PID/exe`, `sudo cat /proc/PID/cmdline`, `systemctl status ssh`, `sudo journalctl -k`.
+Reconhecimento Externo & Análise de Tráfego: `nmap -n`, `nmap -n -sV`, `curl`, `ssh`, `Wireshark` (filtros: `arp`, `dns`, `tcp.port == 22`, `tcp.flags.syn == 1`).
+
+---
+
+📸 Evidências do Encerramento da Semana
+
+[Análise e Captura de Pacotes ARP no Wireshark](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day07-ARP-wireshark.png)
+[Correlação de Sockets, Processos e Systemd no Debian (`ss` / `ps` / `systemctl`)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day07-correlacao.png)
+[Consultas DNS no Terminal via `dig` e `dig +short`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day07-DNS.png)
+[Reconhecimento de Portas e Detecção de Versão com Nmap no Kali](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day07-reconhecimento.png)
+
+---
+
+Status: ✅ Concluído  
+Projeto: Cybersecurity Roadmap  
+Semana: 04 — Redes (Fundamentos & Análise Prática)  
+Dia: 07 — Consolidação, Revisão Geral e Atualização do Repositório  
+> Desenvolvido por Thiago S. Silva
+---

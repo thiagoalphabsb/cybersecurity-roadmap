@@ -1,0 +1,209 @@
+🛡️ Dia 06 — Monitoramento de Tráfego e Investigação de Conexões
+
+🎯 Objetivo
+
+Integrar os conhecimentos práticos desenvolvidos ao longo da Semana 04 (Dias 01 a 05) para assumir uma postura de analista de segurança (Blue Team / SOC)[cite: 18]. O foco deste laboratório é monitorar, correlacionar e rastrear uma comunicação em tempo real entre o cliente (Kali Linux) e o servidor (Debian), conectando todas as camadas de análise:
+
+`IP → MAC → DNS → Porta → Serviço → Processo (PID) → Firewall → Tráfego`
+
+---
+🧠 Conceitos Estudados & Metodologia Investigativa
+
+Investigação Fim a Fim (End-to-End Correlation): Um evento de segurança observado na rede não deve ser analisado isoladamente. O analista correlaciona a atividade capturada no nível de pacote (Wireshark) com o estado interno dos sockets (`ss`), os processos em execução (`ps`/`/proc`) e o controle de acesso de rede (`nftables`).
+Análise de Sockets Ativos:** Uso avançado do utilitário `ss` para identificar o estado da sessão TCP (`ESTABLISHED`), correlacionando o endereço/porta local e remoto ao PID do processo responsável.
+Inspeção de Processos no Kernel (`/proc`):** Validação da autenticidade do binário em execução no Linux inspecionando diretamente os links simbólicos do diretório do processo no kernel (`/proc/PID/exe` e `/proc/PID/cmdline`).
+Validação do Three-Way Handshake:** Observação direta dos sinalizadores TCP (`SYN`, `SYN-ACK`, `ACK`) no Wireshark para comprovar o estabelecimento correto de uma sessão criptografada SSH (porta TCP 22).
+
+---
+🧪 Atividades Práticas & Comandos Executados
+
+1. Preparação da Linha de Base (Debian)
+Verificou-se o estado das interfaces, rotas, vizinhos ARP e serviços escutando antes do início da investigação:
+
+# Endereço IP e interfaces
+ip addr
+
+# Tabela de rotas
+ip route
+
+# Sockets e processos em escuta
+sudo ss -tulnp
+
+# Tabela ARP / Vizinhos
+ip neigh
+
+2. Confirmação de Conectividade ICMP (Debian ↔ Kali)
+
+No Debian (`10.10.10.10`):
+
+ping -c 4 10.10.10.20
+
+No Kali Linux (`10.10.10.20`):
+
+ping -c 4 10.10.10.10
+
+3. Observação e Correlação de Sessões TCP Ativas
+
+No Debian, verificou-se o estado inicial dos sockets TCP:
+
+sudo ss -tnp
+
+A partir do Kali Linux, estabeleceu-se uma conexão remota via SSH:
+
+ssh debian@10.10.10.10
+
+Com a sessão SSH aberta, executou-se novamente no Debian para identificar o socket ativo:
+
+sudo ss -tnp
+# Resultado observado: ESTAB | Local: 10.10.10.10:22 | Peer: 10.10.10.20:XXXXX | Processo: sshd-session (PID XXXX)
+
+4. Investigação Aprofundada do Processo no Kernel
+
+Coletou-se o PID identificado pelo comando `ss` para rastrear o binário e a linha de comando executada no Debian:
+
+# Informações detalhadas do processo
+ps -p <PID> -f
+
+# Link simbólico para o executável real no sistema de arquivos
+sudo ls -l /proc/<PID>/exe
+
+# Linha de comando completa utilizada para iniciar o processo
+sudo cat /proc/<PID>/cmdline
+
+5. Análise de Pacotes e Three-Way Handshake no Wireshark
+
+No Kali Linux, iniciou-se a captura no Wireshark na interface `eth1` (`CYBERLAB-INTERNAL`) aplicando o filtro de exibição:
+
+tcp.port == 22
+
+Iniciou-se uma nova sessão SSH e validou-se a abertura de conexão isolando as flags de sincronização:
+
+tcp.flags.syn == 1 && tcp.flags.ack == 0
+
+
+Fluxo confirmado:
+1. SYN (Kali → Debian): `10.10.10.20:XXXXX → 10.10.10.10:22` (Solicitação de conexão).
+2. SYN/ACK (Debian → Kali): `10.10.10.10:22 → 10.10.10.20:XXXXX` (Confirmação e aceite).
+3. ACK (Kali → Debian): `10.10.10.20:XXXXX → 10.10.10.10:22` (Conexão estabelecida).
+
+6. Investigação de Consultas DNS
+
+No Kali Linux, executaram-se consultas DNS e monitorou-se o tráfego UDP/53 correspondente:
+
+dig google.com
+dig +short google.com
+
+No Wireshark, aplicaram-se os filtros para separar requisições de respostas:
+
+# Visualizar todo o tráfego DNS
+dns
+
+# Filtrar apenas consultas (Queries)
+dns.flags.response == 0
+
+# Filtrar apenas respostas (Responses)
+dns.flags.response == 1
+
+---
+
+📄 Relatório de Investigação de Incidente (`investigacao-week04.txt`)
+
+===================================================================
+                  INVESTIGAÇÃO — WEEK 04 DAY 06
+===================================================================
+
+Host analisado (Servidor/Alvo):
+10.10.10.10 (Debian 13)
+
+Host remoto (Origem da conexão):
+10.10.10.20 (Kali Linux)
+
+Protocolo de Transporte:
+TCP
+
+Porta Local / Serviço:
+Porta 22 / SSH
+
+Estado da Conexão no SO:
+ESTABLISHED (ESTAB)
+
+Processo responsável:
+sshd-session (Daemon OpenSSH)
+
+PID do Processo:
+3192 (ou PID identificado durante a sessão ativa)
+
+Caminho do Executável no Kernel:
+/usr/sbin/sshd -> /proc/3192/exe
+
+Evidências coletadas:
+- Sockets e conexões ativas (`sudo ss -tnp`)
+- Mapeamento de processos e diretório virtual (`ps -p PID -f`, `/proc/PID/exe`)
+- Captura de tráfego de rede no Wireshark (`tcp.port == 22`)
+- Validação das flags do TCP Three-Way Handshake (`tcp.flags.syn == 1`)
+
+Conclusão do Analista:
+Foi identificada e confirmada uma conexão TCP legítima estabelecida a partir 
+do host Kali Linux (10.10.10.20) direcionada ao serviço SSH (porta 22) no 
+Debian (10.10.10.10). A atividade foi correlacionada com sucesso entre a pilha 
+de rede do sistema operacional e os registros de captura de pacotes no Wireshark.
+===================================================================
+
+---
+
+🧠 Desafio do Day 06 — Investigação de Processo Suspeito (Porta 4444)
+
+Cenário:
+
+Se um processo desconhecido estivesse em escuta na porta TCP 4444, qual metodologia e cadeia de comandos você utilizaria para investigar?
+
+Resposta e Metodologia Recomendada:
+
+1. Identificar o Socket e o PID associado:
+
+sudo ss -tulnp | grep ':4444'
+
+2. Inspecionar o processo no sistema operacional:
+
+ps -p <PID> -f
+
+3. Validar a origem e os detalhes do binário via `/proc`:
+
+sudo ls -l /proc/<PID>/exe
+sudo cat /proc/<PID>/cmdline
+sudo ls -l /proc/<PID>/cwd
+
+4. Verificar se há um serviço atrelado no `systemd`:
+
+systemctl list-units --type=service | grep -i <nome_do_processo>
+sudo systemctl status <nome_do_servico>
+
+5. Analisar o histórico e logs de execução do sistema:
+
+sudo journalctl -u <nome_do_servico> --since "1 hour ago"
+sudo grep -i "<PID_ou_porta>" /var/log/syslog /var/log/auth.log
+
+6. Inspecionar conexões de rede ativas ou tráfego em tempo real:
+
+# Verificar se há conexões ESTABLISHED com IPs externos nessa porta
+sudo ss -tnp | grep ':4444'
+
+# Capturar pacotes na interface de rede via TShark/Wireshark
+sudo tshark -i enp0s8 -f "tcp port 4444"
+
+7. Aplicar regras de contenção temporária no Firewall (`nftables`):
+
+sudo nft add rule inet cyberlab input tcp dport 4444 counter drop
+
+---
+
+Status: ✅ Concluído
+
+Projeto: Cybersecurity Roadmap
+
+Semana: 04 — Redes
+
+Dia: 06 — Monitoramento de Tráfego e Investigação de Conexões
+
+> Desenvolvido por Thiago S. Silva
+---

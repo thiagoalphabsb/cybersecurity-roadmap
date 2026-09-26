@@ -1,0 +1,58 @@
+===================================================================
+                INVESTIGAÇÃO DE REDES — WEEK 04
+===================================================================
+
+1. HOST ANALISADO
+IP: 10.10.10.10
+Sistema: Debian 13 (Trixie)
+
+2. RECONHECIMENTO
+Ferramenta:
+Nmap v7.99
+
+Portas encontradas:
+- 22/tcp open (ssh) - OpenSSH 10.0p2 Debian 7+deb13u4
+
+3. SERVIÇOS
+Porta: 22/tcp
+Serviço: SSH (Secure Shell)
+Processo: sshd / sshd-session
+PID: 831 (daemon principal) / 3192 (sessão ativa)
+
+4. ARP
+IP: 10.10.10.20 (Kali Linux)
+MAC: 08:00:27:74:76:41 (ou MAC registrado no `ip neigh`)
+
+5. DNS
+Consulta: google.com (Tipo A)
+Resposta: 172.217.172.46
+Servidor DNS: 10.1.1.12#53 (UDP)
+
+6. TCP
+Conexão analisada: Kali (10.10.10.20:XXXXX) -> Debian (10.10.10.10:22)
+Porta: 22
+Three-Way Handshake observado: SIM (SYN -> SYN/ACK -> ACK capturados no Wireshark)
+
+7. FIREWALL
+Ferramenta: nftables (v1.1.3)
+Regra observada: Tabela `inet cyberlab`, regra `tcp dport 8080 counter drop` / `accept`
+
+8. WIRESHARK
+Protocolos observados:
+- ARP (Requests Broadcast e Replies Unicast)
+- DNS (Consultas/Respostas UDP/53)
+- TCP (Handshake e tráfego criptografado SSH)
+
+9. CONCLUSÃO
+
+Durante a Week 04, compreendi que a análise de redes em cibersegurança 
+exige uma visão integrada e encadeada entre as camadas do Modelo OSI e do 
+sistema operacional. Aprendi que um IP por si só não funciona sem a resolução 
+de nomes (DNS) e a descoberta do endereço físico local (MAC via ARP). 
+
+Além disso, entendi a diferença fundamental entre um serviço estar em escuta 
+interna (socket LISTEN) e estar realmente acessível via rede, comprovando o 
+papel de filtragem do firewall (nftables). A prática no Wireshark e no terminal 
+consolidou o fluxo investigativo de Blue Team: correlacionar um tráfego de rede 
+capturado com um processo ativo, seu PID e a regra de controle correspondente.
+===================================================================
