@@ -1,0 +1,76 @@
+===============================================================================
+               WEEK 05 — DAY 01: INVESTIGAÇÃO E EVIDÊNCIAS (WINDOWS)
+===============================================================================
+
+-------------------------------------------------------------------------------
+1. INFORMAÇÕES DO SISTEMA E USUÁRIO
+-------------------------------------------------------------------------------
+HOST:               SEC-LAB-WIN11
+USUÁRIO:             SEC-LAB-WIN11\analyst
+PRODUTO:            Windows 11 Pro
+VERSÃO:             22H2
+BUILD:              22621.1778
+FABRICANTE / MODELO: Microsoft Corporation / Virtual Machine
+MEMÓRIA RAM:        8.00 GB
+PROCESSADOR:        11th Gen Intel(R) Core(TM) i7-1185G7 @ 3.00GHz (4 Cores, 8 Logicals)
+
+-------------------------------------------------------------------------------
+2. INVESTIGAÇÃO DE PROCESSO E SERVIÇO ASSOCIADO
+-------------------------------------------------------------------------------
+PROCESSO:           msedge
+PID:                4812
+PATH:               C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+START TIME:         10/24/2023 09:15:32 AM
+WORKING SET (RAM):  142.85 MB
+
+SERVIÇO ASSOCIADO:  edgeupdate (Microsoft Edge Update Service)
+STATUS SERVIÇO:     Running
+DISPLAY NAME:       Microsoft Edge Update Service (edgeupdate)
+
+-------------------------------------------------------------------------------
+3. CONEXÃO DE REDE ASSOCIADA
+-------------------------------------------------------------------------------
+IP LOCAL:           192.168.1.105
+PORTA LOCAL:        52410
+IP REMOTO:          13.107.21.200
+PORTA REMOTA:       443 (HTTPS)
+ESTADO DA CONEXÃO:  Established
+PROCESSO RESPONSÁVEL: 4812 (msedge.exe)
+
+-------------------------------------------------------------------------------
+4. STATUS DE PROTEÇÃO (WINDOWS DEFENDER)
+-------------------------------------------------------------------------------
+ANTIVIRUS HABILITADO:          True
+PROTEÇÃO EM TEMPO REAL:        True
+SERVIÇO ANTIMALWARE (AMService): True
+
+-------------------------------------------------------------------------------
+5. LOGS E EVENTOS ANALISADOS
+-------------------------------------------------------------------------------
+FONTE DE LOG ANALISADA:        System / Application
+ÚLTIMO EVENTO REGISTRADO:      ID 7036 (Service Control Manager)
+OBSERVAÇÃO SOBRE LOG SECURITY: Requer elevação de privilégios (Run as Administrator)
+                                para leitura completa dos eventos de auditoria.
+
+-------------------------------------------------------------------------------
+6. DESAFIO DAY 01 — CADEIA DE INVESTIGAÇÃO DE CONEXÃO SUSPEITA
+-------------------------------------------------------------------------------
+Cadeia recomendada para início de triagem e contenção:
+
+  [ Conexão Suspeita (IP Remoto / Porta) ]
+                    │
+                    ▼
+       [ Conexão de Rede (OwningProcess / PID) ]
+                    │
+                    ▼
+     [ Processo Local (Caminho Executável, Argumentos) ]
+                    │
+                    ▼
+     [ Serviço / Pai do Processo (Parent PID / Service Name) ]
+                    │
+                    ▼
+   [ Análise de Evidências (Event Logs, Hashes, Defender) ]
+
+===============================================================================
+                 STATUS: CONCLUÍDO E VALIDADO COM SUCESSO
+===============================================================================

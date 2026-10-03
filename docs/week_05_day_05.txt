@@ -1,0 +1,57 @@
+================================================================================
+                    MINI-INVESTIGAÇÃO DE CONEXÃO - DAY 05
+                        REDES, FIREWALL E PROCESSOS
+================================================================================
+
+[1] DADOS DA CONEXÃO E PROCESSO
+--------------------------------------------------------------------------------
+IP LOCAL:          192.168.1.105
+PORTA LOCAL:       52341
+
+IP REMOTO:         142.250.190.46
+PORTA REMOTA:      443 (HTTPS)
+
+PID:               4812
+PROCESSO:          msedge
+EXECUTÁVEL:        C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+
+ESTADO:            Established
+PROTOCOLO:         TCP
+
+FIREWALL:          Permitido (Saída para porta 443 liberada por padrão / Regra do navegador)
+
+--------------------------------------------------------------------------------
+[2] ANÁLISE DE SEGURANÇA
+--------------------------------------------------------------------------------
+
+1. A conexão pertence a um processo legítimo?
+   Sim. O processo "msedge" é o navegador Microsoft Edge, amplamente utilizado
+   e nativo do sistema operacional Windows.
+
+2. O processo está instalado em um caminho esperado?
+   Sim. O executável está localizado no diretório padrão de instalação do
+   aplicativo: "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe".
+   Não há indícios de personificação (masquerading) ou uso de diretórios
+   suspeitos (como Temp ou AppData).
+
+3. A porta remota é compatível com o serviço?
+   Sim. A conexão utiliza a porta remota 443 (HTTPS), padrão para tráfego web
+   seguro e criptografado com servidores na internet (neste caso, mantido por
+   infraestrutura Google/CDN).
+
+4. Existe alguma regra de firewall relacionada?
+   O perfil de Firewall ativo (Public/Private) utiliza a regra padrão de tráfego
+   outbound habilitado (DefaultOutboundAction: Allow). Adicionalmente, existem
+   regras do perfil AppContainer que concedem ao navegador permissão de rede
+   para as portas 80 e 443.
+
+--------------------------------------------------------------------------------
+[3] CONCLUSÃO DO ANALISTA
+--------------------------------------------------------------------------------
+A conexão investigada é 100% LÉGITIMA e corresponde à navegação web convencional
+do usuário através do navegador Microsoft Edge. Nenhum comportamento anômalo
+ou indicador de comprometimento (IoC) foi detectado na amostra.
+
+================================================================================
+Status: CONCLUÍDO E VALIDADO
+================================================================================

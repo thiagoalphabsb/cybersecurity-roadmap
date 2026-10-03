@@ -1,0 +1,80 @@
+===============================================================================
+                       WEEK 05 — DAY 04: INVESTIGAÇÃO
+                     Windows Event Logs e Investigação
+===============================================================================
+
+-------------------------------------------------------------------------------
+1. IDENTIFICAÇÃO DO SISTEMA
+-------------------------------------------------------------------------------
+HOST / COMPUTADOR       : LAB-WIN11-SOC
+USUÁRIO ATUAL           : LAB-WIN11-SOC\ThiagoAdmin
+DATA / HORA DA ANÁLISE  : 2026-10-01 08:20:00 -03:00
+
+-------------------------------------------------------------------------------
+2. LOGS ANALISADOS
+-------------------------------------------------------------------------------
+[X] System      : Eventos do sistema operacional, drivers, hardware e serviços.
+[X] Application : Eventos gerados por aplicações e programas de terceiros.
+[X] Security    : Eventos de autenticação, acesso a recursos e auditoria.
+
+-------------------------------------------------------------------------------
+3. EVENTOS INVESTIGADOS (EVENT IDs)
+-------------------------------------------------------------------------------
+- Event ID 4624 : Logon bem-sucedido (Análise de acessos válidos).
+- Event ID 4625 : Falha de autenticação (Tentativa de logon malsucedida).
+
+-------------------------------------------------------------------------------
+4. ANÁLISE DE AUTENTICAÇÃO
+-------------------------------------------------------------------------------
+[4624] Logon bem-sucedido:
+- Quantidade Observada : 18 eventos
+- Horário Observado    : 01/10/2026 08:15:22
+- Target User          : ThiagoAdmin
+- Target Domain        : LAB-WIN11-SOC
+- Logon Type           : 2 (Interactive - Console local)
+- Source Network Addr  : 127.0.0.1 / ::1 (Localhost)
+
+[4625] Falha de autenticação:
+- Quantidade Observada : 12 eventos (intervalo de 3 minutos)
+- Horário Observado    : 01/10/2026 08:12:05 até 08:14:48
+- Target User          : Administrator / ThiagoAdmin
+- Target Domain        : LAB-WIN11-SOC
+- Failure Reason       : Unknown user name or bad password (0xC000006A)
+- Logon Type           : 3 (Network) / 10 (RemoteInteractive)
+- Source Network Addr  : 192.168.1.105
+
+-------------------------------------------------------------------------------
+5. ANÁLISE TÁTICA E CORRELAÇÃO DE EVIDÊNCIAS
+-------------------------------------------------------------------------------
+O que foi observado:
+- Entre 08:12:05 e 08:14:48 foram registradas 12 tentativas de login com erro (Event ID 4625) originadas do IP remoto 192.168.1.105.
+- As tentativas utilizaram como alvos os nomes de usuário 'Administrator' (8 tentativas) e 'ThiagoAdmin' (4 tentativas).
+- Às 08:15:22, ocorreu um logon bem-sucedido (Event ID 4624) para a conta 'ThiagoAdmin'.
+
+Possível relação entre os eventos:
+- O padrão indica uma tentativa de força bruta (Brute Force / Password Spraying) vinda do host 192.168.1.105, seguida por um acesso bem-sucedido. 
+- A alteração no Logon Type indica que o atacante pode ter obtido sucesso na credencial do usuário 'ThiagoAdmin' após sequências de erro.
+
+Evidências coletadas:
+- Registros extraídos via PowerShell (Get-WinEvent) contendo IDs 4624 e 4625.
+- Endereço IP de origem remota (192.168.1.105) capturado na mensagem do evento.
+
+-------------------------------------------------------------------------------
+6. RESOLUÇÃO DO DESAFIO DO DAY 04
+-------------------------------------------------------------------------------
+Cenário: Dezenas de eventos 4625 para o mesmo usuário seguidos de um 4624.
+
+Cadeia de Investigação / Próximos Passos:
+1. Origem e Logon Type:
+   - Verificar no evento 4624 se o IP de origem e o Logon Type coincidem com os dos eventos 4625 prévios (confirmar se a invasão veio do mesmo ator).
+2. Investigação Pós-Exploração (O que aconteceu depois?):
+   - Mapear os processos criados logo após o logon bem-sucedido (Event ID 4688 - Process Creation).
+   - Verificar novas conexões de rede ativas associadas ao PID gerado (Get-NetTCPConnection).
+   - Checar modificações de grupos ou privilégios (Event IDs 4728, 4732 - Adição em grupos privilegiados).
+   - Investigar criação ou alteração de Serviços/Tarefas Agendadas para persistência (Event ID 7045 / Event ID 4698).
+
+-------------------------------------------------------------------------------
+7. CONCLUSÃO
+-------------------------------------------------------------------------------
+A análise de Event Logs provou a eficácia da correlação temporal entre falhas (4625) e sucessos (4624) na identificação de incidentes de autenticação. A retenção das evidências em formato textual permite alimentar pipelines de SIEM e documentar formalmente o relatório de resposta a incidentes (IR).
+===============================================================================

@@ -1,0 +1,141 @@
+WEEK 05 — WINDOWS
+FINAL SECURITY INVESTIGATION
+
+Analista: Thiago S. Silva
+Data: 03/10/2026
+
+========================================
+1. HOST
+========================================
+
+Computador: LAB-WIN11-SEC
+Windows: Windows 11 Pro
+Versão: 23H2
+Build: 22631.4169
+
+========================================
+2. USUÁRIO
+========================================
+
+Usuário: LAB-WIN11-SEC\thiago.silva
+Grupos: 
+- BUILTIN\Administrators
+- BUILTIN\Users
+- NT AUTHORITY\INTERACTIVE
+- NT AUTHORITY\Authenticated Users
+- Local account and member of Administrators group
+
+Privilégios:
+- SeChangeNotifyPrivilege (Bypass traverse checking - Enabled)
+- SeSecurityPrivilege (Manage auditing and security log - Disabled)
+- SeBackupPrivilege (Back up files and directories - Disabled)
+- SeRestorePrivilege (Restore files and directories - Disabled)
+- SeShutdownPrivilege (Shut down the system - Disabled)
+- SeDebugPrivilege (Debug programs - Disabled)
+- SeImpersonatePrivilege (Impersonate a client after authentication - Enabled)
+
+========================================
+3. PROCESSO
+========================================
+
+Processo: msedge
+PID: 4812
+Executável: msedge.exe
+Caminho: C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe
+
+========================================
+4. SERVIÇO
+========================================
+
+Serviço: edgeupdate (Microsoft Edge Update Service)
+Estado: Running
+StartMode: Auto
+PID: 2104 (Serviço pai/suporte de atualização)
+
+========================================
+5. CONEXÃO
+========================================
+
+IP local: 192.168.1.105
+Porta local: 53214
+IP remoto: 13.107.42.16
+Porta remota: 443 (HTTPS)
+Estado: Established
+
+========================================
+6. FIREWALL
+========================================
+
+Perfil: Domain, Private, Public (Ativos)
+Entrada: Block (Inbound default)
+Saída: Allow (Outbound default)
+
+Regra relacionada:
+- Nome: Core Networking - Dynamic Dynamic Port Range (Outbound)
+- Direção: Outbound
+- Ação: Allow
+- Perfil: Any
+
+========================================
+7. EVENT LOGS
+========================================
+
+4624:
+- 03/10/2026 14:15:22 | Logon Type: 2 (Interactive) | Account Name: thiago.silva | Logon Process: User32
+
+4625:
+- Nenhum evento de falha registrado nas últimas 24 horas.
+
+System:
+- Event ID 7036 (Service Control Manager): The Microsoft Edge Update Service entered the running state.
+
+Application:
+- Event ID 1001 (Report): Informações de telemetria e integridade do processo enviadas com sucesso.
+
+========================================
+8. INVESTIGAÇÃO
+========================================
+
+O que foi observado?
+Identificada uma conexão TCP estabelecida na porta 443 (HTTPS) para o endereço IP remoto 13.107.42.16.
+
+Qual processo estava associado à conexão?
+A conexão pertencia ao PID 4812, correspondente ao executável legítimo `msedge.exe`.
+
+Qual usuário estava relacionado?
+O processo estava rodando no contexto do usuário interativo `LAB-WIN11-SEC\thiago.silva`.
+
+Quais privilégios estavam disponíveis?
+O usuário pertence ao grupo BUILTIN\Administrators. No token do processo, privilégios sensíveis como `SeDebugPrivilege` e `SeBackupPrivilege` estavam presentes, porém desabilitados por padrão (necessitando de elevação via UAC para ativação em subprocessos administrativos).
+
+Existe serviço associado?
+Sim, o serviço de atualização de fundo `edgeupdate` (PID 2104) estava ativo no sistema, garantindo a manutenção do executável.
+
+A conexão aparenta estar relacionada a um processo legítimo?
+Sim. O IP 13.107.42.16 pertence ao bloco ASN da Microsoft Corporation (CDN/Azure services), condizente com tráfego TLS/HTTPS legítimo de navegação.
+
+Existem eventos que merecem investigação adicional?
+Não. Os eventos 4624 confirmam um logon interativo legítimo do usuário Thiago e não houve registros de falhas de autenticação (Event ID 4625).
+
+========================================
+9. CONCLUSÃO
+========================================
+
+Resumo:
+A investigação correlacionou com sucesso a cadeia completa entre Soquetes TCP, PID, Processo, Serviços de Suporte, Permissões de Token de Usuário, Filtro do Firewall e Logs de Segurança do Windows. A conexão analisada é estritamente legítima e operacional.
+
+Evidências coletadas:
+- Tabela de conexões TCP via Get-NetTCPConnection
+- Mapeamento de PID para Processo e Caminho do Executável via Get-Process
+- Inspeção de Token e Privilégios via whoami /priv e whoami /groups
+- Identificação de Serviços Vinculados via Get-CimInstance Win32_Service
+- Validação de Regras do Windows Defender Firewall via Get-NetFirewallRule
+- Correlação de Logs de Autenticação no Event Viewer (IDs 4624 / 4625 / 7036)
+
+Principais aprendizados:
+1. Um usuário pertencer ao grupo Administrators não significa que todos os seus processos rodam com privilégios administrativos ativos; a estrutura de Tokens e UAC filtra esses privilégios.
+2. A análise isolada de um IP ou Porta é insuficiente. A investigação real exige seguir a cadeia completa: IP:Porta -> PID -> Processo -> Caminho -> Usuário -> Serviço -> Log.
+3. Entender a diferença entre ferramentas administrativas do Linux (`ip`, `ss`) e do Windows (`Get-NetIPConfiguration`, `Get-NetTCPConnection`) fortalece a resposta a incidentes multiplataforma.
+
+Próximos passos:
+Avançar para a Week 06 — Active Directory, transicionando da análise de hosts Windows isolados para o gerenciamento, investigação e resposta a incidentes em ambientes de domínio corporativo.

@@ -1,0 +1,69 @@
+WEEK 05 — DAY 06
+LABORATÓRIO INTEGRADO DE INVESTIGAÇÃO WINDOWS
+
+Data: 03/10/2026
+Computador: WS-SOC-LAB01
+Analista: Analista SOC N1
+
+1. CONEXÃO INVESTIGADA
+
+IP local: 192.168.1.105
+Porta local: 49822
+IP remoto: 10.10.10.20
+Porta remota: 4444
+Estado: Established
+
+2. PROCESSO
+
+PID: 3180
+Nome: powershell.exe
+Caminho: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+
+3. USUÁRIO
+
+Usuário: WORKSTATION\analista
+Grupos: BUILTIN\Administrators, BUILTIN\Users, Mandatory Label\High Mandatory Level
+Privilégios: SeChangeNotifyPrivilege, SeSecurityPrivilege, SeDebugPrivilege, SeShutdownPrivilege
+
+4. SERVIÇO
+
+Nome: N/A (Nenhum serviço Windows associado diretamente ao PID 3180)
+Estado: N/A
+StartMode: N/A
+
+5. FIREWALL
+
+Perfil: Private / Domain
+Direção: Outbound
+Ação: Allow (Regra padrão de saída permitida / Default Outbound Allow)
+
+6. EVENTOS
+
+4624: Logon bem-sucedido registrado para o usuário WORKSTATION\analista via LogonType 2 (Interactive) às 14:15:22.
+4625: Nenhum evento de falha recente associado.
+Outros eventos relevantes: Evento ID 4104 (PowerShell Script Block Logging) registrado às 14:18:05 no log Microsoft-Windows-PowerShell/Operational.
+
+7. ANÁLISE
+
+O que foi observado?
+Identificou-se uma conexão TCP ativa direcionada ao IP remoto 10.10.10.20 na porta 4444, originada da porta local 49822.
+
+Qual processo estava associado à conexão?
+A conexão estava vinculada ao PID 3180, correspondente ao executável legítimo `powershell.exe` em `C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe`.
+
+Qual usuário estava envolvido?
+O processo foi iniciado sob o contexto da conta do usuário `WORKSTATION\analista`.
+
+Havia privilégios administrativos?
+Sim. O usuário pertence ao grupo `BUILTIN\Administrators` e o processo foi executado com nível de integridade elevado (High Mandatory Level), concedendo privilégios como `SeDebugPrivilege`.
+
+Existia serviço associado?
+Não foi identificado nenhum serviço do Windows associado ao PID 3180. O processo foi disparado diretamente via sessão interativa do usuário.
+
+Havia algum indício que justificasse investigação adicional?
+Sim. O uso de `powershell.exe` estabelecendo conexão de rede outbound para um IP privado/externo na porta 4444 (frequentemente associada a ferramentas de Command & Control ou Reverse Shells) representa um indicador de comprometimento (IoC) crítico. A combinação de privilégios elevados com execução de scripts em porta não padrão exige análise detalhada dos logs do PowerShell (ScriptBlock/Module Logging).
+
+8. CONCLUSÃO
+
+Resumo da investigação:
+A investigação do alerta confirmou a presença de uma conexão de rede suspeita originada do processo `powershell.exe` (PID 3180) sob a conta `WORKSTATION\analista` com privilégios de Administrador. A porta remota de destino (4444) e o comportamento do processo sugerem uma possível sessão de acesso remoto/shell interativo não autorizado. Recomenda-se o isolamento imediato da maquina da rede, encerramento do processo PID 3180, coleta da memória RAM para forense e análise aprofundada dos Script Block Logs do PowerShell (ID 4104).

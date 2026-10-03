@@ -1,0 +1,47 @@
+# ===============================================================================
+WEEK 05 — DAY 02: USUÁRIOS, GRUPOS E PRIVILÉGIOS NO WINDOWS
+
+1. IDENTIDADE E INFORMACÕES DE CONTEXTO
+
+USUÁRIO LOCAL:       SEC-LAB-WIN11\analyst
+SID DO USUÁRIO:      S-1-5-21-3829104829-1928374650-847291029-1001
+ESTADO DA CONTA:    Enabled: True | PasswordRequired: True | PasswordExpires: False
+ÚLTIMO LOGON:       10/24/2023 08:30:15 AM
+
+2. GRUPOS LOCAIS E PERTENCIMENTO
+
+GRUPOS DO USUÁRIO:  SEC-LAB-WIN11\Users
+                    SEC-LAB-WIN11\Administrators
+                    Mandatory Label\High Mandatory Level
+
+MEMBROS ADMINISTRATIVOS (Group Administrators):
+- SEC-LAB-WIN11\Administrator
+- SEC-LAB-WIN11\analyst
+
+3. PRIVILÉGIOS DO TOKEN DE ACESSO (whoami /priv)
+
+PRIVILÉGIOS RELEVANTES EM DESTAQUE:
+- SeChangeNotifyPrivilege         (Bypass traverse checking)     - Enabled
+- SeSecurityPrivilege             (Manage auditing and security) - Disabled
+- SeDebugPrivilege                (Debug programs)               - Disabled
+- SeImpersonatePrivilege          (Impersonate a client)         - Enabled
+- SeShutdownPrivilege             (Shut down the system)         - Enabled
+
+4. CONTROLE DE ELEVAÇÃO DE PRIVILÉGIOS (UAC)
+
+HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+- EnableLUA:                      1 (UAC Habilitado)
+- ConsentPromptBehaviorAdmin:     5 (Prompt para credenciais / consentimento em Secure Desktop)
+- PromptOnSecureDesktop:          1 (Prompt na Área de Trabalho Segura)
+
+5. MINI-INVESTIGAÇÃO — RESUMO DE PRIVILÉGIOS
+
+USUÁRIO:                          SEC-LAB-WIN11\analyst
+SID:                              S-1-5-21-3829104829-1928374650-847291029-1001
+GRUPOS:                           Users, Administrators
+É ADMINISTRADOR:                  Sim (Token elevado via UAC quando exigido)
+PRIVILÉGIOS RELEVANTES:           SeImpersonatePrivilege (Habilitado), SeDebugPrivilege (Desabilitado)
+UAC HABILITADO:                   Sim (EnableLUA = 1)
+
+# ===============================================================================
+STATUS: CONCLUÍDO E VALIDADO COM SUCESSO

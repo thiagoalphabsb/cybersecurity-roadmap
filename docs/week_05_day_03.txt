@@ -1,0 +1,59 @@
+# ===============================================================================
+WEEK 05 — DAY 03: PROCESSOS, SERVIÇOS, REDE E PERSISTÊNCIA NO WINDOWS
+
+1. INVESTIGAÇÃO DE PROCESSO
+
+NOME DO PROCESSO:    spoolsv
+PID:                 1548
+EXECUTÁVEL:          spoolsv.exe
+CAMINHO COMPLETO:    C:\Windows\System32\spoolsv.exe
+TAMANHO DO ARQUIVO:  618.496 bytes
+DATA DE CRIAÇÃO:     05/07/2022 10:12:00
+
+2. INVESTIGAÇÃO DE SERVIÇO ASSOCIADO
+
+NOME DO SERVIÇO:     Spooler
+NOME DE EXIBIÇÃO:    Print Spooler
+ESTADO ATUAL:        Running
+MODO DE INICIALIZ.: Auto
+PID DO SERVIÇO:      1548
+
+3. CORRELAÇÃO DE REDE (CONEXÃO ESTABELECIDA)
+
+IP LOCAL:            192.168.1.105
+PORTA LOCAL:         49672
+IP REMOTO:           20.189.173.12
+PORTA REMOTA:        443 (HTTPS)
+ESTADO:              Established
+OWNING PROCESS:      1548 (spoolsv.exe)
+
+4. INVESTIGAÇÃO DE PERSISTÊNCIA (SCHEDULED TASK)
+
+TAREFA ANALISADA:    \Microsoft\Windows\WindowsUpdate\Scheduled Start
+ESTADO:              Ready
+ÚLTIMA EXECUÇÃO:     10/24/2023 03:00:00 AM
+PRÓXIMA EXECUÇÃO:    10/25/2023 03:00:00 AM
+ÚLTIMO RESULTADO:    0x0 (Sucesso)
+
+5. CONCLUSÃO E CADEIA DE CORRELAÇÃO
+
+Investigação correlacionada com sucesso. A cadeia de evidências foi traçada:
+[Conexão 192.168.1.105:49672 -> 20.189.173.12:443]
+  └── OwningProcess: PID 1548
+       └── Processo: spoolsv.exe (C:\Windows\System32\spoolsv.exe)
+            └── Serviço Associado: Spooler (Print Spooler - StartMode: Auto)
+
+DIFERENCIAL DE SEGURANÇA:
+A validação do caminho (`C:\Windows\System32\`) confirma que se trata de um executável legítimo do sistema e não uma imitação em diretórios de usuário (`AppData\Local\Temp`).
+
+6. RESPOSTA AO DESAFIO FINAL (10.10.10.20 -> 10.10.10.10:4444)
+
+Comandos sequenciais para percorrer a cadeia de triagem:
+1. Conexão e PID:         Get-NetTCPConnection -RemoteAddress "10.10.10.20" -RemotePort 4444
+2. Processo e Executável:  Get-Process -Id <PID> | Select-Object Name, Id, Path
+3. Serviço (se houver):   Get-CimInstance Win32_Service | Where-Object ProcessId -eq <PID>
+4. Usuário e Privilégios:  Get-Process -Id <PID> -IncludeUserName / whoami /priv
+5. Registros/Eventos:     Get-WinEvent -FilterHashtable @{LogName='Security'; Id=4688}
+
+# ===============================================================================
+STATUS: CONCLUÍDO E VALIDADO COM SUCESSO
