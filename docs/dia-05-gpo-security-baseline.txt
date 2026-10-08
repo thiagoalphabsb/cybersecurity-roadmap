@@ -1,0 +1,31 @@
+===============================================================================
+CYBERLAB - WEEK 06: DAY 05
+Group Policy (GPO) - Security Baseline & Auditoria Avançada
+===============================================================================
+Data de Execução: 08/10/2026
+Domínio:           corp.thiago.lab
+
+1. POLÍTICA DE SENHAS E BLOQUEIO (Default Domain Policy):
+   - Mínimo de Caracteres: 12
+   - Complexidade Exigida: Ativada ($true)
+   - Histórico de Senhas:  5 senhas
+   - Tentativas p/ Bloqueio: 5 tentativas incorretas (LockoutThreshold)
+   - Duração do Bloqueio: 15 minutos
+
+2. GPO DE AUDITORIA DE SEGURANÇA:
+   - Nome: GPO-Workstations-Security-Baseline
+   - Target: OU=Workstations,OU=CorpDevices,DC=corp,DC=thiago,DC=lab
+   - Auditorias Habilitadas (auditpol):
+     * Success & Failure para Logon/Logoff
+     * Success & Failure para User Account Management
+     * Success & Failure para Security Group Management
+
+3. COMANDOS EXECUTADOS:
+   - Set-ADDefaultDomainPasswordPolicy
+   - New-GPO & New-GPLink
+   - auditpol /set /subcategory:...
+   - gpupdate /force
+
+4. STATUS DA ETAPA:
+   [X] Concluído com Sucesso.
+===============================================================================

@@ -1,0 +1,23 @@
+===============================================================================
+CYBERLAB - WEEK 06: DAY 01 & 02
+Deploy e Promoção do Domain Controller (AD DS)
+===============================================================================
+Data de Execução: 05/10/2026
+Host Target:       DC01
+Sistema Operacional: Windows Server 2025
+Domínio:           corp.thiago.lab
+
+1. RESUMO DA EXECUÇÃO:
+   - Instalação das funções de Active Directory Domain Services (AD DS) e DNS.
+   - Promoção do servidor DC01 a Controlador de Domínio principal da floresta.
+   - Validação dos papéis FSMO e suporte a Catálogo Global (GC).
+
+2. COMANDOS DE VALIDAÇÃO EXECUTADOS (PowerShell):
+   - hostname
+   - whoami
+   - Get-ADForest
+   - Get-ADDomain
+
+3. STATUS DA ETAPA:
+   [X] Concluído com Sucesso.
+===============================================================================

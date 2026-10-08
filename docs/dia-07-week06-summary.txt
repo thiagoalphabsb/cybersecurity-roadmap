@@ -1,0 +1,27 @@
+===============================================================================
+CYBERLAB - WEEK 06: DAY 07
+Encerramento Semanal & Documentação Geral
+===============================================================================
+Data de Execução: 08/10/2026
+Domínio:           corp.thiago.lab
+
+1. RESUMO DA SEMANA (WEEK 06):
+   - Day 01 & 02: Deploy do Windows Server 2025 e Promoção do DC01.
+   - Day 03: Criação de identidades, grupos e aplicação de Least Privilege.
+   - Day 04: Construção da árvore corporativa de OUs e migração de objetos.
+   - Day 05: Implementação de GPO de Segurança, Password Policy e Auditpol.
+   - Day 06: Simulação de ataque, análise de logs 4625 via PowerShell e relatório SOC.
+   - Day 07: Consolidação das evidências e publicação do README.md no repositório.
+
+2. EVIDÊNCIAS GERADAS:
+   - evidence/week-06/day-02/02-domain-controller-promotion.png
+   - evidence/week-06/day-03/05-users-day03.png
+   - evidence/week-06/day-04/06-day04-estrutura-corporativa.png
+   - evidence/week-06/day-04/08-day04-directory-tree.png
+   - evidence/week-06/day-05/09-day05-GPO.png
+   - evidence/week-06/day-05/10-day05-GPO-WSB.png
+   - evidence/week-06/day-06/11-day06-Simulaincidete.png
+
+3. STATUS FINAL DA SEMANA:
+   [X] WEEK 06 - 100% CONCLUÍDA COM SUCESSO!
+===============================================================================

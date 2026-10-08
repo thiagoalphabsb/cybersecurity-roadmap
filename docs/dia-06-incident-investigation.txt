@@ -1,0 +1,32 @@
+===============================================================================
+CYBERLAB - WEEK 06: DAY 06
+Simulação de Incidente de Segurança & Resposta a Eventos (SOC)
+===============================================================================
+Data de Execução: 08/10/2026
+Host:              DC01
+ID do Incidente:   INC-2026-001
+
+-------------------------------------------------------------------------------
+RELATÓRIO DE INCIDENTE DE SEGURANÇA #001
+-------------------------------------------------------------------------------
+Usuário Alvo:      ana.silva
+Evento Auditado:   Event ID 4625 (An account failed to log on)
+Severidade:        Média / Alerta de Autenticação
+
+1. DETALHES DA INVESTIGAÇÃO VIA POWERSHELL:
+   - Data/Hora:       08/10/2026 - 11:40:58 AM
+   - Origem (IP/Host): ::1 / DC01
+   - Tipo de Logon:   2 (Interactive / Local Console)
+   - Código Status:   0xc000006d (Bad Credential / Credencial Incorreta)
+
+2. AVALIAÇÃO DE RISCO:
+   - Falha de logon gerada por tentativa com credencial inválida.
+   - Proteção de Account Lockout ativa garantindo bloqueio na 5ª tentativa.
+
+3. RECOMENDAÇÕES:
+   - Notificar a usuária Ana Silva sobre o alerta de autenticação.
+   - Verificar serviços ou scripts locais tentando utilizar senhas expiradas.
+
+4. STATUS DA ETAPA:
+   [X] Concluído com Sucesso.
+===============================================================================

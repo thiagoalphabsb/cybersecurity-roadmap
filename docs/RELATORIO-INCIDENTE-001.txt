@@ -1,0 +1,23 @@
+===============================================================================
+RELATÓRIO DE INCIDENTE DE SEGURANÇA - INCIDENTE #001
+===============================================================================
+ID do Incidente:   INC-2026-001
+Usuário Alvo:      ana.silva
+Evento Auditado:   Event ID 4625 (An account failed to log on)
+Severidade:        Média / Alerta de Autenticação
+
+1. DETALHES DA INVESTIGAÇÃO:
+   - Data/Hora:       08/10/2026 - 15:28:31
+   - Origem (IP/Host): 127.0.0.1 / DC01
+   - Tipo de Logon:   2 (Interactive / Local Console)
+   - Causa Raiz:      Credencial incorreta inserida repetidamente.
+
+2. AVALIAÇÃO DE RISCO:
+   - Possível tentativa de Password Spraying ou digitação incorreta contínua.
+   - A política de Account Lockout atua bloqueando a conta na 5ª tentativa.
+
+3. RECOMENDAÇÕES SOC:
+   - Notificar a usuária Ana Silva sobre o alerta de autenticação.
+   - Verificar se a estação de origem possui algum serviço com senha expirada salva.
+   - Caso o comportamento persista, isolar o host de origem para análise avançada.
+===============================================================================

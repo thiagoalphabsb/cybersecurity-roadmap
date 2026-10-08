@@ -1,0 +1,25 @@
+===============================================================================
+CYBERLAB - WEEK 06: DAY 03
+Gestão de Identidades e Acessos (IAM)
+===============================================================================
+Data de Execução: 06/10/2026
+Domínio:           corp.thiago.lab
+
+1. MATRIZ DE USUÁRIOS E GRUPOS CRIADOS:
+   - Ana Silva    | SamAccountName: ana.silva    | Grupo: GG-SOC-Analysts
+   - Carlos Souza | SamAccountName: carlos.souza | Grupo: GG-IT-Support
+   - João Santos  | SamAccountName: joao.santos  | Grupo: GG-Helpdesk
+
+2. CONCEITO DE SEGURANÇA APLICADO:
+   - Least Privilege (Princípio do Menor Privilégio): Nenhum dos usuários de 
+     suporte/operação foi adicionado ao grupo 'Domain Admins'. Acesso administrativo
+     foi mantido estritamente restrito.
+
+3. COMANDOS DE VALIDAÇÃO EXECUTADOS:
+   - Get-ADUser -Filter * | Select-Object Name, SamAccountName, Enabled
+   - Get-ADGroup -Filter * | Select-Object Name, GroupScope, GroupCategory
+   - Get-ADPrincipalGroupMembership ana.silva
+
+4. STATUS DA ETAPA:
+   [X] Concluído com Sucesso.
+===============================================================================

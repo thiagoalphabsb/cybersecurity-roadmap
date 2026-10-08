@@ -1,0 +1,36 @@
+===============================================================================
+CYBERLAB - WEEK 06: DAY 04
+Estruturação e Organização de Unidades Organizacionais (OUs)
+===============================================================================
+Data de Execução: 07/10/2026
+Domínio:           corp.thiago.lab
+
+1. ÁRVORE CORPORATIVA DE OUs IMPLEMENTADA:
+
+   corp.thiago.lab
+   │
+   ├── CorpUsers
+   │   ├── Security  (Usuário: Ana Silva)
+   │   ├── IT        (Usuário: Carlos Souza)
+   │   ├── Helpdesk  (Usuário: João Santos)
+   │   ├── HR
+   │   └── Finance
+   │
+   ├── CorpDevices
+   │   ├── Workstations
+   │   └── Servers
+   │
+   └── Groups        (Grupos: GG-SOC-Analysts, GG-IT-Support, GG-Helpdesk)
+
+2. OBJETIVOS ATINGIDOS:
+   - Segmentação do ambiente para aplicação granular de GPOs.
+   - Movimentação segura de objetos de usuários e grupos para suas OUs finais.
+
+3. COMANDOS DE VALIDAÇÃO EXECUTADOS:
+   - Get-ADOrganizationalUnit -Filter *
+   - Move-ADObject
+   - Get-ADUser -Filter * | Select-Object Name, DistinguishedName
+
+4. STATUS DA ETAPA:
+   [X] Concluído com Sucesso.
+===============================================================================
