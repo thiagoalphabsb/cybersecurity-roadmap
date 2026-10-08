@@ -29,6 +29,7 @@ Além do roadmap de estudos, este repositório possui um **portfólio profission
 | Projeto | Competências demonstradas | Status |
 |---|---|---|
 | 🖥️ [CyberLab](./portfolio/cyberlab/README.md) | Linux, VirtualBox, SSH, Nmap, redes e investigação | 🟢 Concluído |
+| 🪟 [Windows Server 2025](./projects/windows-server-2025/README.md) | Active Directory, GPO, DNS, IAM, Hardening e Administração Windows | 🟢 Concluído |
 | 🌐 [Network Analysis](./portfolio/network-analysis/README.md) | TCP/IP, Wireshark, Nmap, DNS, ARP e firewall | 🟢 Concluído |
 | 🐧 [Linux Security Fundamentals](./portfolio/linux-security/README.md) | Usuários, permissões, processos, serviços e logs | 🟢 Concluído |
 | 🔐 [Account Security Hygiene](./portfolio/account-security-hygiene/README.md) | MFA, credenciais, sessões, least privilege e IAM | 🟢 Concluído |
@@ -180,37 +181,40 @@ Transformar o conhecimento acumulado durante a jornada em projetos demonstrávei
 
 # 🧪 CyberLab
 
-O **CyberLab** é o ambiente virtual utilizado para realizar os experimentos práticos da jornada.
+O **CyberLab** é o ambiente virtual multi-OS utilizado para realizar os experimentos práticos da jornada de segurança.
 
-### Ambiente
+### Ambiente & Infraestrutura
 
-- **Debian 13** — servidor/host de testes
-- **Kali Linux** — estação de análise e testes
-- **VirtualBox** — virtualização
-- **Rede interna isolada**
-- **SSH**
-- **Nmap**
-- **Wireshark**
-- Ferramentas nativas de Linux e redes
+- **Debian 13** — Servidor / Host de serviços e testes
+- **Kali Linux** — Estação de análise, auditoria e segurança ofensiva
+- **Windows Server 2025** — Domain Controller (AD DS), DNS, GPO e gestão de identidades
+- **VirtualBox** — Plataforma de virtualização
+- **Rede interna isolada** (`10.10.10.0/24`)
+- **Ferramentas:** SSH, Nmap, Wireshark, Active Directory, GPO, nftables, PowerShell, Bash
 
-### Topologia atual
+### Topologia Atual
 
 ```text
-┌───────────────────────────────┐
-│        CYBERLAB - INTERNAL    │
-│                               │
-│  Kali Linux                   │
-│  10.10.10.20/24               │
-│       │                       │
-│       │  Rede isolada         │
-│       │                       │
-│  Debian 13                    │
-│  10.10.10.10/24               │
-│                               │
-└───────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│                 CYBERLAB - INTERNAL NET                 │
+│                     (10.10.10.0/24)                     │
+│                                                         │
+│  ┌──────────────────┐               ┌────────────────┐  │
+│  │   Kali Linux     │               │   Debian 13    │  │
+│  │   10.10.10.20/24 │               │ 10.10.10.30/24 │  │
+│  └────────┬─────────┘               └───────┬────────┘  │
+│           │                                 │           │
+│           └────────────────┬────────────────┘           │
+│                            │                            │
+│                  ┌─────────┴──────────┐                 │
+│                  │ Windows Server 2025│                 │
+│                  │   10.10.10.10/24   │                 │
+│                  │ (AD DS / DNS / GPO)│                 │
+│                  └────────────────────┘                 │
+└─────────────────────────────────────────────────────────┘
 ```
 
-O laboratório permite praticar enumeração, análise de serviços, redes, Linux, segurança e investigação sem afetar ambientes externos.
+O laboratório permite praticar enumeração, análise de serviços, controle de acessos (IAM/AD), segurança em Linux e Windows, e investigação de tráfego em rede híbrida sem afetar ambientes externos.
 
 👉 [Documentação completa do CyberLab](./portfolio/cyberlab/README.md)
 
@@ -385,25 +389,28 @@ O objetivo é demonstrar não apenas o que foi estudado, mas **como o conhecimen
 ```text
 cybersecurity-roadmap/
 │
-├── README.md
+├── README.md                          # Visão geral do roadmap e do laboratório
 │
-├── portfolio/
+├── portfolio/                         # Projetos selecionados para apresentação profissional
 │   ├── README.md
-│   ├── cyberlab/
+│   ├── cyberlab/                      # Documentação completa da infraestrutura do lab
 │   ├── network-analysis/
 │   ├── linux-security/
 │   └── account-security-hygiene/
+│
+├── projects/                          # Projetos práticos e laboratórios dedicados
+│   └── windows-server-2025/           # Projeto de Windows Server 2025 & AD DS
 │
 ├── week-01/
 ├── week-02/
 ├── week-03/
 ├── week-04/
 ├── week-05/
+├── week-06/                           # Active Directory & Windows Admin
 ├── ...
 ├── week-24/
 │
-├── projects/
-├── evidence/
+├── evidence/                          # Capturas e provas técnicas das práticas
 ├── resources/
 ├── notes/
 └── docs/
