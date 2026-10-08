@@ -47,9 +47,9 @@ O portfólio será ampliado conforme novos projetos forem desenvolvidos ao longo
 | **02** | Virtualização + CyberLab | 🟢 Concluída |
 | **03** | Linux | 🟢 Concluída |
 | **04** | Redes | 🟢 Concluída |
-| **05** | Windows | 🔵 Em andamento |
-| 06 | Active Directory | ⚪ Planejada |
-| 07 | Python | ⚪ Planejada |
+| **05** | Windows | 🟢 Concluída |
+| 06 | Active Directory | 🟢 Concluída |
+| 07 | Python | 🔵 Em andamento |
 | 08 | Segurança de Redes | ⚪ Planejada |
 | 09 | Wireshark | ⚪ Planejada |
 | 10 | Web Security | ⚪ Planejada |
