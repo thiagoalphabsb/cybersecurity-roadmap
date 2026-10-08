@@ -1,13 +1,27 @@
 # 🧪 CyberLab — Laboratório de Cibersegurança
 
-## Objetivo
+## 🏗️ Arquitetura do CyberLab
 
-Construir um ambiente controlado para praticar fundamentos de Cibersegurança, Linux, redes, enumeração e investigação técnica.
+O ambiente é composto pelas seguintes máquinas virtuais conectadas em rede virtualizada via VirtualBox:
 
+| VM / Hostname | Sistema Operacional | Função / Papel no Lab | IP / Subrede |
+|---|---|---|---|
+| **CyberLab-Kali** | Kali Linux | Pentest, análise de vulnerabilidades, auditoria | Host-Only / Internal |
+| **CyberLab-Debian** | Debian Linux | Servidor de aplicação, firewall, testes de serviços | Host-Only / Internal |
+| **CyberLab-Win2025** | Windows Server 2025 | Domain Controller (AD DS), DNS, GPO, testes de identidade | Host-Only / Internal |
+
+---
+
+## 🎯 Objetivos do Laboratório
+
+- Simular cenários de ataques e defesas em redes híbridas (Linux + Windows).
+- Praticar administração de identidades com Active Directory e integração com Linux/SSH.
+- Analisar tráfego de protocolos Windows (SMB, Kerberos, LDAP, NTLM) via Wireshark.
 ## Ambiente
 
 - Debian
 - Kali Linux
+- Windows Server 2025
 - VirtualBox
 - Rede interna do laboratório
 - SSH
