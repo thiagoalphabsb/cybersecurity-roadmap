@@ -1,64 +1,42 @@
-# 🔐 Cybersecurity Portfolio
+# 🔐 Account Security Hygiene
 
-> Portfólio prático de transição profissional de Suporte N2 para Cibersegurança.
-
-Este diretório reúne os trabalhos mais relevantes desenvolvidos durante o **Cybersecurity Roadmap**, separando os projetos de portfólio da documentação diária de estudos.
+Resumo executivo do projeto **Account Security Hygiene**.
 
 ## 🎯 Objetivo
 
-Demonstrar, por meio de laboratório e evidências, a aplicação prática de conhecimentos de Linux, redes TCP/IP, análise de tráfego, Nmap, Wireshark, firewall, serviços, processos, segurança de contas, investigação técnica e documentação de evidências.
+Aplicar princípios de segurança de contas em um cenário prático, avaliando controles relacionados a:
 
-## 🧪 Projetos
+- Senhas fortes e exclusivas
+- Gerenciador de senhas
+- MFA
+- Recuperação de conta
+- Sessões e dispositivos
+- Aplicativos conectados
+- Princípio do menor privilégio
+- Identificação e redução de riscos
 
-### 01 — CyberLab
-**Laboratório prático de Cibersegurança**
+## 🧪 Abordagem
 
-Construção e utilização de um ambiente isolado com máquinas Linux para executar testes controlados, analisar serviços e produzir evidências técnicas.
+**Identificar → Analisar → Corrigir → Validar → Documentar**
 
-[Ver projeto →](./cyberlab/README.md)
+## 📊 Resultado
 
-### 02 — Network Analysis
-**Análise de redes, serviços e tráfego**
+O projeto transforma recomendações genéricas de segurança em uma checklist prática e verificável, permitindo comparar o estado inicial e o estado após as correções.
 
-Investigação prática envolvendo IP, TCP/UDP, portas, sockets, DNS, ARP, Nmap e Wireshark, correlacionando informações de rede com serviços e processos.
+## 🧠 Competências demonstradas
 
-[Ver projeto →](./network-analysis/README.md)
+- Account Security
+- Identity and Access Management
+- MFA
+- Credential Management
+- Least Privilege
+- Risk Identification
+- Security Documentation
 
-### 03 — Linux Security Fundamentals
-**Fundamentos de segurança em Linux**
+## 📚 Documentação técnica
 
-Aplicação prática de comandos, usuários, permissões, processos, serviços, logs, arquivos e automação em ambiente Linux.
-
-[Ver projeto →](./linux-security/README.md)
-
-### 04 — Account Security Hygiene
-**Higiene de segurança de contas**
-
-Projeto prático de avaliação de segurança de contas, com foco em senhas, gerenciador de senhas, MFA, recuperação de acesso, sessões e permissões.
-
-[Ver projeto →](./account-security-hygiene/README.md)
-
-## 📚 Metodologia
-
-**Estudar → Praticar → Investigar → Registrar evidências → Documentar → Refletir**
-
-O objetivo não é apenas concluir conteúdos, mas transformar conhecimento em prática reproduzível.
-
-## 🗂️ Estrutura
-
-- week-* — evolução semanal do roadmap
-- evidence/ — evidências dos laboratórios
-- docs/ — anotações e documentação técnica
-- projects/ — projetos práticos
-- portfolio/ — seleção organizada dos trabalhos para apresentação profissional
-
-## 🚀 Evolução profissional
-
-A jornada parte da experiência em **Suporte N2** e amplia essa base para Cibersegurança, aproveitando conhecimentos de troubleshooting, sistemas, redes, atendimento técnico e investigação.
-
-**Próximas áreas do roadmap:** Windows/AD, segurança de redes, vulnerabilidades, Pentest, SOC, SIEM, Incident Response, DFIR, Cloud Security e automação.
+[Ver documentação completa do projeto →](../../projects/account-security-hygiene/README.md)
 
 ---
 
-**Thiago S. Silva**  
-Cybersecurity Roadmap | Brasília - DF, Brasil
+[← Voltar ao Portfolio](../README.md)

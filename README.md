@@ -1,289 +1,202 @@
 # 🛡️ Cybersecurity Roadmap — 24 Semanas
 
-> **Jornada prática de transição de Suporte N2 para Cibersegurança**, unindo fundamentos, laboratório, investigação, documentação, evidências e projetos práticos.
+> Jornada prática de transição de **Suporte N2 para Cibersegurança**, unindo fundamentos, laboratórios, investigação, documentação, evidências e projetos de portfólio.
 
 [![GitHub](https://img.shields.io/badge/GitHub-Cybersecurity%20Roadmap-181717?logo=github)](https://github.com/thiagoalphabsb/cybersecurity-roadmap)
 
 ---
 
-## 🎯 Sobre o Projeto
+## 👋 Sobre o projeto
 
-Este repositório documenta minha jornada de desenvolvimento de competências em **Cibersegurança**, com foco em transformar conhecimento teórico em capacidade prática.
+Este repositório documenta minha evolução prática em **Cibersegurança**, transformando conhecimento teórico em capacidade técnica reproduzível.
 
-A proposta não é apenas consumir cursos. É seguir um ciclo contínuo:
+Minha experiência em **Suporte N2** é parte importante dessa evolução: troubleshooting, análise de sistemas e redes, atendimento técnico e investigação de incidentes formam a base do raciocínio que estou levando para Segurança da Informação.
+
+O ciclo de estudo é:
 
 **Estudar → Executar → Investigar → Registrar evidências → Documentar → Refletir → Repetir**
 
-A experiência anterior em **Suporte N2** faz parte dessa evolução: troubleshooting, análise de problemas, atendimento técnico e resolução de incidentes são utilizados como base para desenvolver uma visão cada vez mais orientada à segurança.
+O objetivo não é apenas concluir conteúdos, mas construir evidências de que consigo **aplicar conhecimento, investigar problemas e documentar soluções**.
 
 ---
 
-## 🔐 Cybersecurity Portfolio
+## 📍 Progresso atual
 
-Além do roadmap de estudos, este repositório possui um **portfólio profissional com projetos práticos selecionados**, organizados para demonstrar competências técnicas desenvolvidas durante a jornada.
-
-### 👉 [Acessar o Cybersecurity Portfolio](./portfolio/README.md)
-
-### Projetos em destaque
-
-| Projeto | Competências demonstradas | Status |
-|---|---|---|
-| 🖥️ [CyberLab](./portfolio/cyberlab/README.md) | Linux, VirtualBox, SSH, Nmap, redes e investigação | 🟢 Concluído |
-| 🪟 [Windows Server 2025](./projects/windows-server-2025/README.md) | Active Directory, GPO, DNS, IAM, Hardening e Administração Windows | 🟢 Concluído |
-| 🌐 [Network Analysis](./portfolio/network-analysis/README.md) | TCP/IP, Wireshark, Nmap, DNS, ARP e firewall | 🟢 Concluído |
-| 🐧 [Linux Security Fundamentals](./portfolio/linux-security/README.md) | Usuários, permissões, processos, serviços e logs | 🟢 Concluído |
-| 🔐 [Account Security Hygiene](./portfolio/account-security-hygiene/README.md) | MFA, credenciais, sessões, least privilege e IAM | 🟢 Concluído |
-
-O portfólio será ampliado conforme novos projetos forem desenvolvidos ao longo das próximas semanas.
-
----
-
-## 📊 Progresso Atual
-
-**Semana atual: 05 — Windows**
+**Semana atual: 07 — Python**
 
 | Semana | Tema | Status |
+|---:|---|---|
+| 01 | Fundamentos de Computação | ✅ Concluída |
+| 02 | Virtualização + CyberLab | ✅ Concluída |
+| 03 | Linux | ✅ Concluída |
+| 04 | Redes | ✅ Concluída |
+| 05 | Windows | ✅ Concluída |
+| 06 | Active Directory | ✅ Concluída |
+| **07** | **Python** | 🚧 Em andamento |
+| 08 | Segurança de Redes | 📋 Planejada |
+| 09 | Wireshark | 📋 Planejada |
+| 10 | Web Security | 📋 Planejada |
+| 11 | Vulnerabilidades | 📋 Planejada |
+| 12 | Pentest | 📋 Planejada |
+| 13 | SOC | 📋 Planejada |
+| 14 | SIEM | 📋 Planejada |
+| 15 | Threat Intelligence | 📋 Planejada |
+| 16 | Incident Response | 📋 Planejada |
+| 17 | DFIR | 📋 Planejada |
+| 18 | Malware Analysis | 📋 Planejada |
+| 19 | Cloud | 📋 Planejada |
+| 20 | Cloud Security | 📋 Planejada |
+| 21 | Automação | 📋 Planejada |
+| 22 | Projetos | 📋 Planejada |
+| 23 | Projeto Final | 📋 Planejada |
+| 24 | Revisão + Portfólio | 📋 Planejada |
+
+### 📚 Semanas
+
+Cada semana possui uma página própria com objetivos, atividades, resultados, aprendizados e evidências quando aplicável.
+
+- [Week 01](./week-01/)
+- [Week 02](./week-02/)
+- [Week 03](./week-03/)
+- [Week 04](./week-04/)
+- [Week 05](./week-05/)
+- [Week 06 — Active Directory](./week-06/)
+- [Week 07 — Python](./week-07/)
+
+---
+
+## ⭐ Projetos em destaque
+
+| Projeto | Foco | Documentação |
 |---|---|---|
-| **01** | Fundamentos de Computação | 🟢 Concluída |
-| **02** | Virtualização + CyberLab | 🟢 Concluída |
-| **03** | Linux | 🟢 Concluída |
-| **04** | Redes | 🟢 Concluída |
-| **05** | Windows | 🟢 Concluída |
-| 06 | Active Directory | 🟢 Concluída |
-| 07 | Python | 🔵 Em andamento |
-| 08 | Segurança de Redes | ⚪ Planejada |
-| 09 | Wireshark | ⚪ Planejada |
-| 10 | Web Security | ⚪ Planejada |
-| 11 | Vulnerabilidades | ⚪ Planejada |
-| 12 | Pentest | ⚪ Planejada |
-| 13 | SOC | ⚪ Planejada |
-| 14 | SIEM | ⚪ Planejada |
-| 15 | Threat Intelligence | ⚪ Planejada |
-| 16 | Incident Response | ⚪ Planejada |
-| 17 | DFIR | ⚪ Planejada |
-| 18 | Malware Analysis | ⚪ Planejada |
-| 19 | Cloud | ⚪ Planejada |
-| 20 | Cloud Security | ⚪ Planejada |
-| 21 | Automação | ⚪ Planejada |
-| 22 | Projetos | ⚪ Planejada |
-| 23 | Projeto Final | ⚪ Planejada |
-| 24 | Revisão + Portfólio | ⚪ Planejada |
-
-> **Legenda:** 🟢 Concluído · 🔵 Em andamento · ⚪ Planejado
+| 🖥️ Windows Server 2025 | AD DS, DNS, GPO e identidades | [Abrir projeto](./projects/windows-server-2025/README.md) |
+| 🧪 CyberLab | Laboratório virtual isolado | [Abrir portfólio](./portfolio/cyberlab/README.md) |
+| 🌐 Network Analysis | TCP/IP, Nmap, DNS, ARP e Wireshark | [Abrir portfólio](./portfolio/network-analysis/README.md) |
+| 🐧 Linux Security | Usuários, permissões, processos, serviços e logs | [Abrir portfólio](./portfolio/linux-security/README.md) |
+| 🔐 Account Security Hygiene | MFA, credenciais, sessões, IAM e redução de risco | [Abrir projeto](./projects/account-security-hygiene/README.md) |
 
 ---
 
-# 🗺️ Roadmap
+## 🧪 CyberLab
 
-## 🧱 Fase 1 — Fundamentos
+O CyberLab é o ambiente virtual utilizado para os exercícios práticos.
 
-**Semanas 01–04**
-
-- Fundamentos de computação
-- Hardware e sistemas operacionais
-- Processos, memória e armazenamento
-- Virtualização
-- Linux e redes
-
-### Objetivo
-
-Construir uma base sólida antes de avançar para temas específicos de segurança.
-
----
-
-## 🏢 Fase 2 — Sistemas e Infraestrutura
-
-**Semanas 05–08**
-
-- Windows e Active Directory
-- Usuários, permissões e GPO
-- Serviços de rede
-- DNS, DHCP e Firewall
-- Python
-- Segurança de redes
-
-### Objetivo
-
-Entender como ambientes corporativos funcionam e onde estão seus principais pontos de controle e exposição.
-
----
-
-## 🔎 Fase 3 — Segurança Ofensiva
-
-**Semanas 09–12**
-
-- Wireshark e reconhecimento
-- Vulnerabilidades
-- Web Security
-- SQL Injection e XSS
-- Pentest e exploração controlada
-
-### Objetivo
-
-Compreender técnicas ofensivas para desenvolver capacidade de identificação, análise e defesa.
-
-> ⚠️ Todos os testes são realizados exclusivamente em ambientes próprios, autorizados e isolados.
-
----
-
-## 🛡️ Fase 4 — Blue Team / SOC
-
-**Semanas 13–18**
-
-- SOC
-- SIEM
-- Análise de logs
-- Monitoramento
-- Threat Intelligence
-- Incident Response
-- DFIR
-- Malware Analysis
-
-### Objetivo
-
-Desenvolver habilidades de detecção, investigação, análise e resposta a incidentes.
-
----
-
-## ☁️ Fase 5 — Cloud & Automação
-
-**Semanas 19–21**
-
-- Cloud Fundamentals
-- Cloud Security
-- IAM
-- Segurança de workloads
-- Python
-- Automação de tarefas de segurança
-
-### Objetivo
-
-Aplicar conceitos de segurança em ambientes modernos e automatizar tarefas repetitivas.
-
----
-
-## 🚀 Fase 6 — Projetos & Portfólio
-
-**Semanas 22–24**
-
-- Projetos práticos
-- Projeto final
-- Documentação
-- Revisão técnica
-- Organização do GitHub
-- Consolidação do portfólio profissional
-
-### Objetivo
-
-Transformar o conhecimento acumulado durante a jornada em projetos demonstráveis.
-
----
-
-# 🧪 CyberLab
-
-O **CyberLab** é o ambiente virtual multi-OS utilizado para realizar os experimentos práticos da jornada de segurança.
-
-### Ambiente & Infraestrutura
-
-- **Debian 13** — Servidor / Host de serviços e testes
-- **Kali Linux** — Estação de análise, auditoria e segurança ofensiva
-- **Windows Server 2025** — Domain Controller (AD DS), DNS, GPO e gestão de identidades
-- **VirtualBox** — Plataforma de virtualização
-- **Rede interna isolada** (`10.10.10.0/24`)
-- **Ferramentas:** SSH, Nmap, Wireshark, Active Directory, GPO, nftables, PowerShell, Bash
-
-### Topologia Atual
+### Topologia atual
 
 ```text
-┌─────────────────────────────────────────────────────────┐
-│                 CYBERLAB - INTERNAL NET                 │
-│                     (10.10.10.0/24)                     │
-│                                                         │
-│  ┌──────────────────┐               ┌────────────────┐  │
-│  │   Kali Linux     │               │   Debian 13    │  │
-│  │   10.10.10.20/24 │               │ 10.10.10.30/24 │  │
-│  └────────┬─────────┘               └───────┬────────┘  │
-│           │                                 │           │
-│           └────────────────┬────────────────┘           │
-│                            │                            │
-│                  ┌─────────┴──────────┐                 │
-│                  │ Windows Server 2025│                 │
-│                  │   10.10.10.10/24   │                 │
-│                  │ (AD DS / DNS / GPO)│                 │
-│                  └────────────────────┘                 │
-└─────────────────────────────────────────────────────────┘
+                 CYBERLAB — INTERNAL NETWORK
+                    10.10.10.0/24
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+   Kali Linux          Debian 13       Windows Server 2025
+  10.10.10.20/24      10.10.10.30/24      10.10.10.10/24
+   Security Lab       Linux Services       AD DS / DNS / GPO
 ```
 
-O laboratório permite praticar enumeração, análise de serviços, controle de acessos (IAM/AD), segurança em Linux e Windows, e investigação de tráfego em rede híbrida sem afetar ambientes externos.
+| Host | IP | Função |
+|---|---|---|
+| Kali Linux | 10.10.10.20/24 | Análise e testes controlados |
+| Debian 13 | 10.10.10.30/24 | Serviços e administração Linux |
+| Windows Server 2025 | 10.10.10.10/24 | Active Directory, DNS e GPO |
 
-👉 [Documentação completa do CyberLab](./portfolio/cyberlab/README.md)
+> Todo o laboratório é próprio, virtualizado, isolado e destinado exclusivamente a testes autorizados.
 
----
-
-# 📁 Evidências
-
-As atividades práticas são acompanhadas por evidências técnicas sempre que aplicável.
-
-👉 [Abrir pasta de evidências](./evidence/)
-
-As evidências são utilizadas como parte do processo de validação do aprendizado, acompanhadas de contexto e documentação.
+**Documentação:** [CyberLab](./portfolio/cyberlab/README.md)
 
 ---
 
-# 🔬 Metodologia de Investigação
+## 🖼️ Evidências
 
-Ao longo do projeto, procuro evoluir de uma abordagem baseada apenas em comandos para uma abordagem baseada em **hipóteses e evidências**.
+As evidências visuais ficam centralizadas em [evidence/](./evidence/).
 
-Um modelo recorrente é:
+A organização atual mantém os arquivos existentes e adiciona índices por contexto, evitando renomeações indiscriminadas que poderiam quebrar referências.
+
+- [Índice de evidências](./evidence/README.md)
+- [Windows Server 2025 / Active Directory](./evidence/windows-server-2025/README.md)
+
+As capturas devem sempre estar acompanhadas de contexto: **objetivo, procedimento, resultado e conclusão**.
+
+---
+
+## 📄 Documentação
+
+A documentação complementar está em [docs/](./docs/).
+
+- [Índice de documentação](./docs/README.md)
+- Relatórios de incidentes e troubleshooting
+- Registros de atividades práticas
+- Procedimentos e anotações técnicas
+
+Sempre que possível, a documentação utiliza Markdown para facilitar navegação, versionamento e integração com evidências.
+
+---
+
+## 🗂️ Estrutura do repositório
+
+```text
+cybersecurity-roadmap/
+├── README.md
+├── week-01/ ... week-07/
+├── portfolio/
+│   ├── cyberlab/
+│   ├── network-analysis/
+│   ├── linux-security/
+│   └── account-security-hygiene/
+├── projects/
+│   ├── windows-server-2025/
+│   └── account-security-hygiene/
+├── evidence/
+│   └── windows-server-2025/
+└── docs/
+```
+
+### Regra de organização
+
+- **week-XX/** → documentação da jornada semanal.
+- **portfolio/** → apresentação profissional dos projetos.
+- **projects/** → documentação técnica completa dos projetos.
+- **evidence/** → provas visuais e técnicas.
+- **docs/** → documentação complementar, relatórios e registros.
+- Arquivos novos devem usar **nomes previsíveis, sem espaços e com hífens**.
+
+---
+
+## 🔎 Metodologia de investigação
+
+Durante os laboratórios, procuro seguir uma abordagem semelhante ao troubleshooting profissional:
 
 ```text
 Evento
-   ↓
+  ↓
 Evidência
-   ↓
+  ↓
 Hipótese
-   ↓
+  ↓
 Validação
-   ↓
+  ↓
 Correlação
-   ↓
+  ↓
 Conclusão
+  ↓
+Documentação
 ```
 
-Exemplo:
-
-```text
-IP
- ↓
-Porta
- ↓
-Socket
- ↓
-Processo
- ↓
-Serviço
- ↓
-Firewall
- ↓
-Tráfego
-```
-
-Essa forma de raciocínio aproxima os exercícios de situações reais de troubleshooting, análise e investigação de segurança.
+Isso aproxima o estudo de situações reais de suporte, operações e segurança.
 
 ---
 
-# 🧰 Ferramentas e Tecnologias
+## 🛠️ Competências em desenvolvimento
 
 ### Sistemas
-
 - Linux
 - Debian
 - Kali Linux
 - Windows
 - Windows Server
+- Active Directory
 
 ### Redes
-
 - TCP/IP
 - IPv4
 - ICMP
@@ -291,198 +204,80 @@ Essa forma de raciocínio aproxima os exercícios de situações reais de troubl
 - DNS
 - DHCP
 - ARP
-- MAC
 - Routing
 - Firewall
-
-### Segurança
-
 - Nmap
 - Wireshark
 - SSH
-- nftables
-- SIEM
-- Threat Intelligence
+
+### Segurança
+- Fundamentos de Cybersecurity
+- Hardening
+- IAM
+- MFA
+- Segurança de contas
+- Vulnerability Analysis
+- SOC / SIEM
 - Incident Response
 - DFIR
+- Threat Intelligence
 
-### Desenvolvimento e Automação
-
+### Automação
 - Python
 - Shell
+- PowerShell
 - Scripts de automação
 
 ### Infraestrutura
-
 - VirtualBox
-- Ambientes virtuais
+- Laboratórios virtualizados
 - Redes isoladas
 - CyberLab
 
 ---
 
-# 📚 Formação, Certificações & Cursos
+## 🎓 Formação e certificações
 
-## 🎓 Formação
-
-**Graduação:** Segurança da Informação
-
-## 🛡️ Cisco Networking Academy
-
-- Introduction to Cybersecurity
-- Endpoint Security
-- Network Defense
-- Cyber Threat Management
-- Trilha profissionalizante — Analista de Cibersegurança Júnior
-
-## 🎓 FIAP
-
-- Cyber Security
-- Cloud Fundamentals
-- Python Development
-- Linux Fundamentos
-
-## 🔴 Solyd
-
-- Introdução ao Hacking e Pentest 2.0
-
-## 🔵 DIO.me
-
-- Segurança e boas práticas em projetos feitos com Vibe Coding
-
-## 📋 Outros
-
+- Graduação em Segurança da Informação
+- Google Cybersecurity Professional Certificate
+- Cisco Networking Academy
+  - Introduction to Cybersecurity
+  - Endpoint Security
+  - Network Defense
+  - Cyber Threat Management
+  - Trilha profissionalizante — Analista de Cibersegurança Júnior
+- FIAP — Cyber Security
+- FIAP — Cloud Fundamentals
+- Solyd — Introdução ao Hacking e Pentest 2.0
+- DIO.me — Segurança e boas práticas em projetos feitos com Vibe Coding
 - ITIL 5 Foundation
 
 ---
 
-# 💼 Evolução Profissional
+## 🚀 Evolução profissional
 
-Minha trajetória parte da experiência em **Suporte N2**, onde troubleshooting, análise de problemas, sistemas operacionais, redes e atendimento técnico fazem parte da rotina.
+Minha trajetória parte de **Suporte N2**, onde desenvolvi experiência prática em:
 
-A jornada em Cibersegurança busca transformar essa experiência em uma nova perspectiva:
+- Troubleshooting;
+- análise de sistemas e redes;
+- investigação de incidentes;
+- atendimento técnico;
+- identificação de causas;
+- documentação de soluções.
 
-```text
-Suporte N2
-    ↓
-Troubleshooting
-    ↓
-Análise de sistemas e redes
-    ↓
-Fundamentos de Segurança
-    ↓
-Laboratórios práticos
-    ↓
-Investigação baseada em evidências
-    ↓
-Projetos de Cibersegurança
-    ↓
-SOC / Blue Team / Segurança da Informação
-```
+O Cybersecurity Roadmap amplia essa experiência para uma abordagem orientada à **Segurança da Informação**, com laboratórios, evidências e projetos reproduzíveis.
 
-O objetivo é demonstrar não apenas o que foi estudado, mas **como o conhecimento é aplicado para investigar, solucionar problemas e construir soluções de segurança**.
+> O objetivo não é demonstrar que já sei tudo. É demonstrar que sei **aprender, investigar, executar, resolver problemas e evoluir tecnicamente**.
 
 ---
 
-# 🗂️ Estrutura do Repositório
+## 🔗 Links
 
-```text
-cybersecurity-roadmap/
-│
-├── README.md                          # Visão geral do roadmap e do laboratório
-│
-├── portfolio/                         # Projetos selecionados para apresentação profissional
-│   ├── README.md
-│   ├── cyberlab/                      # Documentação completa da infraestrutura do lab
-│   ├── network-analysis/
-│   ├── linux-security/
-│   └── account-security-hygiene/
-│
-├── projects/                          # Projetos práticos e laboratórios dedicados
-│   └── windows-server-2025/           # Projeto de Windows Server 2025 & AD DS
-│
-├── week-01/
-├── week-02/
-├── week-03/
-├── week-04/
-├── week-05/
-├── week-06/                           # Active Directory & Windows Admin
-├── ...
-├── week-24/
-│
-├── evidence/                          # Capturas e provas técnicas das práticas
-├── resources/
-├── notes/
-└── docs/
-```
-
-### Organização
-
-- **README.md** → visão geral do projeto
-- **portfolio/** → projetos selecionados para apresentação profissional
-- **week-XX/** → documentação detalhada de cada semana
-- **projects/** → projetos práticos
-- **evidence/** → evidências dos laboratórios
-- **resources/** → materiais de referência
-- **notes/** → anotações técnicas
-- **docs/** → documentação complementar
+- **GitHub:** [@thiagoalphabsb](https://github.com/thiagoalphabsb)
+- **Cybersecurity Portfolio:** [cybersecurity-portfolio](https://github.com/thiagoalphabsb/cybersecurity-portfolio)
+- **LinkedIn:** [Thiago Souza Silva](https://www.linkedin.com/in/thiago-souza-silva-5607223aa/)
 
 ---
 
-# 🧠 Competências em Desenvolvimento
-
-Ao longo da jornada, o objetivo é consolidar competências em:
-
-- 🐧 Linux
-- 🪟 Windows
-- 🌐 Redes e TCP/IP
-- 🔍 Análise de tráfego
-- 🛡️ Fundamentos de Cybersecurity
-- 🔎 Vulnerability Analysis
-- 🧪 Pentest em laboratório
-- 🛡️ Blue Team
-- 🖥️ SOC
-- 📊 SIEM
-- 🚨 Incident Response
-- 🔬 DFIR
-- ☁️ Cloud Security
-- 🐍 Python
-- ⚙️ Automação
-- 📝 Documentação técnica
-- 🔎 Investigação baseada em evidências
-
----
-
-# 📈 Evolução
-
-Este repositório será atualizado continuamente durante a jornada, registrando:
-
-- problemas encontrados;
-- hipóteses levantadas;
-- comandos utilizados;
-- configurações;
-- resultados;
-- evidências;
-- aprendizados;
-- decisões técnicas;
-- projetos desenvolvidos.
-
-> **O objetivo não é demonstrar que sei tudo. É demonstrar que sei aprender, investigar, resolver problemas e evoluir tecnicamente.**
-
----
-
-# 🔗 Contato & Links
-
-**GitHub:** [@thiagoalphabsb](https://github.com/thiagoalphabsb)
-
-**Cybersecurity Roadmap:** [github.com/thiagoalphabsb/cybersecurity-roadmap](https://github.com/thiagoalphabsb/cybersecurity-roadmap)
-
-**Cybersecurity Portfolio:** [./portfolio/README.md](./portfolio/README.md)
-
-**LinkedIn:** [linkedin.com/in/thiago-souza-silva-5607223aa](https://www.linkedin.com/in/thiago-souza-silva-5607223aa/)
-
----
-
-> **“O objetivo não é apenas aprender Cibersegurança. É construir evidências de que consigo aplicar o conhecimento.”**
-
-**Desenvolvido por Thiago S. Silva**
+> **Desenvolvido por Thiago S. Silva**  
+> Cybersecurity Roadmap — Brasília, DF, Brasil
