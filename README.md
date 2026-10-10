@@ -11,6 +11,7 @@
 Este repositório documenta minha jornada de desenvolvimento de competências em Cibersegurança, com foco em transformar conhecimento teórico em capacidade prática.
 A proposta não é apenas consumir cursos. É seguir um ciclo contínuo:
 Estudar → Executar → Investigar → Registrar evidências → Documentar → Refletir → Repetir
+
 A experiência anterior em Suporte N2 faz parte dessa evolução: troubleshooting, análise de problemas, atendimento técnico e resolução de incidentes são utilizados como base para desenvolver uma visão cada vez mais orientada à segurança.
 
 ---
