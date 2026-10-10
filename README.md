@@ -6,7 +6,8 @@
 
 ---
 
-🎯 Sobre o Projeto
+## 🎯 Sobre o Projeto
+
 Este repositório documenta minha jornada de desenvolvimento de competências em Cibersegurança, com foco em transformar conhecimento teórico em capacidade prática.
 A proposta não é apenas consumir cursos. É seguir um ciclo contínuo:
 Estudar → Executar → Investigar → Registrar evidências → Documentar → Refletir → Repetir
@@ -68,8 +69,10 @@ A experiência anterior em Suporte N2 faz parte dessa evolução: troubleshootin
 | 🔐 Account Security Hygiene | MFA, credenciais, sessões, IAM e redução de risco | [Abrir projeto](./projects/account-security-hygiene/README.md) |
 
 ---
-🗺️ Roadmap
-🧱 Fase 1 — Fundamentos
+## 🗺️ Roadmap
+
+## 🧱 Fase 1 — Fundamentos
+
 Semanas 01–04
 Fundamentos de computação
 Hardware e sistemas operacionais
@@ -79,7 +82,8 @@ Linux e redes
 Objetivo
 Construir uma base sólida antes de avançar para temas específicos de segurança.
 ---
-🏢 Fase 2 — Sistemas e Infraestrutura
+## 🏢 Fase 2 — Sistemas e Infraestrutura
+
 Semanas 05–08
 Windows e Active Directory
 Usuários, permissões e GPO
@@ -90,7 +94,8 @@ Segurança de redes
 Objetivo
 Entender como ambientes corporativos funcionam e onde estão seus principais pontos de controle e exposição.
 ---
-🔎 Fase 3 — Segurança Ofensiva
+## 🔎 Fase 3 — Segurança Ofensiva
+
 Semanas 09–12
 Wireshark e reconhecimento
 Vulnerabilidades
@@ -101,7 +106,8 @@ Objetivo
 Compreender técnicas ofensivas para desenvolver capacidade de identificação, análise e defesa.
 > ⚠️ Todos os testes são realizados exclusivamente em ambientes próprios, autorizados e isolados.
 ---
-🛡️ Fase 4 — Blue Team / SOC
+## 🛡️ Fase 4 — Blue Team / SOC
+
 Semanas 13–18
 SOC
 SIEM
@@ -114,7 +120,8 @@ Malware Analysis
 Objetivo
 Desenvolver habilidades de detecção, investigação, análise e resposta a incidentes.
 ---
-☁️ Fase 5 — Cloud & Automação
+## ☁️ Fase 5 — Cloud & Automação
+
 Semanas 19–21
 Cloud Fundamentals
 Cloud Security
@@ -125,7 +132,8 @@ Automação de tarefas de segurança
 Objetivo
 Aplicar conceitos de segurança em ambientes modernos e automatizar tarefas repetitivas.
 ---
-🚀 Fase 6 — Projetos & Portfólio
+## 🚀 Fase 6 — Projetos & Portfólio
+
 Semanas 22–24
 Projetos práticos
 Projeto final
