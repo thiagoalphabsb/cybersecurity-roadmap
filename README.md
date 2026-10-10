@@ -82,7 +82,7 @@ Semanas 01–04
 - Processos, memória e armazenamento
 - Virtualização
 - Linux e redes
-  
+
 Objetivo
 Construir uma base sólida antes de avançar para temas específicos de segurança.
 ---
