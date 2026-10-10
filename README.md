@@ -6,13 +6,11 @@
 
 ---
 
-## 👋 Sobre o projeto
-
-Este repositório documenta minha evolução prática em **Cibersegurança**, transformando conhecimento teórico em capacidade técnica reproduzível.
-
-Minha experiência em **Suporte N2** é parte importante dessa evolução: troubleshooting, análise de sistemas e redes, atendimento técnico e investigação de incidentes formam a base do raciocínio que estou levando para Segurança da Informação.
-
-O objetivo é construir evidências de que consigo **aplicar conhecimento, investigar problemas e documentar soluções**.
+🎯 Sobre o Projeto
+Este repositório documenta minha jornada de desenvolvimento de competências em Cibersegurança, com foco em transformar conhecimento teórico em capacidade prática.
+A proposta não é apenas consumir cursos. É seguir um ciclo contínuo:
+Estudar → Executar → Investigar → Registrar evidências → Documentar → Refletir → Repetir
+A experiência anterior em Suporte N2 faz parte dessa evolução: troubleshooting, análise de problemas, atendimento técnico e resolução de incidentes são utilizados como base para desenvolver uma visão cada vez mais orientada à segurança.
 
 ---
 
@@ -70,7 +68,74 @@ O objetivo é construir evidências de que consigo **aplicar conhecimento, inves
 | 🔐 Account Security Hygiene | MFA, credenciais, sessões, IAM e redução de risco | [Abrir projeto](./projects/account-security-hygiene/README.md) |
 
 ---
-
+🗺️ Roadmap
+🧱 Fase 1 — Fundamentos
+Semanas 01–04
+Fundamentos de computação
+Hardware e sistemas operacionais
+Processos, memória e armazenamento
+Virtualização
+Linux e redes
+Objetivo
+Construir uma base sólida antes de avançar para temas específicos de segurança.
+---
+🏢 Fase 2 — Sistemas e Infraestrutura
+Semanas 05–08
+Windows e Active Directory
+Usuários, permissões e GPO
+Serviços de rede
+DNS, DHCP e Firewall
+Python
+Segurança de redes
+Objetivo
+Entender como ambientes corporativos funcionam e onde estão seus principais pontos de controle e exposição.
+---
+🔎 Fase 3 — Segurança Ofensiva
+Semanas 09–12
+Wireshark e reconhecimento
+Vulnerabilidades
+Web Security
+SQL Injection e XSS
+Pentest e exploração controlada
+Objetivo
+Compreender técnicas ofensivas para desenvolver capacidade de identificação, análise e defesa.
+> ⚠️ Todos os testes são realizados exclusivamente em ambientes próprios, autorizados e isolados.
+---
+🛡️ Fase 4 — Blue Team / SOC
+Semanas 13–18
+SOC
+SIEM
+Análise de logs
+Monitoramento
+Threat Intelligence
+Incident Response
+DFIR
+Malware Analysis
+Objetivo
+Desenvolver habilidades de detecção, investigação, análise e resposta a incidentes.
+---
+☁️ Fase 5 — Cloud & Automação
+Semanas 19–21
+Cloud Fundamentals
+Cloud Security
+IAM
+Segurança de workloads
+Python
+Automação de tarefas de segurança
+Objetivo
+Aplicar conceitos de segurança em ambientes modernos e automatizar tarefas repetitivas.
+---
+🚀 Fase 6 — Projetos & Portfólio
+Semanas 22–24
+Projetos práticos
+Projeto final
+Documentação
+Revisão técnica
+Organização do GitHub
+Consolidação do portfólio profissional
+Objetivo
+Transformar o conhecimento acumulado durante a jornada em projetos demonstráveis.
+---
 ## 🧪 CyberLab
 
 Ambiente virtual utilizado nos exercícios práticos.
