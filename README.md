@@ -76,34 +76,40 @@ A experiência anterior em Suporte N2 faz parte dessa evolução: troubleshootin
 ## 🧱 Fase 1 — Fundamentos
 
 Semanas 01–04
-Fundamentos de computação
-Hardware e sistemas operacionais
-Processos, memória e armazenamento
-Virtualização
-Linux e redes
+
+- Fundamentos de computação
+- Hardware e sistemas operacionais
+- Processos, memória e armazenamento
+- Virtualização
+- Linux e redes
+  
 Objetivo
 Construir uma base sólida antes de avançar para temas específicos de segurança.
 ---
 ## 🏢 Fase 2 — Sistemas e Infraestrutura
 
 Semanas 05–08
-Windows e Active Directory
-Usuários, permissões e GPO
-Serviços de rede
-DNS, DHCP e Firewall
-Python
-Segurança de redes
+
+- Windows e Active Directory
+- Usuários, permissões e GPO
+- Serviços de rede
+- DNS, DHCP e Firewall
+- Python
+- Segurança de redes
+
 Objetivo
 Entender como ambientes corporativos funcionam e onde estão seus principais pontos de controle e exposição.
 ---
 ## 🔎 Fase 3 — Segurança Ofensiva
 
 Semanas 09–12
-Wireshark e reconhecimento
-Vulnerabilidades
-Web Security
-SQL Injection e XSS
-Pentest e exploração controlada
+
+- Wireshark e reconhecimento
+- Vulnerabilidades
+- Web Security
+- SQL Injection e XSS
+- Pentest e exploração controlada
+
 Objetivo
 Compreender técnicas ofensivas para desenvolver capacidade de identificação, análise e defesa.
 > ⚠️ Todos os testes são realizados exclusivamente em ambientes próprios, autorizados e isolados.
@@ -111,38 +117,43 @@ Compreender técnicas ofensivas para desenvolver capacidade de identificação, 
 ## 🛡️ Fase 4 — Blue Team / SOC
 
 Semanas 13–18
-SOC
-SIEM
-Análise de logs
-Monitoramento
-Threat Intelligence
-Incident Response
-DFIR
-Malware Analysis
-Objetivo
-Desenvolver habilidades de detecção, investigação, análise e resposta a incidentes.
+
+- SOC
+- SIEM
+- Análise de logs
+- Monitoramento
+- Threat Intelligence
+- Incident Response
+- DFIR
+- Malware Analysis
+- Objetivo
+- Desenvolver habilidades de detecção, investigação, análise e resposta a incidentes.
 ---
 ## ☁️ Fase 5 — Cloud & Automação
 
 Semanas 19–21
-Cloud Fundamentals
-Cloud Security
-IAM
-Segurança de workloads
-Python
-Automação de tarefas de segurança
+
+- Cloud Fundamentals
+- Cloud Security
+- IAM
+- Segurança de workloads
+- Python
+- Automação de tarefas de segurança
+
 Objetivo
 Aplicar conceitos de segurança em ambientes modernos e automatizar tarefas repetitivas.
 ---
 ## 🚀 Fase 6 — Projetos & Portfólio
 
 Semanas 22–24
-Projetos práticos
-Projeto final
-Documentação
-Revisão técnica
-Organização do GitHub
-Consolidação do portfólio profissional
+
+- Projetos práticos
+- Projeto final
+- Documentação
+- Revisão técnica
+- Organização do GitHub
+- Consolidação do portfólio profissional
+
 Objetivo
 Transformar o conhecimento acumulado durante a jornada em projetos demonstráveis.
 ---
@@ -179,14 +190,6 @@ Ambiente virtual utilizado nos exercícios práticos.
 - [Evidências Windows Server 2025 / Active Directory](./evidence/windows-server-2025/README.md)
 - [Documentação complementar](./docs/README.md)
 - [Anotações técnicas](./notes/)
-
----
-
-## 🗂️ Projetos
-
-- [Índice de projetos](./projects/README.md)
-- [Windows Server 2025](./projects/windows-server-2025/README.md)
-- [Account Security Hygiene](./projects/account-security-hygiene/README.md)
 
 ---
 
