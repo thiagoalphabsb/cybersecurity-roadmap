@@ -174,7 +174,7 @@ dcdiag
 ## 📸 Evidências Práticas (Screenshots)
 
 ### 1. Automação de GPO e Configuração de Auditoria via PowerShell
-![Configuração de GPO e Auditoria no Windows Server 2025](./assets/10-day05-GPO-WSB.png)
+![Configuração de GPO e Auditoria no Windows Server 2025](https://github.com/thiagoalphabsb/cybersecurity-portfolio/blob/main/assets/10-day05-GPO-WSB.png)
 
 * **O que a imagem demonstra:** 
   - Criação da GPO `GPO-Workstations-Security-Baseline` e vinculação direta à OU `OU=Workstations,OU=CorpDevices,DC=corp,DC=thiago,DC=lab` (`Enabled: True`).
@@ -182,7 +182,7 @@ dcdiag
   - Atualização forçada das políticas de grupo no domínio via `gpupdate /force`.
 * **Resultado Validado:** A infraestrutura de diretivas do domínio está ativa e pronta para gerar registos de auditoria detalhados no Event Viewer para monitorização de eventos de segurança.
 
-> 📁 **Repositório de Mídia Completo:** [Ver todas as capturas em `/assets`](./assets/) ou consultar a pasta de evidências do [Cybersecurity Roadmap](https://github.com/thiagoalphabsb/Cybersecurity-Roadmap/tree/main/evidence/windows-server-2025).
+> 📁 **Repositório de Mídia Completo:** [Ver todas as capturas em pasta de evidências do [Cybersecurity Roadmap](https://github.com/thiagoalphabsb/Cybersecurity-Roadmap/tree/main/evidence/windows-server-2025).
 
 ---
 
