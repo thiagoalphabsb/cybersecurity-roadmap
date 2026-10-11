@@ -22,7 +22,7 @@ Profissional em transição de carreira de **Suporte Local N2** para **Análise 
 
 | Windows Server 2025 & Active Directory | Análise de Tráfego com Wireshark |
 | :---: | :---: |
-| ![GPO Windows Server](./assets/10-day05-GPO-WSB.png) <br><sub>*Criação de GPO `GPO-Workstations-Security-Baseline`, vínculo na OU e configuração de auditoria via PowerShell*</sub> | ![Análise Wireshark SSH](./assets/week04-day02-wireshark3way.png) <br><sub>*Captura e inspeção de pacotes SSH (`tcp.port == 22`) entre Kali e Debian no Wireshark*</sub> |
+| ![GPO Windows Server](https://github.com/thiagoalphabsb/cybersecurity-portfolio/blob/main/assets/10-day05-GPO-WSB.png) <br><sub>*Criação de GPO `GPO-Workstations-Security-Baseline`, vínculo na OU e configuração de auditoria via PowerShell*</sub> | ![Análise Wireshark SSH](https://github.com/thiagoalphabsb/cybersecurity-portfolio/blob/main/assets/week04-day02-wireshark3way.png) <br><sub>*Captura e inspeção de pacotes SSH (`tcp.port == 22`) entre Kali e Debian no Wireshark*</sub> |
 
 ---
 
