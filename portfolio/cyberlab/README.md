@@ -31,7 +31,7 @@ Windows Server 2025              Debian Linux                     Kali Linux
   * **IP:** `10.10.10.10/24`
   * **Serviços:** Active Directory, DNS, Kerberos, GPO, PowerShell
 
-* **CyberLab-Debian** | `Debian Linux 12`
+* **CyberLab-Debian** | `Debian Linux 13`
   * **Função:** Servidor Target / Testes de Aplicação
   * **IP:** `10.10.10.10/24`
   * **Serviços:** SSH (Porta 22), Firewall (`iptables`/`ufw`), Syslog
