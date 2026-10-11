@@ -51,22 +51,19 @@ chmod 640 evidencia.txt
 ```
 
 ### Passo 2: Auditoria de Privilégios e Inspeção do Sudoers
-
 Identificação de permissões do usuário atual e verificação dos arquivos de configuração administrativa do sistema:
 
-```bash
-# Identificar usuário atual, UID/GID e grupos associados
+- Identificar usuário atual, UID/GID e grupos associados
 whoami
 id
 
-# Listar privilégios sudo permitidos para a conta
+- Listar privilégios sudo permitidos para a conta
 sudo -l
 
-# Inspecionar arquivos de configuração do sudoers
+- Inspecionar arquivos de configuração do sudoers
 ls -l /etc/sudoers
 ls -l /etc/sudoers.d/
 
-```
 
 ### Passo 3: Análise de Processos, Serviços e Logs de Autenticação
 
