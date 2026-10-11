@@ -1,4 +1,4 @@
-# 🧪 Laboratório: 🐧 Linux Security Fundamentals (Semana 03)
+# 🐧 Linux Security Fundamentals (Semana 03)
 
 > **Módulo / Categoria:** Administração de Sistemas & Segurança Defensiva (Linux)  
 > **Data de Execução:** 15/09/2026  
