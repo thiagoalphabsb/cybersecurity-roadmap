@@ -1,208 +1,69 @@
-# 🖥️ Windows Server 2025 — CyberLab Infrastructure
+# 📁 Projetos & Laboratórios Práticos — Cybersecurity Roadmap
 
-> Laboratório prático de implementação e administração do Windows Server 2025, utilizado como base para estudos de Active Directory, gestão de identidades, endpoints e segurança defensiva.
-
----
-
-## 🎯 Objetivo
-
-Implementar uma infraestrutura Windows Server 2025 virtualizada para simular um ambiente corporativo e servir como base para estudos práticos de Active Directory e Cybersecurity.
-
-O laboratório foi construído utilizando Oracle VirtualBox em uma rede isolada para permitir experimentação e testes de segurança sem riscos.
+> Repositório central de projetos defensivos, investigações técnicas, análises de infraestrutura e laboratórios práticos desenvolvidos durante a execução do **Cybersecurity Roadmap (24 Semanas)**.
 
 ---
 
-## 🧪 Ambiente
+## 🧭 Visão Geral & Organização
 
-| Componente | Configuração |
-|---|---|
-| **Hypervisor** | Oracle VirtualBox |
-| **Sistema Operacional** | Windows Server 2025 |
-| **Hostname** | DC01 |
-| **Função** | Domain Controller (DC) |
-| **Domínio** | corp.thiago.lab |
-| **NetBIOS** | THIAGO |
-| **Endereço IP** | 10.10.10.10/24 |
-| **DNS Server** | 10.10.10.10 |
-| **Nível Funcional** | Windows2025Forest |
-| **Serviços Ativos** | AD DS, DNS Server, Global Catalog, Kerberos |
-
----
-
-## 🌐 Topologia
+Cada subpasta dentro deste diretório representa um laboratório de aplicação técnica estruturado com metodologia defensiva, documentação reproduzível, procedimentos e evidências visuais.
 
 ```text
-                    CyberLab Network
-                           │
-                 Isolated Virtual Switch
-                           │
-             ┌─────────────┴─────────────┐
-             │                           │
-          DC01                        Kali Linux
-      Windows Server                 10.10.10.20
-        10.10.10.10                      (Attacker / Tester)
-             │
-             ├── Active Directory DS
-             ├── DNS Server
-             ├── Kerberos Auth
-             ├── Global Catalog
-             └── Group Policy (GPO)
-
+projects/
+├── 🟢 Concluídos        --> CyberLab, Windows Server 2025, Account Security Hygiene
+├── 🟡 Em Andamento      --> Network Assessment, Linux Troubleshooting
+└── 🔴 Planejados (SOC)  --> SOC Investigation, DFIR, Web Security, Capstone
 ```
 
 ---
 
-## 🚀 Implementação
+## 🛠️ Status dos Projetos
 
-### 1. Criação da Máquina Virtual
+### 🟢 Concluídos (Validados & Documentados)
 
-* Dimensionamento de CPU e RAM otimizado para o ambiente de laboratório;
-* Disco rígido virtual alocado dinamicamente;
-* Adaptadores de rede configurados na rede interna isolada do CyberLab;
-* Isolamento total da rede de produção.
-
-### 2. Instalação e Pós-Instalação do Windows Server 2025
-
-* Definição do hostname padronizado (`DC01`);
-* Atribuição de endereço IP estático e configuração do DNS local;
-* Validação de conectividade interna via PowerShell (`Get-NetIPConfiguration`).
-
-### 3. Promoção a Domain Controller (AD DS)
-
-* Instalação da role **Active Directory Domain Services** via Server Manager;
-* Promoção do servidor a Controller de Domínio e criação da nova floresta `corp.thiago.lab`.
+| Projeto / Subpasta | Domínio Técnico | Descrição & Entregas Principais | Link do Projeto |
+| :--- | :--- | :--- | :---: |
+| **`cyberlab`** | Infraestrutura & Redes | Laboratório virtual isolado híbrido (Linux/Windows) para testes de conectividade, captura de tráfego e análise de serviços. | [Acessar](./cyberlab) |
+| **`windows-server-2025`** | AD DS, GPO & IAM | Provisionamento de Domain Controller (`DC01`), estrutura de OUs, modelo de acessos e aplicação de GPO de baseline e auditoria. | [Acessar](./windows-server-2025) |
+| **`account-security-hygiene`** | IAM & Gestão de Riscos | Framework de higiene cibernética cobrindo autenticação multifator (MFA), auditoria de credenciais e matriz de risco. | [Acessar](./account-security-hygiene) |
 
 ---
 
-## 🏢 Estrutura Organizacional (OUs)
+### 🟡 Em Andamento (Fase de Execução & Documentação)
 
-```text
-corp.thiago.lab
-│
-├── Empresa
-│   ├── Users
-│   │   ├── Security
-│   │   ├── IT
-│   │   └── Helpdesk
-│   │
-│   └── ...
-│
-├── CorpDevices
-│   ├── Workstations
-│   └── Servers
-│
-├── Groups
-└── Admins
+| Projeto / Subpasta | Domínio Técnico | Foco de Estudo & Objetivos | Link do Projeto |
+| :--- | :--- | :--- | :---: |
+| **`network-assessment`** | Análise de Redes & PCAP | Inspeção profunda de pacotes via Wireshark, análise de handshakes TCP/IP, protocolos (DNS/ARP/SSH) e varreduras com Nmap. | [Acessar](./network-assessment) |
+| **`linux-troubleshooting`** | Admin Linux & Hardening | Investigação de falhas em ambiente Debian/Kali, análise de processos, permissões, logs do sistema e regras de firewall (`iptables`/`ufw`). | [Acessar](./linux-troubleshooting) |
 
+---
+
+### 🔴 Planejados / Próximas Entregas (Futuros Módulos do Roadmap)
+
+| Projeto / Subpasta | Domínio Técnico | Escopo do Projeto & Entregas Esperadas | Link do Projeto |
+| :--- | :--- | :--- | :---: |
+| **`soc-investigation`** | Operações SOC & SIEM | Análise e triagem de alertas de segurança, correlação de logs de Event Viewer/Sysmon e construção de linha do tempo de incidentes. | [Acessar](./soc-investigation) |
+| **`web-security`** | Segurança Web & APIs | Análise defensiva de mecanismos de autenticação, proteção contra vulnerabilidades web (OWASP Top 10) e sanitização de dados. | [Acessar](./web-security) |
+| **`dfir`** | Resposta a Incidentes | Coleta e preservação de evidências digitais, análise forense inicial de memória/disco e investigação de IoCs. | [Acessar](./dfir) |
+| **`capstone`** | Projeto Integrador Final | Simulação completa de ataque e defesa (*End-to-End*) consolidando todas as competências do roadmap de 24 semanas. | [Acessar](./capstone) |
+
+---
+
+## 📄 Padronização dos Laboratórios
+
+Todos os projetos deste repositório seguem a estrutura padronizada de documentação:
+
+```markdown
+1. 🎯 Objetivo & Escopo do Laboratório
+2. 🖥️ Ambiente & Ferramentas (VMs, IPs, Softwares)
+3. 🛠️ Procedimento & Comandos Executados
+4. 📸 Evidências Visuais (Screenshots com legendas técnicas)
+5. 🔍 Conclusões & Aplicação em Cenário Real (SOC / Blue Team)
 ```
 
 ---
 
-## 👥 Identidade e Acesso (IAM)
+## 🔗 Navegação do Repositório
 
-Criação de contas e grupos padronizados aplicando o modelo **Identity → Group → Role → Access**:
-
-| Usuário | Função | Grupo de Segurança |
-| --- | --- | --- |
-| Ana Silva | Security Analyst | `GG-SOC-Analysts` |
-| Carlos Souza | IT Support | `GG-IT-Support` |
-| João Santos | Helpdesk | `GG-Helpdesk` |
-
----
-
-## 🔐 Group Policy (GPO) & Baseline de Segurança
-
-Implementação de políticas centralizadas de segurança em `GPO-Workstations-Security-Baseline`:
-
-* Regras de complexidade e tamanho mínimo de senha;
-* Política de expiração e reuso de credenciais;
-* Bloqueio automático de conta (*Account Lockout Threshold*) após tentativas inválidas.
-
----
-
-## 🛡️ Segurança, Auditoria e Investigação de Eventos
-
-Análise e monitoramento dos logs de auditoria do Windows Event Viewer relacionados à autenticação e credenciais:
-
-| Event ID | Descrição Técnica |
-| --- | --- |
-| **4624** | Logon realizado com sucesso |
-| **4625** | Falha de autenticação (potencial brute force / password spraying) |
-| **4648** | Logon utilizando credenciais explícitas (`runas`) |
-| **4672** | Privilégios especiais atribuídos a novo logon |
-| **4720** | Novo usuário criado |
-| **4725** | Conta de usuário desabilitada |
-| **4728** | Usuário adicionado a grupo de segurança |
-| **4740** | Conta de usuário bloqueada |
-
-### Exemplo de Consulta de Auditoria via PowerShell:
-
-```powershell
-Get-WinEvent -FilterHashtable @{
-    LogName = 'Security'
-    Id      = 4625
-} -MaxEvents 10
-
-```
-
----
-
-## 🔎 Validação e Diagnóstico do Ambiente
-
-Comandos executados para validação dos serviços essenciais do Active Directory:
-
-```powershell
-Get-ADDomain
-Get-ADForest
-Get-ADDomainController
-Get-Service NTDS, DNS, Netlogon, KDC
-dcdiag
-
-```
-
----
-
-## 🧠 Competências Desenvolvidas
-
-* **Windows Server 2025 & AD DS:** Instalação, promoção de DC, topologia de floresta e domínio;
-* **Gestão de Identidades (IAM):** Estruturação de OUs, grupos de segurança e Least Privilege;
-* **Segurança Operacional:** Definição de baselines de GPO e auditoria de logs de segurança;
-* **PowerShell:** Diagnóstico de AD DS e filtragem de eventos de segurança.
-
----
-
-## 📸 Evidências Práticas (Screenshots)
-
-### 1. Automação de GPO e Configuração de Auditoria via PowerShell
-![Configuração de GPO e Auditoria no Windows Server 2025](https://github.com/thiagoalphabsb/cybersecurity-portfolio/blob/main/assets/10-day05-GPO-WSB.png)
-
-* **O que a imagem demonstra:** 
-  - Criação da GPO `GPO-Workstations-Security-Baseline` e vinculação direta à OU `OU=Workstations,OU=CorpDevices,DC=corp,DC=thiago,DC=lab` (`Enabled: True`).
-  - Habilitação das diretivas de auditoria local (`auditpol`) para *Logon*, *User Account Management* e *Security Group Management* (`success:enable / failure:enable`).
-  - Atualização forçada das políticas de grupo no domínio via `gpupdate /force`.
-* **Resultado Validado:** A infraestrutura de diretivas do domínio está ativa e pronta para gerar registos de auditoria detalhados no Event Viewer para monitorização de eventos de segurança.
-
-> 📁 **Repositório de Mídia Completo:** [Ver todas as capturas em pasta de evidências do [Cybersecurity Roadmap](https://github.com/thiagoalphabsb/Cybersecurity-Roadmap/tree/main/evidence/windows-server-2025).
-
----
-
-## 🔍 Conclusões & Aprendizados
-
-* **Resultado Obtido:** O Controlador de Domínio foi provisionado com sucesso no Windows Server 2025, estabelecendo a base de IAM (OUs, Usuários e Grupos) e aplicando uma baseline defensiva de GPO e auditoria local.
-* **Desafios Resolvidos:** Garantir a sintaxe correta das subcategorias no `auditpol` via PowerShell para alinhar o registo de eventos locais com as políticas globais do Active Directory sem gerar sobreposição de logs.
-* **Aplicação Profissional (SOC / Blue Team):** A estruturação correta de OUs aliada à auditoria de eventos de autenticação (Event IDs 4624, 4625 e 4740) fornece a visibilidade necessária para identificar ataques de força bruta, passagem de credenciais e alterações não autorizadas em contas de privilégio.
-
----
-
-## 🔗 Projetos e Links Relacionados
-
-* 🛣️ **Cybersecurity Roadmap:** [Acessar a Documentação do Roadmap (24 Semanas)](https://github.com/thiagoalphabsb/Cybersecurity-Roadmap)
-* 🛡️ **Cybersecurity Portfolio:** [Acessar o Portfólio Principal no GitHub](https://github.com/thiagoalphabsb/Cybersecurity-Portfolio)
-* 🔑 **Account Security Hygiene:** [Ver Projeto de Higiene de Identidades e Contas](https://github.com/thiagoalphabsb/account-security-hygiene)
-
----
-
-### Status do Projeto
-
-**Status:** ✅ Concluído  
-**Ambiente:** CyberLab (Infraestrutura Virtualizada Isolada)
+- 🛣️ [Voltar para a Raiz do Cybersecurity Roadmap](https://github.com/thiagoalphabsb/cybersecurity-roadmap)
+- 🛡️ [Acessar o Portfólio Principal no GitHub](https://github.com/thiagoalphabsb/Cybersecurity-Portfolio)
