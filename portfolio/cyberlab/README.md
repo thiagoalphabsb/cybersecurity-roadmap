@@ -60,7 +60,7 @@ Windows Server 2025              Debian Linux                     Kali Linux
   ```bash
   nmap -sV -p 22 10.10.10.10
 
-  Correlação Técnica: Análise da pilha de rede: `IP` → `Porta` → `Socket` → `Serviço` → `Processo`.
+* **Correlação Técnica:** Análise da pilha de rede: IP → Porta → Socket → Serviço → Processo
   
 * **Análise de Pacotes:** Captura e inspeção do estabelecimento de sessão SSH e negociação de chaves via Wireshark (`tcp.port == 22`).
 
@@ -74,9 +74,11 @@ Windows Server 2025              Debian Linux                     Kali Linux
 
 ---
 
-📸 Evidências Práticas
+## 📸 Evidências Práticas
+
 Análise de Tráfego com Wireshark	Configuração de GPO & Auditoria no AD
-![Análise Wireshark SSH](./assets/week04-day02-wireshark3way.jpg) <br><sub>Captura e inspeção de pacotes SSH (`tcp.port == 22`) entre Kali e Debian</sub>	![GPO Windows Server](./assets/10-day05-GPO-WSB.png) <br><sub>Criação de GPO `GPO-Workstations-Security-Baseline` e comandos `auditpol` via PowerShell</sub>
+![Análise Wireshark SSH](https://github.com/thiagoalphabsb/cybersecurity-portfolio/blob/main/assets/week04-day02-wireshark3way.png) <br><sub>Captura e inspeção de pacotes SSH (`tcp.port == 22`) entre Kali e Debian</sub>	![GPO Windows Server](https://github.com/thiagoalphabsb/cybersecurity-portfolio/blob/main/assets/10-day05-GPO-WSB.png) <br><sub>Criação de GPO `GPO-Workstations-Security-Baseline` e comandos `auditpol` via PowerShell</sub>
+
 > 📁 **Acesse a pasta de evidências completas:** [Ver diretório de evidências](../../evidence/windows-server-2025)
 
 ---
@@ -107,7 +109,8 @@ Análise de Tráfego com Wireshark	Configuração de GPO & Auditoria no AD
 
 ---
 
-🔗 Links Relacionados
-🛣️ Cybersecurity Roadmap (24 Semanas)
-🛡️ Cybersecurity Portfolio Principal
-🖥️ Laboratório Específico de Active Directory
+## 🔗 Links Relacionados
+
+- 🛣️ [Cybersecurity Roadmap (24 Semanas)](https://github.com/thiagoalphabsb/Cybersecurity-Roadmap)
+- 🛡️ [Cybersecurity Portfolio Principal](https://github.com/thiagoalphabsb/Cybersecurity-Portfolio)
+- 🖥️ [Laboratório Específico de Active Directory](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/projects/windows-server-2025)
