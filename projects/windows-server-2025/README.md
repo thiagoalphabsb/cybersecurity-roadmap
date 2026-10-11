@@ -171,16 +171,38 @@ dcdiag
 
 ---
 
-## 📸 Evidências Técnicas e Documentação
+## 📸 Evidências Práticas (Screenshots)
 
-- 📸 **Evidências Visuais:** [Acessar evidências no GitHub (evidence/windows-server-2025)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/windows-server-2025)
-- 📚 **Documentação Completa da Semana:** [Acessar documentação da Week 06 (week-06)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/week-06)
+### 1. Automação de GPO e Configuração de Auditoria via PowerShell
+![Configuração de GPO e Auditoria no Windows Server 2025](./assets/10-day05-GPO-WSB.png)
+
+* **O que a imagem demonstra:** 
+  - Criação da GPO `GPO-Workstations-Security-Baseline` e vinculação direta à OU `OU=Workstations,OU=CorpDevices,DC=corp,DC=thiago,DC=lab` (`Enabled: True`).
+  - Habilitação das diretivas de auditoria local (`auditpol`) para *Logon*, *User Account Management* e *Security Group Management* (`success:enable / failure:enable`).
+  - Atualização forçada das políticas de grupo no domínio via `gpupdate /force`.
+* **Resultado Validado:** A infraestrutura de diretivas do domínio está ativa e pronta para gerar registos de auditoria detalhados no Event Viewer para monitorização de eventos de segurança.
+
+> 📁 **Repositório de Mídia Completo:** [Ver todas as capturas em `/assets`](./assets/) ou consultar a pasta de evidências do [Cybersecurity Roadmap](https://github.com/thiagoalphabsb/Cybersecurity-Roadmap/tree/main/evidence/windows-server-2025).
+
+---
+
+## 🔍 Conclusões & Aprendizados
+
+* **Resultado Obtido:** O Controlador de Domínio foi provisionado com sucesso no Windows Server 2025, estabelecendo a base de IAM (OUs, Usuários e Grupos) e aplicando uma baseline defensiva de GPO e auditoria local.
+* **Desafios Resolvidos:** Garantir a sintaxe correta das subcategorias no `auditpol` via PowerShell para alinhar o registo de eventos locais com as políticas globais do Active Directory sem gerar sobreposição de logs.
+* **Aplicação Profissional (SOC / Blue Team):** A estruturação correta de OUs aliada à auditoria de eventos de autenticação (Event IDs 4624, 4625 e 4740) fornece a visibilidade necessária para identificar ataques de força bruta, passagem de credenciais e alterações não autorizadas em contas de privilégio.
+
+---
+
+## 🔗 Projetos e Links Relacionados
+
+* 🛣️ **Cybersecurity Roadmap:** [Acessar a Documentação do Roadmap (24 Semanas)](https://github.com/thiagoalphabsb/Cybersecurity-Roadmap)
+* 🛡️ **Cybersecurity Portfolio:** [Acessar o Portfólio Principal no GitHub](https://github.com/thiagoalphabsb/Cybersecurity-Portfolio)
+* 🔑 **Account Security Hygiene:** [Ver Projeto de Higiene de Identidades e Contas](https://github.com/thiagoalphabsb/account-security-hygiene)
+
 ---
 
 ### Status do Projeto
 
-**Status:** ✅ Concluído
-
-**Ambiente:** CyberLab (Infraestrutura Híbrida)
-
-```
+**Status:** ✅ Concluído  
+**Ambiente:** CyberLab (Infraestrutura Virtualizada Isolada)
