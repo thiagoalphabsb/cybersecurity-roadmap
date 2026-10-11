@@ -1,81 +1,100 @@
-# 🧪 CyberLab — Laboratório de Cibersegurança
+# 🧪 CyberLab — Laboratório de Cibersegurança & Infraestrutura Defensiva
 
-## 🏗️ Arquitetura do CyberLab
-
-O ambiente é composto pelas seguintes máquinas virtuais conectadas em rede virtualizada via VirtualBox:
-
-| VM / Hostname | Sistema Operacional | Função / Papel no Lab | IP / Subrede |
-|---|---|---|---|
-| **CyberLab-Kali** | Kali Linux | Pentest, análise de vulnerabilidades, auditoria | Host-Only / Internal |
-| **CyberLab-Debian** | Debian Linux | Servidor de aplicação, firewall, testes de serviços | Host-Only / Internal |
-| **CyberLab-Win2025** | Windows Server 2025 | Domain Controller (AD DS), DNS, GPO, testes de identidade | Host-Only / Internal |
+> Ambiente virtualizado e isolado de simulação para práticas de Administração de Redes, Segurança Defensiva (Blue Team), Gestão de Identidades (IAM/AD) e Análise de Tráfego.
 
 ---
 
-## 🎯 Objetivos do Laboratório
+## 🏗️ Arquitetura & Topologia da Rede
 
-- Simular cenários de ataques e defesas em redes híbridas (Linux + Windows).
-- Praticar administração de identidades com Active Directory e integração com Linux/SSH.
-- Analisar tráfego de protocolos Windows (SMB, Kerberos, LDAP, NTLM) via Wireshark.
-## Ambiente
+O **CyberLab** foi construído utilizando o **Oracle VirtualBox** em uma rede interna virtualizada e totalmente isolada (*Host-Only Switch / Internal Network*), garantindo a execução de testes sem impacto em redes externas ou de produção.
 
-- Debian
-- Kali Linux
-- Windows Server 2025
-- VirtualBox
-- Rede interna do laboratório
-- SSH
-- Nmap
-- Ferramentas nativas de Linux
+```
+                        CyberLab Internal Network
+                             (10.10.10.0/24)
+                                    │
+                         Isolated Virtual Switch
+                                    │
+    ┌───────────────────────────────┼───────────────────────────────┐
+    │                               │                               │
+  DC01                        CyberLab-Debian                CyberLab-Kali
+Windows Server 2025              Debian Linux                     Kali Linux
+  10.10.10.10                     10.10.10.10                     10.10.10.20
+(Active Directory / DNS)     (Servidor / Aplicação)      (Tester / Auditoria / SOC)
 
-## Atividades realizadas
+```
+---
 
-### Preparação do ambiente
+## 🖥️ Matriz de Ativos do Laboratório
 
-Configuração das máquinas virtuais, interfaces de rede e comunicação entre os hosts.
+Hostname / VMSistema OperacionalFunção / Papel no LabIP / MáscaraServiços Ativos / TecnologiasDC01Windows Server 2025Domain Controller (DC)10.10.10.10/24AD DS (corp.thiago.lab), DNS, Kerberos, GPO, PowerShellCyberLab-DebianDebian Linux 12Servidor Target / Serviços10.10.10.10/24SSH (Porta 22), Firewall (iptables/ufw), SyslogCyberLab-KaliKali LinuxAuditoria & Análise10.10.10.20/24Wireshark, Nmap, OpenSSH Client, Ferramentas de Análise
 
-Topologia utilizada durante os laboratórios:
+---
 
-- Kali Linux → 10.10.10.20/24
-- Debian → 10.10.10.10/24
+## 🎯 Objetivos Práticos do Laboratório
 
-### Enumeração
+- Simulação Híbrida (Windows & Linux): Validar a convivência, conectividade e políticas de segurança entre ambientes heterogêneos.
+- Gestão de Identidades & Acesso (IAM): Implementar e gerir a estrutura de Unidades Organizacionais (OUs), Grupos de Segurança e Contas no Active Directory (corp.thiago.lab).
+- Segurança Operacional & Hardening: Aplicar baselines de segurança via GPO (GPO-Workstations-Security-Baseline) e políticas de auditoria local com auditpol.
+- Análise de Tráfego & Protocolos: Capturar e inspecionar pacotes de rede (SSH, TCP 3-Way Handshake, ARP, DNS, SMB) utilizando o Wireshark.
 
-O Nmap foi utilizado para identificar portas TCP acessíveis no host Debian. Durante a evolução do laboratório, a porta **22/tcp** foi identificada como aberta e associada ao serviço SSH.
+---
 
-### Correlação técnica
+## 🚀 Atividades & Atributos Implementados
 
-A investigação foi além da identificação da porta, relacionando:
+1. Infraestrutura Linux & Análise de Serviços (Semanas 1-4)
+- Enumeração de Rede: Mapeamento de portas abertas e serviços via Nmap (nmap -sV -p 22 10.10.10.10).
 
-**IP → porta → socket → serviço → processo**
+- Correlação Técnica: Análise da pilha de rede: IP → Porta → Socket → Serviço → Processo.
 
-## Competências demonstradas
+- Análise de Pacotes: Captura e inspeção do estabelecimento de sessão SSH e negociação de chaves via Wireshark (tcp.port == 22).
 
-- Virtualização
-- Linux
-- TCP/IP
-- IPv4
-- SSH
-- Nmap
-- Enumeração
-- Análise de serviços
-- Investigação técnica
-- Documentação de evidências
+2. Infraestrutura Windows Server 2025 & Active Directory (Semanas 5-6)
+- Domain Controller: Promoção da máquina DC01 e criação da floresta corp.thiago.lab.
 
-## Evidências
+- Estruturação de IAM: Modelagem de OUs (CorpDevices, Workstations, Empresa/Users) e criação de grupos globais (GG-SOC-Analysts, GG-IT-Support).
 
-[Evidence](../../evidence/)
+- Auditoria Avançada & GPO: Ativação de auditorias de evento (Logon, User Account Management, Security Group Management) e forçamento de políticas com gpupdate /force.
 
-## Resultado
+---
 
-O CyberLab tornou-se a base prática para os exercícios posteriores de redes, serviços, firewall, análise de tráfego e segurança.
+## 📸 Evidências Práticas
 
-## Próximos passos
+Análise de Tráfego com WiresharkConfiguração de GPO & Auditoria no ADCaptura e inspeção de pacotes SSH (tcp.port == 22) entre Kali e DebianCriação de GPO GPO-Workstations-Security-Baseline e comandos auditpol via PowerShell
 
-- Windows e Active Directory
-- Vulnerability Management
-- SOC
-- SIEM
-- Incident Response
-- DFIR
-- Cloud Security
+📁 Acesse a pasta de evidências completas: Ver diretório de evidências
+
+---
+
+## 🧠 Competências Práticas Demonstradas
+
+- Virtualização & Redes: VirtualBox, Switches Isolados, Sub-roteamento IPv4, Topologia Host-Only.
+
+- Análise de Tráfego & Protocolos: Wireshark, Filtros Display/Capture, Nmap, Inspeção de Cabeçalhos TCP/IP.
+
+- Windows Server & AD DS: Active Directory, DNS, Kerberos, Group Policy Management (GPMC), auditpol, PowerShell.
+
+- Segurança Defensiva (Blue Team): Hardening de SO, Auditoria de Events IDs de Segurança (4624, 4625, 4740), Least Privilege.
+
+---
+
+## 🔮 Próximos Passos no Laboratório
+
+[x] Redes & Linux Hardening
+
+[x] Windows Server 2025 & Active Directory
+
+[ ] Automação Defensiva com Python (Semana 07 — Em Andamento)
+
+[ ] Integração com Sysmon & Elastic SIEM / Wazuh
+
+[ ] Análise de Regras de Firewall e Deteção de Intrusões (IDS/IPS)
+
+---
+
+🔗 Links Relacionados
+
+🛣️ Cybersecurity Roadmap (24 Semanas)
+
+🛡️ Cybersecurity Portfolio Principal
+
+🖥️ Laboratório Específico de Active Directory
