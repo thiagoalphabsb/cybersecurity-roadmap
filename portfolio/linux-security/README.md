@@ -119,7 +119,7 @@ As 4 evidências foram organizadas em tópicos, com tabelas para comparações l
 
 * **O que a imagem demonstra:** Simulação de exposição indevida por permissões excessivas e posterior aplicação do Princípio do Menor Privilégio (*Hardening*).
 * **Comandos Executados:**
-  ```bash
+  
   # 1. Exposição total (Risco de Segurança)
   chmod 777 privado.txt
   ls -l privado.txt
@@ -127,8 +127,6 @@ As 4 evidências foram organizadas em tópicos, com tabelas para comparações l
   # 2. Correção para acesso exclusivo do proprietário (Hardening)
   chmod 600 privado.txt
   ls -l privado.txt
-
-```
 
 * **Resultado:** O arquivo passou de totalmente vulnerável (`-rwxrwxrwx`) para estritamente protegido (`-rw-------`), garantindo leitura e escrita restritas ao usuário `debian`.
 
