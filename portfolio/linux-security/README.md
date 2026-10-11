@@ -116,7 +116,7 @@ As 4 evidências foram organizadas em tópicos, com tabelas para comparações l
 
 * **O que a imagem demonstra:** Simulação de exposição indevida por permissões excessivas e posterior aplicação do Princípio do Menor Privilégio (*Hardening*).
 * **Comandos Executados:**
-  
+  ```bash
   # 1. Exposição total (Risco de Segurança)
   chmod 777 privado.txt
   ls -l privado.txt
@@ -124,7 +124,8 @@ As 4 evidências foram organizadas em tópicos, com tabelas para comparações l
   # 2. Correção para acesso exclusivo do proprietário (Hardening)
   chmod 600 privado.txt
   ls -l privado.txt
-
+  ```
+  
 * **Resultado:** O arquivo passou de totalmente vulnerável (`-rwxrwxrwx`) para estritamente protegido (`-rw-------`), garantindo leitura e escrita restritas ao usuário `debian`.
 
 ---
@@ -141,7 +142,6 @@ sudo whoami
 
 ```
 
-
 * **Resultado:** Confirmação da conta `debian` pertencente ao grupo `sudo` (GID 27), validação da regra de privilégio irrestrito `(ALL : ALL) ALL` e confirmação da elevação para `root`.
 
 ---
@@ -155,7 +155,6 @@ ls -l /etc/sudoers
 ls -l /etc/sudoers.d/
 
 ```
-
 
 * **Resultado:** Confirmação de que o arquivo `/etc/sudoers` possui permissão restrita de leitura `-r--r-----` (440) pertencente a `root:root`, impedindo modificações diretas sem o utilitário `visudo`.
 
