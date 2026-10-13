@@ -1,563 +1,166 @@
-# 🛡️ Week 03 — Linux para Cybersecurity
+# 🐧 Linux Security Fundamentals (Semana 03)
 
-> Terceira semana do projeto **Cybersecurity Roadmap**  
-> **Foco:** administração, segurança, investigação e automação em sistemas Linux.
-
----
-
-## 🎯 Objetivo da Semana
-
-A Week 03 teve como objetivo aprofundar os conhecimentos em **Linux sob a perspectiva de Cybersecurity**, evoluindo do uso básico do sistema para uma visão de administração, controle de privilégios, investigação e automação.
-
-Durante a semana foram trabalhados:
-
-- Usuários e grupos;
-- Permissões de arquivos;
-- Princípio do menor privilégio;
-- Sudo e administração;
-- Processos e serviços;
-- Logs e investigação;
-- Sistema de arquivos;
-- Arquivos sensíveis;
-- Bash e automação;
-- Correlação de evidências;
-- Documentação de atividades de segurança.
-
-A proposta foi transformar comandos Linux em **ferramentas de observação, análise e investigação**.
+> **Módulo / Categoria:** Administração de Sistemas & Segurança Defensiva (Linux)[cite: 20]  
+> **Data de Execução:** 15/09/2026[cite: 21]  
+> **Status:** 🟢 Concluído[cite: 20]  
 
 ---
 
-# 📅 Dia 01 — Usuários, Grupos e Permissões
+## 🎯 1. Objetivo do Laboratório
 
-## 🎯 Objetivo
+Aprofundar os conhecimentos no sistema operacional **Linux sob a perspectiva de Cibersegurança Defensiva**, evoluindo do uso básico do sistema para uma gestão orientada a controle de acessos, análise de processos/serviços, investigação de logs e aplicação do **Princípio do Menor Privilégio**[cite: 20].
 
-Compreender como o Linux controla acesso aos recursos através de usuários, grupos e permissões.
+- **Controle de Acessos & Permissões:** Gestão de usuários, grupos (`cyberlab`), permissões POSIX (`chmod`, `chown`, `stat`) e auditoria de arquivos sensíveis[cite: 20].
+- **Gestão de Privilégios:** Auditoria do comando `sudo`, inspeção do arquivo `/etc/sudoers` e mitigação de permissões excessivas (ex: `777`)[cite: 20].
+- **Análise de Processos & Serviços:** Mapeamento da cadeia `Systemd → Serviço → PID → Processo → Socket/Porta`[cite: 20].
+- **Investigação por Logs:** Coleta e correlação de eventos de autenticação via `journalctl` e `/var/log`[cite: 20].
 
-### 🔎 Conceitos estudados
+---
 
-- Usuário;
-- Grupo;
-- UID e GID;
-- Proprietário;
-- Permissões `r`, `w` e `x`;
-- Permissões numéricas;
-- `chmod`;
-- `chown`;
-- `stat`;
-- Princípio do menor privilégio.
+## 🖥️ 2. Ambiente & Ferramentas
 
-### 🧪 Laboratório
+| Recurso / Elemento | Especificação / Detalhe |
+| :--- | :--- |
+| **Sistema Operacional** | Debian GNU/Linux 13 (`CyberLab-Debian` / Host-Only Network)[cite: 21] |
+| **Usuários de Teste** | `debian` (UID 1000), `analista`, `root`[cite: 20, 24] |
+| **Grupo de Laboratório** | `cyberlab` (GID 1002)[cite: 20, 21] |
+| **Ferramentas Utilizadas** | `chmod`, `chown`, `stat`, `sudo`, `ps`, `systemctl`, `journalctl`, `grep`[cite: 20] |
+| **Diretório de Testes** | `~/cyberlab-permissions`[cite: 21, 22] |
 
-Foi criado o usuário de laboratório:
+---
 
-```text
-analista
-```
+## 🛠️ 3. Procedimento & Execução
 
-E o grupo:
-
-```text
-cyberlab
-```
-
-O usuário foi associado ao grupo:
+### Passo 1: Gestão de Usuários, Grupos e Permissões POSIX
+Criação do grupo `cyberlab`, inclusão do usuário e criação de arquivos de teste para validar a atribuição de permissões octais e o modelo de menor privilégio[cite: 20]:
 
 ```bash
+# Criar grupo de segurança do laboratório e associar usuário
+sudo groupadd cyberlab
 sudo usermod -aG cyberlab analista
+
+# Criar pasta de testes e arquivos com permissões restritas
+mkdir ~/cyberlab-permissions && cd ~/cyberlab-permissions
+touch privado.txt evidencia.txt
+
+# Configuração de permissões e alteração de grupo
+chmod 600 privado.txt
+chown debian:cyberlab evidencia.txt
+chmod 640 evidencia.txt
+
 ```
 
-Também foram criados arquivos com diferentes níveis de permissão para analisar o comportamento do sistema.
+### Passo 2: Auditoria de Privilégios e Inspeção do Sudoers
 
-Exemplos utilizados:
+Identificação de permissões do usuário atual e verificação dos arquivos de configuração administrativa do sistema:
 
 ```bash
-chmod 644 publico.txt
-chmod 600 privado.txt
-chmod 640 restrito.txt
-chmod 777 evidencia.txt
+# Identificar usuário atual, UID/GID e grupos associados
+whoami
+id
+
+# Listar privilégios sudo permitidos para a conta
+sudo -l
+
+# Inspecionar arquivos de configuração do sudoers
+ls -l /etc/sudoers
+ls -l /etc/sudoers.d/
+
 ```
 
-A permissão `777` foi utilizada como exemplo controlado para demonstrar por que permissões excessivas devem ser evitadas.
+### Passo 3: Análise de Processos, Serviços e Logs de Autenticação
 
-### 🛡️ Perspectiva de Cybersecurity
+Investigação de processos ativos, sockets de rede e consulta a eventos de segurança no sistema:
 
-Permissões inadequadas podem permitir acesso, alteração ou execução não autorizada de arquivos.
+```bash
+# Monitoramento de processos e serviços ativos
+ps -ef | grep ssh
+systemctl status ssh
 
-O princípio aplicado foi:
+# Leitura e filtragem de logs de tentativas de autenticação
+journalctl -b --no-pager | grep -i sudo
 
-> **Cada usuário deve possuir somente as permissões necessárias para realizar suas atividades.**
+```
 
 ---
 
-# 📅 Dia 02 — Sudo e Privilégio Mínimo
+## 📸 4. Relatório de Evidências Práticas
 
-## 🎯 Objetivo
+> 📁 **Diretório no GitHub:** [Acessar evidencia/week03](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week03)
 
-Compreender como o Linux controla operações administrativas e como o `sudo` pode ser utilizado de acordo com o princípio do menor privilégio.
+### 1. Inspeção de Metadados de Arquivo com `stat`
+![Metadados de Arquivo com stat](./week-03-statenvidencia.png)
 
-### 🔎 Conceitos estudados
+* **O que a imagem demonstra:** Verificação detalhada de metadados do arquivo `evidencia.txt` no diretório `~/cyberlab-permissions` via comando `stat`.
+* **Comando Executado:** `stat evidencia.txt`
+* **Resultado:** Confirmação da permissão octal `0640` (`-rw-r-----`), vinculação ao usuário `debian` (UID 1000) e grupo `cyberlab` (GID 1002), além dos carimbos de data/hora (*Access*, *Modify*, *Change*, *Birth*).
 
-- Usuário comum;
-- `root`;
-- `sudo`;
-- `/etc/sudoers`;
-- `/etc/sudoers.d/`;
-- Privilégios administrativos;
-- Princípio do menor privilégio.
+---
 
-### 🧪 Comandos utilizados
+### 2. Ajuste e Correção de Permissões Críticas (`chmod 777` → `600`)
+![Alteração de Permissões no Terminal](./week-03-777-600.png)
 
+* **O que a imagem demonstra:** Simulação de exposição indevida por permissões excessivas e posterior aplicação do Princípio do Menor Privilégio (*Hardening*).
+* **Comandos Executados:**
+  ```bash
+  # 1. Exposição total (Risco de Segurança)
+  chmod 777 privado.txt
+  ls -l privado.txt
+
+  # 2. Correção para acesso exclusivo do proprietário (Hardening)
+  chmod 600 privado.txt
+  ls -l privado.txt
+
+  ```
+
+* **Resultado:** O arquivo passou de totalmente vulnerável (`-rwxrwxrwx`) para estritamente protegido (`-rw-------`), garantindo leitura e escrita restritas ao proprietário.
+
+---
+
+### 3. Verificação de Identidade e Privilégios Sudo
+
+* **O que a imagem demonstra:** Identificação do contexto de execução do usuário e auditoria de regras de elevação de privilégio.
+* **Comandos Executados:**
 ```bash
 whoami
-```
-
-```bash
 id
-```
-
-```bash
-groups
-```
-
-```bash
 sudo -l
-```
-
-```bash
 sudo whoami
+
 ```
 
-Foi analisado quais privilégios estavam disponíveis para o usuário e como o sistema impede operações administrativas quando o usuário não possui autorização.
 
-### 🛡️ Perspectiva de Cybersecurity
-
-O controle de privilégios é uma das bases da segurança de sistemas.
-
-Um usuário comprometido com privilégios excessivos pode aumentar significativamente o impacto de um incidente.
-
-Por isso:
-
-> **Privilégio mínimo reduz a superfície de impacto de uma conta comprometida.**
+* **Resultado:** Confirmação da conta `debian` pertencente ao grupo `sudo` (GID 27), validação da regra de privilégio irrestrito `(ALL : ALL) ALL` e confirmação da elevação para `root`.
 
 ---
 
-# 📅 Dia 03 — Processos e Serviços
+### 4. Mapeamento e Permissões do Arquivo `/etc/sudoers`
 
-## 🎯 Objetivo
-
-Aprender a relacionar processos, serviços, PID e `systemd`, permitindo uma análise mais estruturada do funcionamento do sistema.
-
-### 🔎 Comandos estudados
-
+* **O que a imagem demonstra:** Mapeamento do diretório de trabalho do laboratório e verificação das permissões do arquivo sensível de administração de privilégios.
+* **Comandos Executados:**
 ```bash
-ps
+ls -l /etc/sudoers
+ls -l /etc/sudoers.d/
+
 ```
 
-```bash
-ps -ef
-```
 
-```bash
-pstree -p
-```
-
-```bash
-top
-```
-
-```bash
-pgrep -a ssh
-```
-
-Para análise de serviços:
-
-```bash
-systemctl --type=service --state=running
-```
-
-```bash
-systemctl status NOME_DO_SERVICO
-```
-
-```bash
-systemctl is-active NOME_DO_SERVICO
-```
-
-```bash
-systemctl is-enabled NOME_DO_SERVICO
-```
-
-### 🧪 Laboratório — CyberLab Service
-
-Foi criado um serviço controlado para compreender a relação entre:
-
-```text
-systemd
-   ↓
-serviço
-   ↓
-PID
-   ↓
-processo
-   ↓
-comando
-```
-
-Serviço utilizado:
-
-```text
-cyberlab.service
-```
-
-O serviço executava:
-
-```bash
-/bin/sleep 3600
-```
-
-Após a investigação, o serviço foi interrompido e removido do laboratório.
-
-### 🛡️ Perspectiva de Cybersecurity
-
-A análise de processos e serviços permite identificar:
-
-- processos inesperados;
-- serviços desconhecidos;
-- consumo anormal de recursos;
-- processos relacionados a serviços;
-- possíveis indicadores de comprometimento.
+* **Resultado:** Confirmação de que o arquivo `/etc/sudoers` possui permissão restrita de leitura `-r--r-----` (440) pertencente a `root:root`, impedindo modificações diretas sem o utilitário `visudo`.
 
 ---
 
-# 📅 Dia 04 — Logs e Investigação
+## 🔍 5. Conclusões & Aprendizados
 
-## 🎯 Objetivo
+* **Mapeamento de Acessos:** A aplicação de permissões octais adequadas (`600`, `640`) impede que contas não autorizadas leiam ou modifiquem dados confidenciais no sistema[cite: 20, 22].
+* **Proteção de Arquivos Sensíveis:** A integridade de `/etc/sudoers` é mantida através de permissões restritas mantidas pelo sistema (`440` com dono `root`), permitindo edição segura exclusivamente via utilitário `visudo`[cite: 20, 23].
+* **Aplicação para SOC / Análise Defensiva:** A correlação entre `Usuário → Grupo → Permissão → Processo → Log` permite identificar anomalias no sistema, como tentativas negadas de uso de `sudo` (`user NOT in sudoers`), fundamentais em investigações de segurança.
 
-Utilizar logs como fonte de evidências para investigar eventos ocorridos no sistema Linux.
 
-### 🔎 Conceitos estudados
-
-- `/var/log`;
-- `systemd-journald`;
-- `journalctl`;
-- eventos de sistema;
-- timestamps;
-- níveis de prioridade;
-- logs de autenticação;
-- investigação por serviço;
-- investigação por período.
-
-### 🧪 Comandos utilizados
-
-```bash
-ls -lah /var/log
-```
-
-```bash
-journalctl
-```
-
-```bash
-journalctl -b
-```
-
-```bash
-journalctl --list-boots
-```
-
-```bash
-journalctl -p warning
-```
-
-```bash
-journalctl --since "today"
-```
-
-```bash
-journalctl --since "1 hour ago"
-```
-
-Também foram realizadas consultas direcionadas:
-
-```bash
-journalctl -b --no-pager | grep -i sudo
-```
-
-### 🔍 Evidência encontrada
-
-Durante a investigação foi identificado um evento relacionado ao usuário `analista`:
-
-```text
-analista : user NOT in sudoers
-```
-
-O evento demonstrou que uma tentativa de utilização de `sudo` foi registrada pelo sistema e que o usuário não possuía autorização administrativa.
-
-### 🧠 Análise
-
-O laboratório demonstrou a importância de diferenciar:
-
-**Evidência:**
-
-> O usuário tentou utilizar `sudo` e o sistema registrou que ele não estava autorizado.
-
-**Interpretação:**
-
-> A existência desse evento, isoladamente, não permite concluir que houve uma tentativa maliciosa.
-
-Essa distinção é importante em processos de investigação e resposta a incidentes.
 
 ---
 
-# 📅 Dia 05 — Sistema de Arquivos e Arquivos Sensíveis
-
-## 🎯 Objetivo
-
-Compreender a organização do sistema de arquivos Linux e identificar locais que podem conter informações relevantes para segurança e investigação.
-
-### 🔎 Conceitos estudados
-
-- Estrutura de diretórios Linux;
-- Arquivos de configuração;
-- Arquivos de usuários;
-- Arquivos de grupos;
-- Arquivos de autenticação;
-- Arquivos de logs;
-- Arquivos sensíveis;
-- permissões de acesso.
-
-### 📂 Arquivos e diretórios relevantes
-
-Exemplos analisados:
-
-```text
-/etc/passwd
-/etc/group
-/etc/shadow
-/etc/sudoers
-/etc/sudoers.d/
-/var/log/
-/home/
-```
-
-### 🛡️ Perspectiva de Cybersecurity
-
-Arquivos de configuração e autenticação podem conter informações críticas.
-
-A análise deve considerar:
-
-- quem possui acesso;
-- quais permissões estão configuradas;
-- se o arquivo contém informações sensíveis;
-- se o acesso está de acordo com a necessidade.
-
----
-
-# 📅 Dia 06 — Bash e Automação
-
-## 🎯 Objetivo
-
-Utilizar comandos Bash para transformar tarefas repetitivas de análise em processos mais rápidos e reproduzíveis.
-
-### 🔎 Conceitos estudados
-
-- Shell;
-- comandos encadeados;
-- pipes;
-- redirecionamento;
-- `grep`;
-- filtros;
-- variáveis;
-- scripts Bash;
-- automação de tarefas.
-
-### 🧪 Conceitos utilizados
-
-Pipe:
-
-```bash
-|
-```
-
-Redirecionamento:
-
-```bash
->
-```
-
-Adicionar conteúdo:
-
-```bash
->>
-```
-
-Busca e filtragem:
-
-```bash
-grep
-```
-
-### 🛡️ Perspectiva de Cybersecurity
-
-A automação pode ser utilizada para:
-
-- procurar eventos em logs;
-- identificar padrões;
-- filtrar informações;
-- coletar evidências;
-- executar verificações repetitivas;
-- reduzir tarefas manuais.
-
-O objetivo não é apenas executar comandos mais rapidamente, mas criar procedimentos **reproduzíveis e documentáveis**.
-
----
-
-# 📅 Dia 07 — Laboratório Integrado
-
-## 🎯 Objetivo
-
-Integrar os conhecimentos adquiridos durante a Week 03 em uma investigação prática.
-
-O laboratório combinou:
-
-```text
-Usuário
-   ↓
-Grupo
-   ↓
-Permissões
-   ↓
-Privilégios
-   ↓
-Processos
-   ↓
-Serviços
-   ↓
-Logs
-   ↓
-Evidências
-```
-
-### 🔍 Fluxo de investigação
-
-A investigação foi estruturada seguindo uma sequência lógica:
-
-1. Identificar o usuário;
-2. Verificar grupos;
-3. Verificar privilégios;
-4. Analisar processos;
-5. Analisar serviços;
-6. Consultar logs;
-7. Localizar eventos relevantes;
-8. Correlacionar as evidências;
-9. Separar fatos de interpretações;
-10. Documentar os resultados.
-
-### 🧠 Mentalidade investigativa
-
-O principal aprendizado do laboratório integrado foi evitar conclusões precipitadas.
-
-Em uma investigação de segurança:
-
-> **Primeiro coletamos evidências. Depois analisamos o contexto. Somente então formulamos uma hipótese.**
-
----
-
-# 🛡️ Principais conhecimentos adquiridos
-
-Ao finalizar a Week 03, foi possível desenvolver conhecimentos práticos em:
-
-### Linux
-
-- Usuários;
-- Grupos;
-- Permissões;
-- Processos;
-- Serviços;
-- Sistema de arquivos;
-- Logs;
-- Bash.
-
-### Cybersecurity
-
-- Princípio do menor privilégio;
-- Controle de acesso;
-- Análise de processos;
-- Análise de serviços;
-- Investigação baseada em evidências;
-- Análise de logs;
-- Identificação de eventos;
-- Correlação de informações;
-- Automação de tarefas.
-
----
-
-# 🧠 Evolução da Week 03
-
-A evolução da semana pode ser representada da seguinte maneira:
-
-```text
-Quem está no sistema?
-        ↓
-Quais permissões possui?
-        ↓
-Quais privilégios possui?
-        ↓
-O que está executando?
-        ↓
-Quais serviços estão ativos?
-        ↓
-O que aconteceu?
-        ↓
-Onde está a evidência?
-        ↓
-Como documentar?
-```
-
-Essa sequência representa uma mudança importante da utilização básica do Linux para uma abordagem orientada à **segurança e investigação**.
-
----
-
-# 📊 Status da Semana
-
-| Dia | Tema | Status |
-|---|---|---|
-| 01 | Usuários, grupos e permissões | ✅ Concluído |
-| 02 | Sudo e privilégio mínimo | ✅ Concluído |
-| 03 | Processos e serviços | ✅ Concluído |
-| 04 | Logs e investigação | ✅ Concluído |
-| 05 | Sistema de arquivos e arquivos sensíveis | ✅ Concluído |
-| 06 | Bash e automação | ✅ Concluído |
-| 07 | Laboratório integrado + documentação | ✅ Concluído |
-
----
-
-# 🚀 Próxima etapa
-
-Com a conclusão da **Week 03**, o CyberLab passa a contar com uma base mais sólida de administração e investigação Linux.
-
-A próxima semana continuará a evolução do roadmap, aproveitando os conhecimentos de:
-
-- Linux;
-- redes;
-- processos;
-- serviços;
-- logs;
-- análise de evidências;
-- automação.
-
-O objetivo será continuar aproximando o laboratório de situações práticas encontradas em ambientes de **Cybersecurity defensiva**.
-
----
-
-## 📚 Projeto
-
-**Cybersecurity Roadmap**
-
-GitHub:
-
-`https://github.com/thiagoalphabsb/cybersecurity-roadmap`
-
----
-
-> **Desenvolvido por Thiago S. Silva**
+## 🔗 Projetos e Links Relacionados
+
+* 🐧 [Laboratório Prático de Linux Security (Semana 03)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/portfolio/linux-security/README.md)
+* 🧪 [CyberLab Infrastructure](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/portfolio/cyberlab)
+* 🛣️ [Cybersecurity Roadmap (24 Semanas)](https://github.com/thiagoalphabsb/cybersecurity-roadmap)
