@@ -89,7 +89,7 @@ journalctl -b --no-pager | grep -i sudo
 > 📁 **Diretório no GitHub:** [Acessar evidencia/week03](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week03)
 
 ### 1. Inspeção de Metadados de Arquivo com `stat`
-![Metadados de Arquivo com stat](./week-03-statenvidencia.png)
+![Metadados de Arquivo com stat](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week03/week-03-statenvidencia.png)
 
 * **O que a imagem demonstra:** Verificação detalhada de metadados do arquivo `evidencia.txt` no diretório `~/cyberlab-permissions` via comando `stat`.
 * **Comando Executado:** `stat evidencia.txt`
@@ -98,7 +98,7 @@ journalctl -b --no-pager | grep -i sudo
 ---
 
 ### 2. Ajuste e Correção de Permissões Críticas (`chmod 777` → `600`)
-![Alteração de Permissões no Terminal](./week-03-777-600.png)
+![Alteração de Permissões no Terminal](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week03/week-03-777-600.png)
 
 * **O que a imagem demonstra:** Simulação de exposição indevida por permissões excessivas e posterior aplicação do Princípio do Menor Privilégio (*Hardening*).
 * **Comandos Executados:**
