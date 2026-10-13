@@ -38,7 +38,7 @@
   chmod 600 privado.txt
   ls -l privado.txt
 
-```
+  ```
 
 * **Resultado:** O arquivo passou de totalmente vulnerável (`-rwxrwxrwx`) para estritamente protegido (`-rw-------`), garantindo leitura e escrita restritas ao proprietário.
 
@@ -89,7 +89,6 @@ ls -l /etc/sudoers.d/
 
 ## 🔗 Projetos e Links Relacionados
 
-* 🐧 [Laboratório Prático de Linux Security (Semana 03)](https://www.google.com/search?q=../../week-03/README.md)
-* 🖥️ [Projeto Linux Troubleshooting](https://www.google.com/search?q=../../projects/linux-troubleshooting/README.md)
-* 🧪 [CyberLab Infrastructure](https://www.google.com/search?q=../../projects/cyberlab/README.md)
-* 🛣️ [Cybersecurity Roadmap (24 Semanas)](https://www.google.com/search?q=../../README.md)
+* 🐧 [Laboratório Prático de Linux Security (Semana 03)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/portfolio/linux-security/README.md)
+* 🧪 [CyberLab Infrastructure](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/portfolio/cyberlab)
+* 🛣️ [Cybersecurity Roadmap (24 Semanas)](https://github.com/thiagoalphabsb/cybersecurity-roadmap)
