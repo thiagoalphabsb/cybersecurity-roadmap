@@ -1,4 +1,4 @@
-# 🧪 Laboratório: Virtualização & Provisionamento do CyberLab (Semana 02)
+# Virtualização & Provisionamento do CyberLab (Semana 02)
 
 > **Módulo / Categoria:** Infraestrutura, Virtualização & Segurança Defensiva  
 > **Data de Execução:** 01/09/2026  
