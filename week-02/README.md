@@ -1,358 +1,177 @@
-\# 🛡️ Week 02 — Redes de Computadores, Análise de Tráfego \& Enumeração de Serviços
+# 🧪 Laboratório: Redes de Computadores, Análise de Tráfego & Enumeração (Semana 02)
 
+> **Módulo / Categoria:** Redes, Análise de Tráfego & Enumeração de Serviços  
+> **Data de Execução:** 20/08/2026  
+> **Status:** 🟢 Concluído  
 
+---
 
-Este diretório contém a documentação completa, anotações de estudo e análises práticas de laboratório referentes à \*\*Week 02\*\* do programa de estudos em \*\*Cybersecurity \& Redes\*\*.
+## 🎯 1. Objetivo do Laboratório
 
+Aprofundar os conhecimentos em **Redes de Computadores sob a perspectiva de Cibersegurança Defensiva e Análise de Tráfego**, evoluindo dos conceitos de arquitetura e endereçamento até a captura ativa de pacotes e escaneamento de serviços em ambiente isolado.
 
+- **Arquitetura & Endereçamento:** Mapeamento de Camada 2 (MAC) e Camada 3 (IP), subredes, gateways e análise de arquivos de configuração de rede (`/etc/resolv.conf`).
+- **Análise de Tráfego com Wireshark:** Inspeção prática do tráfego ICMP (*Echo Request / Reply*) e captura detalhada do **TCP 3-Way Handshake** (`SYN` → `SYN-ACK` → `ACK`) na porta do SSH.
+- **Enumeração & Superfície de Ataque:** Mapeamento de processos escutando interfaces (`ss`, `ps`, `lsof`), conceitos de *IP Bind* (`127.0.0.1` vs `0.0.0.0`) e escaneamento de serviços via **Nmap**.
 
-\---
+---
 
+## 🖥️ 2. Ambiente & Ferramentas
 
+| Recurso / Elemento | Especificação / Detalhe |
+| :--- | :--- |
+| **Ativo Target (Alvo)** | `CyberLab-Debian` (Debian GNU/Linux 13 — `10.10.10.10/24`) |
+| **Ativo Tester (Auditoria)** | `CyberLab-Kali` (Kali Linux — `10.10.10.20/24`) |
+| **Rede Virtualizada** | Subrede isolada Host-Only (`CYBERLAB-INTERNAL` — `10.10.10.0/24`) |
+| **Ferramentas Utilizadas** | Wireshark, Nmap, OpenSSH, `ss`, `ps`, `lsof`, `systemctl`, `ping` |
 
-\## 📁 Localização dos Arquivos de Origem
+---
 
-
-
-Os arquivos originais das anotações e práticas estão armazenados em `/cybersecurity-roadmap/docs/`:
-
-
-
-\- `week 02 - day 01 e 02.txt`
-
-\- `week 02 - day 03.txt`
-
-\- `week 02 -day 04.md`
-
-\- `week-02-day06-07.md`
-
-
-
-\---
-
-
-
-\## 📅 Estrutura do Conteúdo Semanal
-
-
-
-| Dia | Arquivo | Tópico Principal | Resumo do Conteúdo |
-
-| :--- | :--- | :--- | :--- |
-
-| \*\*Dia 01 e 02\*\* | `week 02 - day 01 e 02.txt` | \*\*Fundamentos de Redes \& Camada de Transporte\*\* | Conceitos LAN/WAN/Internet, Arquitetura Cliente-Servidor, Endereçamento L2/L3 (MAC vs. IP), Máscaras de Rede, Gateway, Serviços DNS/DHCP, TCP vs. UDP e Fluxo de Acesso Web (Handshake 3-way, TLS, HTTP). |
-
-| \*\*Dia 03\*\* | `week 02 - day 03.txt` | \*\*Análise de Interfaces \& DNS em Linux\*\* | Mapeamento de placas de rede físicas (`enp0s3` e `enp0s8`), roteamento e leitura de servidores DNS ativos no Debian (`/etc/resolv.conf`). |
-
-| \*\*Dia 04\*\* | `week 02 -day 04.md` | \*\*Enumeração de Serviços \& Superfície de Ataque\*\* | Investigação de processos (`ps`, `ss`, `lsof`), conceito de IP Bind (`127.0.0.1` vs `0.0.0.0`), escaneamento Nmap no CyberLab e estados de porta. |
-
-| \*\*Dia 06\*\* | `week-02-day06-07.md` | \*\*Análise de Tráfego com Wireshark\*\* | Captura de tráfego ICMP (ping) e inspeção do TCP 3-Way Handshake (`SYN` -> `SYN/ACK` -> `ACK`) na porta SSH (22). |
-
-| \*\*Dia 07\*\* | `week-02-day06-07.md` | \*\*Reconhecimento \& Mapeamento com Nmap\*\* | Varreduras ativas de portas TCP, detecção de versões de serviço (`-sV`) e identificação de hosts ativos na rede local isolada. |
-
-
-
-\---
-
-
-
-\## 🏗️ Esquema do Laboratório (CyberLab)
-
-
+## 🏗️ Topologia da Rede Isolada (CyberLab)
 
 ```text
-
-&#x20;                      CYBERLAB (Rede Isolada)
-
-&#x20;                      
-
-&#x20;       ┌───────────────┐               ┌───────────────┐
-
-&#x20;       │  KALI LINUX   │               │    DEBIAN     │
-
-&#x20;       │   ANALISTA    ├──────────────►│     ALVO      │
-
-&#x20;       │ (10.10.10.20) │  Scans / Ping │ (10.10.10.10) │
-
-&#x20;       └───────┬───────┘               └───────────────┘
-
-&#x20;               │
-
-&#x20;   Captura de Tráfego (Wireshark) / Escaneamento (Nmap)
+                        CYBERLAB (Rede Interna Isolada)
+                                (10.10.10.0/24)
+                                       │
+            ┌──────────────────────────┴──────────────────────────┐
+            │                                                     │
+     CyberLab-Kali                                         CyberLab-Debian
+      (Kali Linux)                                          (Debian 13)
+      10.10.10.20/24                                       10.10.10.10/24
+(Wireshark / Scans / Nmap)                              (Serviços / Target)
 
 ```
 
+---
 
+## 🛠️ 3. Procedimento & Execução
 
-🔍 Detalhamento dos Módulos
+### Passo 1: Mapeamento de Interfaces & DNS
 
+Inspeção das placas de rede e do arquivo de resolução de nomes no servidor Debian:
 
+```bash
+# Inspecionar interfaces de rede e endereçamento
+ip a
+ip route
 
-🌐 Dias 01 \& 02 — Fundamentos de Redes \& Protocolos
+# Verificar servidores DNS e sufixo de busca configurados
+cat /etc/resolv.conf
 
-Arquitetura \& Redes: Diferenciação entre LAN (Rede Local), WAN (Rede Aberta/Longa Distância) e a Internet. Funcionamento do modelo Cliente-Servidor.
+```
 
+### Passo 2: Enumeração de Processos e IP Bind
 
+Análise dos sockets ativos e portas escutando no sistema:
 
-Endereçamento L2 vs. L3:
+```bash
+# Listar portas TCP e UDP escutando no sistema
+ss -tuln
+ps aux | grep sshd
 
+# Verificar serviços vinculados apenas ao loopback local vs todas as interfaces
+lsof -i :22
+lsof -i :631
 
+```
 
-MAC Address (L2): Endereço físico gravado na placa de rede (NIC).
+### Passo 3: Captura de Tráfego com Wireshark (Kali Linux)
 
+Captura de pacotes da rede interna filtrando a comunicação entre o Kali (`10.10.10.20`) e o Debian (`10.10.10.10`):
 
+```bash
+# 1. Testar conectividade ICMP
+ping -c 4 10.10.10.10
 
-IP Address (L3): Endereço lógico roteável. Identificação de sub-rede via máscara (ex.: /24 ou 255.255.255.0) e saída de tráfego via Default Gateway.
+# 2. Iniciar conexão SSH para captura do Handshake TCP
+ssh debian@10.10.10.10
 
+```
 
+### Passo 4: Escaneamento Ativo de Serviços com Nmap
 
-Serviços Essenciais:
+Mapeamento de portas abertas e detecção de versões de serviço:
 
-
-
-DNS (Porta 53 UDP/TCP): Resolução de nomes legíveis em endereços IP.
-
-
-
-DHCP: Atribuição dinâmica de IP, máscara, gateway e DNS para novos hosts.
-
-
-
-Camada de Transporte:
-
-
-
-TCP: Orientado à conexão, confiável e ordenado (3-Way Handshake).
-
-
-
-UDP: Sem conexão, leve e veloz (usado para streaming, jogos e DNS).
-
-
-
-Anatomia de um Acesso Web (https://exemplo.com):
-
-
-
-Resolução DNS via UDP 53.
-
-
-
-Resolução do MAC do Gateway via protocolo ARP.
-
-
-
-Estabelecimento de conexão TCP (Handshake de 3 vias na porta 443).
-
-
-
-Negociação de chaves e criptografia via TLS/SSL.
-
-
-
-Requisição HTTP (GET) e processamento da resposta pelo navegador.
-
-
-
-🖥️ Dia 03 — Inspeção de Interfaces \& DNS no DebianLevantamento executado nas interfaces ativas do sistema Debian:Interfaces Físicas MapeadasInformaçãoPlaca 1 (enp0s3 - NAT / Internet)Placa 2 (enp0s8 - Rede Interna / Lab)Endereço IPv410.0.2.1510.10.10.10Máscara / Prefixo/24 (255.255.255.0)/24 (255.255.255.0)Gateway Padrão10.0.2.2Nenhum (Rede interna isolada)
-
-
-
-Registros DNS (/etc/resolv.conf)
-
-Domínio de Busca (search): saude.gov
-
-
-
-Servidores DNS Primários (Ativos): 10.1.1.127, 10.1.2.11, 10.1.2.12
-
-
-
-Servidores DNS Adicionais: 10.1.2.13, 10.1.2.14, 10.1.1.120, 10.1.1.12
-
-
-
-Endereço IPv6 DNS: fd17:625c:f037:2::3
-
-🎯 Dia 04 — Enumeração de Serviços \& Superfície de Ataque
-
-Investigação de processos e serviços expostos no alvo Debian (10.10.10.10) a partir do Kali Linux (10.10.10.20).
-
-
-
-Ferramentas Utilizadas
-
-systemctl, ps, ss, lsof, nmap, nft, ufw
-
-
-
-Achados da Enumeração
-
-SSH (sshd):
-
-
-
-PID: 2837 (executado como root).
-
-
-
-Bind: 0.0.0.0:22 (Escutando em todas as interfaces).
-
-
-
-Status Nmap: OPEN (22/tcp open ssh OpenSSH 10.0p2 Debian 7+deb13u4).
-
-
-
-CUPS (cupsd):
-
-
-
-Bind: 127.0.0.1:631 (Vinculado apenas ao loopback local).
-
-
-
-Status Nmap: Invisível para conexões externas via rede.
-
-
-
-Conceitos Relevantes
-
-IP Bind: Vinculações em 127.0.0.1 garantem que o serviço só se comunique localmente. Para exposição na rede, utiliza-se o IP da interface ou 0.0.0.0 (todas as interfaces).
-
-
-
-Superfície de Ataque: Calculada pelos serviços acessíveis externamente, e não apenas pelo número absoluto de processos rodando na máquina.
-
-
-
-🦈 Dia 06 — Análise de Tráfego com Wireshark
-
-Captura e análise profunda de pacotes no Kali Linux (10.10.10.20) interceptando conexões com o Debian (10.10.10.10).
-
-
-
-Análises Executadas
-
-Tráfego ICMP (Ping):
-
-
-
-Filtro: icmp
-
-
-
-Confirmou a conectividade bidirecional na Camada 3 (Rede) com envio de Echo Request e retorno de Echo Reply.
-
-
-
-TCP 3-Way Handshake (SSH - Porta 22):
-
-
-
-Filtro: tcp.port == 22
-
-
-
-Fluxo registrado:
-
-
-
-\[SYN] — Kali (10.10.10.20:59148) ➔ Debian (10.10.10.10:22) | Seq=0
-
-
-
-\[SYN, ACK] — Debian (10.10.10.10:22) ➔ Kali (10.10.10.20:59148) | Seq=0 Ack=1
-
-
-
-\[ACK] — Kali (10.10.10.20:59148) ➔ Debian (10.10.10.10:22) | Seq=1 Ack=1
-
-
-
-🔎 Dia 07 — Reconhecimento e Escaneamento com Nmap
-
-Mapeamento ativo da máquina alvo no CyberLab.
-
-
-
-Comandos Executados
-
-
-
-\# 1. Varredura padrão das 1000 portas mais comuns sem resolução DNS
-
+```bash
+# Scan de portas TCP mais comuns
 nmap -n 10.10.10.10
 
-
-
-\# 2. Detecção de versões dos serviços expostos
-
+# Detecção de versão dos serviços expostos
 nmap -sV -n 10.10.10.10
 
+```
 
+---
 
-Resultados
+## 📸 Relatório de Evidências Práticas
 
-Host Status: Up (Latência: 0.00063s)
+### 1. Teste de Comunicação em Rede Interna (Debian ↔ Kali)
+![week-02-comunicacaoredeinterna.png](https://raw.githubusercontent.com/thiagoalphabsb/cybersecurity-roadmap/main/evidence/week02/week-02-comunicacaoredeinterna.png)
 
+* **O que a imagem demonstra:** Teste bidirecional de conectividade em Camada 3 (Network Layer) utilizando o utilitário `ping` entre os dois ativos da rede isolada do CyberLab.
+* **Comandos Executados:**
+  - No host `Debian` (`10.10.10.10`): `ping -c 4 10.10.10.20`
+  - No host `Kali` (`10.10.10.20`): `ping -c 4 10.10.10.10`
+* **Resultado:** 0% de perda de pacotes (*0% packet loss*) e latência média inferior a `1ms`, confirmando a correta configuração do switch virtual isolado (*Host-Only Network*).
 
+---
 
-Endereço MAC: 08:00:27:EE:8E:5F (Oracle VirtualBox NIC)
+### 2. Captura e Análise de Tráfego ICMP no Wireshark
+![week-02-wireshark.png](https://raw.githubusercontent.com/thiagoalphabsb/cybersecurity-roadmap/main/evidence/week02/week-02-wireshark.png)
 
+* **O que a imagem demonstra:** Intercepção em tempo real dos pacotes ICMP no Wireshark na interface `eth1` da máquina Kali (`10.10.10.20`).
+* **Filtro Aplicado:** `icmp`
+* **Análise do Fluxo Confirmada:**
+  - Sequência perfeita de pares **Echo (ping) request** (origem `10.10.10.20` para `10.10.10.10`) e **Echo (ping) reply** (resposta de `10.10.10.10` para `10.10.10.20`).
+  - Inspeção de cabeçalhos mostrando tamanho do quadro (`98 bytes on wire`) e payload contendo a sequência de bytes padrão do ICMP.
 
+---
 
-Portas Abertas Identificadas: 22/tcp (OpenSSH)
+### 3. Análise do TCP 3-Way Handshake & Sessão SSH
+![week-02-3wayhandshake.png](https://raw.githubusercontent.com/thiagoalphabsb/cybersecurity-roadmap/main/evidence/week02/week-02-3wayhandshake.png)
 
+* **O que a imagem demonstra:** Captura profunda da negociação da sessão TCP e estabelecimento de túnel criptografado SSHv2 entre o Kali (`10.10.10.20`) e o Debian (`10.10.10.10`).
+* **Análise dos Pacotes (TCP 3-Way Handshake):**
+  1. **Frame 1 (`SYN`):** `10.10.10.20:59148` ➔ `10.10.10.10:22` | `Seq=0`
+  2. **Frame 2 (`SYN, ACK`):** `10.10.10.10:22` ➔ `10.10.10.20:59148` | `Seq=0 Ack=1`
+  3. **Frame 3 (`ACK`):** `10.10.10.20:59148` ➔ `10.10.10.10:22` | `Seq=1 Ack=1`
+* **Desdobramento:** Sequência imediata de troca de chaves SSHv2 (*Key Exchange Init*, *PQ/T Hybrid Key Exchange*) e ativação de mensagens encriptadas (*New Keys / Encrypted packet*).
 
+---
 
-Estados de Porta Nmap:
+### 4. Reconhecimento & Escaneamento de Serviços com Nmap
+![week-02-nmap-reconhecimento.png](https://raw.githubusercontent.com/thiagoalphabsb/cybersecurity-roadmap/main/evidence/week02/week-02-nmap-reconhecimento.png)
 
+* **O que a imagem demonstra:** Execução de varreduras ativas de portas no host alvo `10.10.10.10` a partir da estação de auditoria Kali.
+* **Comandos Executados & Análise:**
+  - `nmap -n 10.10.10.10`: Varredura rápida das portas TCP mais comuns (confirmando host ativo com MAC `08:00:27:EE:8E:5F`).
+  - `nmap -sV -n 10.10.10.10`: Varredura de detecção de serviços e versões.
+* **Resultado para Análise Defensiva:** Identificação das respostas de reset TCP (*Not shown: 1000 closed tcp ports (reset)*), indicando que portas sem serviço ativo rejeitam conexões explicitamente via pacote `RST`.
 
+---
 
-OPEN: Aceita conexões ativas.
+## 🛡️ Tabela de Ferramentas & Aplicação em Investigação / SOC
 
+| Ferramenta / Protocolo | Função Executada | Aplicação Técnica em SOC / Blue Team |
+| :---: | :--- | :--- |
+| **Ping / ICMP** | Verificação de conectividade L3 | Diagnóstico básico de alcance de rede e detecção de bloqueios por firewall |
+| **Wireshark** | Captura e inspeção de quadros/pacotes | Análise detalhada de tráfego, verificação de Handshakes TCP e depuração de protocolos |
+| **TCP 3-Way Handshake** | Estabelecimento de sessão orientada à conexão | Identificação de varreduras *SYN Scan* e tentativas de abuso de recursos (*SYN Flood*) |
+| **Nmap (`-sV`)** | Mapeamento ativo de portas e versões | Mapeamento de superfície de ataque e identificação de serviços desatualizados/vulneráveis |
 
+---
 
-CLOSED: Responde com pacote RST (sem serviço na porta).
+## 🔍 5. Conclusões & Aprendizados
 
+* **Diferenciação de IP Bind:** A análise provou que serviços vinculados a `127.0.0.1` (como o CUPS na porta 631) não ficam expostos à rede externa, enquanto serviços em `0.0.0.0` (como o OpenSSH na porta 22) compõem a superfície de ataque pública do host.
+* **Validação do Handshake TCP:** A inspeção no Wireshark confirmou a exatidão das três etapas de sincronização do protocolo TCP antes da troca de dados criptografados da sessão SSH.
+* **Mapeamento Defensivo:** O Nmap permitiu verificar exatamente o que um atacante visualizaria na rede local, permitindo validar as regras de firewall e minimizar a exposição desnecessária de serviços.
 
+---
 
-FILTERED: Pacote bloqueado/descartado por regras de Firewall sem resposta.
+## 🔗 Projetos e Links Relacionados
 
-
-
-✅ Checklist de Conclusão da Semana
-
-\[x] Compreensão da estrutura e encapsulamento de pacotes
-
-
-
-\[x] Captura de tráfego com Wireshark
-
-
-
-\[x] Identificação de tráfego ICMP e TCP
-
-
-
-\[x] Mapeamento de portas e conceitos de IP Bind
-
-
-
-\[x] Análise detalhada do TCP 3-Way Handshake
-
-
-
-\[x] Mapeamento de ativos e enumeração de serviços com Nmap
-
-
-
-\[x] Documentação e atualização do arquivo README.md
-
-
-
-⚠️ Observação Legal e de Ambiente
-
-Todos os estudos, escaneamentos e capturas de pacotes foram executados exclusivamente em ambiente virtualizado e controlado (CyberLab / VirtualBox).
+* 🖥️ [Laboratório Prático de Network Analysis](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/portfolio/network-analysis)
+* 🧪 [CyberLab Infrastructure](https://www.google.com/search?q=https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/portfolio/cyberlab)
+* 🛣️ [Cybersecurity Roadmap (24 Semanas)](https://www.google.com/search?q=https://github.com/thiagoalphabsb/cybersecurity-roadmap)
 
