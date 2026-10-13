@@ -318,11 +318,10 @@ Com isso, o laboratório evoluiu de uma simples configuração de rede para uma 
 
 ## 🔗 Projetos e Links Relacionados
 
-* 📑 [Relatório de Investigação da Week 04 na Íntegra](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04/week04-investigacao.txt)[cite: 25]
+* 📑 [Relatório de Investigação da Week 04 na Íntegra](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04/week04-investigacao.txt)
 * 📁 [Anotações Técnicas Diárias (Docs)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/docs/week04)
 * 🛡️ [Cybersecurity Portfolio Principal](https://github.com/thiagoalphabsb/cybersecurity-portfolio)
 * 🧪 [CyberLab Infrastructure](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/portfolio/cyberlab/README.md)
 * 🛣️ [Cybersecurity Roadmap (24 Semanas)](https://github.com/thiagoalphabsb/cybersecurity-roadmap)
 
-*---*
 
