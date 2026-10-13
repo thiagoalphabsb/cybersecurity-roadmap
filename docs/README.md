@@ -55,7 +55,7 @@ Também estão disponíveis registros operacionais adicionais: [README do Dia 04
 
 - [Week 02 — Dias 01 e 02](./week02/week%2002%20-%20day%2001%20e%2002.txt)
 - [Week 02 — Dia 03](./week02/week%2002%20-%20day%2003.txt)
-- [Week 02 — Dia 04](./week02/week-02-day-04.md)
+- [Week 02 — Dia 04](./week02/week%2002%20-day%2004.md)
 - [Week 02 — Dias 06 e 07](./week02/week-02-day06-07.md)
 
 As evidências incluem provisionamento das VMs, snapshot Debian, comunicação interna, análise de handshake TCP/SSH, captura no Wireshark e reconhecimento com Nmap.
