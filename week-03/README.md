@@ -1,8 +1,8 @@
 # 🐧 Linux Security Fundamentals (Semana 03)
 
-> **Módulo / Categoria:** Administração de Sistemas & Segurança Defensiva (Linux)[cite: 20]  
-> **Data de Execução:** 15/09/2026[cite: 21]  
-> **Status:** 🟢 Concluído[cite: 20]  
+> **Módulo / Categoria:** Administração de Sistemas & Segurança Defensiva (Linux)
+> **Data de Execução:** 15/09/2026
+> **Status:** 🟢 Concluído
 
 ---
 
