@@ -162,14 +162,14 @@ A etapa final integrou os conhecimentos anteriores por meio da:
 
 ## 📄 Documentos \& Relatórios da Semana
 
-* 📘 [Dia 01 — Fundamentos de Redes e Reconhecimento](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/Week04-day01.txt)
-* 📘 [Dia 02 — TCP, UDP, Portas e Serviços](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/Week04-day02.txt)
-* 📘 [Dia 03 — ARP, MAC Address e Descoberta na Rede Local](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/Week04-day03.txt)
-* 📘 [Dia 04 — DNS, Resolução de Nomes e Análise de Consultas](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week_04_day_04.txt)
-* 📘 [Dia 05 — Firewall Linux com nftables](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04-day05.txt)
-* 📘 [Dia 06 — Monitoramento de Tráfego e Investigação de Conexões](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04-day06.txt)
-* 📘 [Dia 07 — Consolidação da Week 04](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04-day07.txt)
-* 📑 [Relatório de Investigação da Week 04](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/notes/week04-investigacao.txt)
+* 📘 [Dia 01 — Fundamentos de Redes e Reconhecimento](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04/Week04-day01.txt)
+* 📘 [Dia 02 — TCP, UDP, Portas e Serviços](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04/Week04-day02.txt)
+* 📘 [Dia 03 — ARP, MAC Address e Descoberta na Rede Local](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04/Week04-day03.txt)
+* 📘 [Dia 04 — DNS, Resolução de Nomes e Análise de Consultas](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week01/week_04_day_04.txt)
+* 📘 [Dia 05 — Firewall Linux com nftables](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04/week04-day05.txt)
+* 📘 [Dia 06 — Monitoramento de Tráfego e Investigação de Conexões](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04/week04-day06.txt)
+* 📘 [Dia 07 — Consolidação da Week 04](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04/week04-day07.txt)
+* 📑 [Relatório de Investigação da Week 04](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04/week04-investigacao.txt)
 
 
 
@@ -179,52 +179,52 @@ A etapa final integrou os conhecimentos anteriores por meio da:
 
 ### 📍 Dia 01 — Fundamentos \& Conectividade
 
-* [Configuração de IP e Rotas no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day01-ipdebian.png)
-* [Configuração de IP e Rotas no Kali Linux](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day01-ipkali.png)
-* [Teste de Conectividade ICMP Bidirecional](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day01-pingvms.jpg)
-* [Sockets em Escuta no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day01-ss-tuln-debian.png)
-* [Varredura Nmap a partir do Kali](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day01-nmap-kali.png)
+* [Configuração de IP e Rotas no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day01-ipdebian.png)
+* [Configuração de IP e Rotas no Kali Linux](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day01-ipkali.png)
+* [Teste de Conectividade ICMP Bidirecional](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day01-pingvms.png)
+* [Sockets em Escuta no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day01-ss-tuln-debian.png)
+* [Varredura Nmap a partir do Kali](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day01-nmap-kali.png)
 
 ### 📍 Dia 02 — TCP, Sockets \& Handshake
 
-* [Sockets e Processos no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day02-sstul.png)
-* [Status do Serviço SSH no systemd](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day02-sshstatus.png)
-* [Scanner de Portas com Nmap no Kali](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day02-nmapscankali.png)
-* [Conexão TCP Estabelecida no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day02-tnp.png)
-* [Filtro da Flag SYN no Wireshark](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day02-wiresharkSYN.jpg)
-* [Captura da Sessão SSH e Handshake no Wireshark](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day02-wireshark3way.jpg)
+* [Sockets e Processos no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day02-sstul.png)
+* [Status do Serviço SSH no systemd](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day02-sshstatus.png)
+* [Scanner de Portas com Nmap no Kali](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day02-nmapscankali.png)
+* [Conexão TCP Estabelecida no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day02-tnp.png)
+* [Filtro da Flag SYN no Wireshark](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day02-wiresharkSYN.png)
+* [Captura da Sessão SSH e Handshake no Wireshark](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day02-wireshark3way.png)
 
 ### 📍 Dia 03 — ARP \& Camada de Enlace
 
-* [Mapeamento de MAC e Tabela ARP no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day03-ipneigh-debian.png)
-* [Mapeamento de MAC e Tabela ARP no Kali](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidenceweek04-day03-ipneigh-kali.png)
-* [Limpeza de Cache e Redescoberta ARP](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day03-arp-del-ping.png)
-* [Captura dos Pacotes ARP Request e Reply no Wireshark](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day03-wireshark-arp.png)
+* [Mapeamento de MAC e Tabela ARP no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day03-ipneigh-debian.png)
+* [Mapeamento de MAC e Tabela ARP no Kali](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day03-ipneigh-kali.png)
+* [Limpeza de Cache e Redescoberta ARP](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day03-arp-del-ping.png)
+* [Captura dos Pacotes ARP Request e Reply no Wireshark](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day03-wireshark-arp.png)
 
 ### 📍 Dia 04 — DNS \& Resolução de Nomes
 
-* [Configuração do Resolv e Resolução no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day04-resolv-conf.png)
-* [Consultas de Registros A, AAAA e MX via nslookup](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day04-nslookup-records.png)
-* [Consultas DNS via dig](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day04-dig-queries.png)
-* [Análise da Captura de Pacotes DNS no Wireshark](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day04-wireshark-dns.png)
+* [Configuração do Resolv e Resolução no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day04-resolv-conf.png)
+* [Consultas de Registros A, AAAA e MX via nslookup](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day04-nslookup-records.png)
+* [Consultas DNS via dig](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day04-dig-queries.png)
+* [Análise da Captura de Pacotes DNS no Wireshark](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day04-wireshark-dns.png)
 
 ### 📍 Dia 05 — Firewall Linux \& nftables
 
-* [Estado Inicial do nftables](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidenceweek04-day05-nft-initial.png)
-* [Servidor Temporário Python em Execução — 0.0.0.0:8080](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-python-listen.png)
-* [Teste de Conectividade Antes do Bloqueio](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-baseline-kali.png)
-* [Criação da Tabela cyberlab e Regra DROP](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-nft-drop-rule.png)
-* [Porta Filtrada no Nmap e Timeout no Curl](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-nmap-filtered.png)
-* [Contador de Pacotes da Regra DROP](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-counter-drop.png)
-* [Regra ACCEPT e Conexão Permitida](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/week04-day05-nft-accept-rule.png)
-* [Limpeza da Tabela cyberlab](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/week04-day05-cleanup.png)
+* [Estado Inicial do nftables](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day05-nft-initial.png)
+* [Servidor Temporário Python em Execução — 0.0.0.0:8080](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day05-python-listen.png)
+* [Teste de Conectividade Antes do Bloqueio](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day05-baseline-kali.png)
+* [Criação da Tabela cyberlab e Regra DROP](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day05-nft-drop-rule.png)
+* [Porta Filtrada no Nmap e Timeout no Curl](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day05-nmap-filtered.png)
+* [Contador de Pacotes da Regra DROP](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day05-counter-drop.png)
+* [Regra ACCEPT e Conexão Permitida](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day05-nft-accept-rule.png)
+* [Limpeza da Tabela cyberlab](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day05-cleanup.png)
 
 ### 📍 Dia 06 e Dia 07 — Consolidação da Semana
 
-* [Análise e Captura de Pacotes ARP no Wireshark](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/week04-day07-ARP-wireshark.png)
-* [Correlação de Sockets, Processos e systemd no Debian](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/week04-day07-correlacao.png)
-* [Consultas DNS no Terminal via dig](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/week04-day07-DNS.png)
-* [Reconhecimento de Portas e Detecção de Versão com Nmap](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/week04-day07-reconhecimento.png)
+* [Análise e Captura de Pacotes ARP no Wireshark](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day07-ARP-wireshark.png)
+* [Correlação de Sockets, Processos e systemd no Debian](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day07-correlacao.png)
+* [Consultas DNS no Terminal via dig](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day07-DNS.png)
+* [Reconhecimento de Portas e Detecção de Versão com Nmap](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/evidence/week04/week04-day07-reconhecimento.png)
 
 \---
 
@@ -318,7 +318,7 @@ Com isso, o laboratório evoluiu de uma simples configuração de rede para uma 
 
 ## 🔗 Projetos e Links Relacionados
 
-* 📑 [Relatório de Investigação da Week 04 na Íntegra](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/notes/week04-investigacao.txt)[cite: 25]
+* 📑 [Relatório de Investigação da Week 04 na Íntegra](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week04/week04-investigacao.txt)[cite: 25]
 * 📁 [Anotações Técnicas Diárias (Docs)](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/docs/week04)
 * 🛡️ [Cybersecurity Portfolio Principal](https://github.com/thiagoalphabsb/cybersecurity-portfolio)
 * 🧪 [CyberLab Infrastructure](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/portfolio/cyberlab/README.md)
