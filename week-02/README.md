@@ -1,111 +1,108 @@
-# 🧪 Laboratório: Redes de Computadores, Análise de Tráfego & Enumeração (Semana 02)
+# 🧪 Laboratório: Virtualização & Provisionamento do CyberLab (Semana 02)
 
-> **Módulo / Categoria:** Redes, Análise de Tráfego & Enumeração de Serviços  
-> **Data de Execução:** 20/08/2026  
+> **Módulo / Categoria:** Infraestrutura, Virtualização & Segurança Defensiva  
+> **Data de Execução:** 01/09/2026  
 > **Status:** 🟢 Concluído  
 
 ---
 
-## 🎯 1. Objetivo do Laboratório
+## 🎯 1. Objetivo da Semana
 
-Aprofundar os conhecimentos em **Redes de Computadores sob a perspectiva de Cibersegurança Defensiva e Análise de Tráfego**, evoluindo dos conceitos de arquitetura e endereçamento até a captura ativa de pacotes e escaneamento de serviços em ambiente isolado.
+A **Semana 02** teve como foco a construção e o provisionamento inicial do **CyberLab**, o ambiente de simulação virtualizado e isolado que serve de base para os exercícios práticos do roadmap.
 
-- **Arquitetura & Endereçamento:** Mapeamento de Camada 2 (MAC) e Camada 3 (IP), subredes, gateways e análise de arquivos de configuração de rede (`/etc/resolv.conf`).
-- **Análise de Tráfego com Wireshark:** Inspeção prática do tráfego ICMP (*Echo Request / Reply*) e captura detalhada do **TCP 3-Way Handshake** (`SYN` → `SYN-ACK` → `ACK`) na porta do SSH.
-- **Enumeração & Superfície de Ataque:** Mapeamento de processos escutando interfaces (`ss`, `ps`, `lsof`), conceitos de *IP Bind* (`127.0.0.1` vs `0.0.0.0`) e escaneamento de serviços via **Nmap**.
-
----
-
-## 🖥️ 2. Ambiente & Ferramentas
-
-| Recurso / Elemento | Especificação / Detalhe |
-| :--- | :--- |
-| **Ativo Target (Alvo)** | `CyberLab-Debian` (Debian GNU/Linux 13 — `10.10.10.10/24`) |
-| **Ativo Tester (Auditoria)** | `CyberLab-Kali` (Kali Linux — `10.10.10.20/24`) |
-| **Rede Virtualizada** | Subrede isolada Host-Only (`CYBERLAB-INTERNAL` — `10.10.10.0/24`) |
-| **Ferramentas Utilizadas** | Wireshark, Nmap, OpenSSH, `ss`, `ps`, `lsof`, `systemctl`, `ping` |
+- **Engenharia de Virtualização:** Configuração do Oracle VirtualBox, alocação de vCPUs, memória RAM e discos virtuais dinâmicos (VDI).
+- **Isolamento de Rede:** Criação e validação da rede interna isolada (*CYBERLAB-INTERNAL*) na faixa `10.10.10.0/24`, impedindo qualquer impacto na rede física ou na internet.
+- **Gerenciamento de Estado (Snapshots):** Criação de pontos de restauração virgens (*Clean Baselines*) em cada VM para permitir *rollback* rápido após simulações de testes ou alterações de configuração.
+- **Provisionamento Linux:** Instalação e configuração inicial das máquinas **CyberLab-Debian** (servidor de aplicação/serviços) e **CyberLab-Kali** (estação de auditoria e análise de segurança).
 
 ---
 
-## 🏗️ Topologia da Rede Isolada (CyberLab)
+## 🏗️ 2. Arquitetura & Topologia da Rede Interna
+
+O ambiente é totalmente contido no host físico (Windows 11) e utiliza interfaces em ponte/NAT apenas para atualizações pontuais, mantendo uma interface secundária conectada ao switch virtual da rede interna do laboratório.
 
 ```text
-                        CYBERLAB (Rede Interna Isolada)
-                                (10.10.10.0/24)
-                                       │
-            ┌──────────────────────────┴──────────────────────────┐
-            │                                                     │
-     CyberLab-Kali                                         CyberLab-Debian
-      (Kali Linux)                                          (Debian 13)
-      10.10.10.20/24                                       10.10.10.10/24
-(Wireshark / Scans / Nmap)                              (Serviços / Target)
+                        CYBERLAB INTERNAL NETWORK
+                             (10.10.10.0/24)
+                                    │
+                         Isolated Virtual Switch
+                                    │
+            ┌───────────────────────┴───────────────────────┐
+            │                                               │
+     CyberLab-Debian                                 CyberLab-Kali
+    Debian GNU/Linux 13                                Kali Linux
+      10.10.10.10/24                                 10.10.10.20/24
+ (Servidor / SysAdmin / Target)                (Auditoria / SOC / Tester)
 
 ```
 
 ---
 
-## 🛠️ 3. Procedimento & Execução
+## 🖥️ 3. Matriz de Ativos do Laboratório (Semana 02)
 
-### Passo 1: Mapeamento de Interfaces & DNS
+| VM / Hostname | Sistema Operacional | Função / Papel no Lab | IP Interno | Recursos (RAM / Disco) | Snapshot Baseline |
+| --- | --- | --- | --- | --- | --- |
+| **CyberLab-Debian** | Debian GNU/Linux 13 | Servidor Target / Serviços | `10.10.10.10/24` | 3.8 GB / 30 GB VDI | `BASE-LINUX-INSTALADO` |
+| **CyberLab-Kali** | Kali Linux Rolling | Estação de Auditoria & SOC | `10.10.10.20/24` | 2.0 GB / 79 GB VDI | `CYBERLAB-CLEAN-01` |
 
-Inspeção das placas de rede e do arquivo de resolução de nomes no servidor Debian:
+> *Nota: O ecossistema do laboratório foi expandido nas semanas posteriores (Semanas 05 e 06) com a inclusão da VM `DC01` (Windows Server 2025 Datacenter / Active Directory).*
 
+---
+
+## 🛠️ 4. Procedimento & Passo a Passo de Execução
+
+### Passo 1: Configuração do VirtualBox & Rede Interna
+
+Criação do switch virtual isolado para permitir a comunicação entre as VMs sem roteamento para a interface física:
+
+1. Acesso a **VirtualBox ➔ Gerenciador de Redes de Host / Redes Internas**.
+2. Definição do nome da rede interna: `CYBERLAB-INTERNAL`.
+3. Configuração do adaptador secundário de cada VM para **Rede Interna** (*Internal Network*).
+
+### Passo 2: Instalação e Hardening do Debian (`CyberLab-Debian`)
+
+* Instalação limpa do Debian 13 (x86-64).
+* Configuração do hostname `debian` e atribuição do IP estático `10.10.10.10/24` na interface `enp0s8`.
+* Instalação e verificação do serviço OpenSSH para testes de conectividade e análise de tráfego.
+
+### Passo 3: Configuração da Estação de Auditoria (`CyberLab-Kali`)
+
+* Importação do appliance Kali Linux.
+* Configuração do IP estático `10.10.10.20/24` na interface `eth1` atrelada à `CYBERLAB-INTERNAL`.
+* Validação das ferramentas nativas de análise (`Nmap`, `Wireshark`, `OpenSSH`).
+
+### Passo 4: Validação de Conectividade & Gestão de Snapshots
+
+* Teste de comunicação bidirecional via `ping` entre `10.10.10.10` e `10.10.10.20`.
+* Criação de imagens de estado de todas as máquinas virtuais após a instalação e teste inicial de conectividade:
 ```bash
-# Inspecionar interfaces de rede e endereçamento
-ip a
-ip route
-
-# Verificar servidores DNS e sufixo de busca configurados
-cat /etc/resolv.conf
-
-```
-
-### Passo 2: Enumeração de Processos e IP Bind
-
-Análise dos sockets ativos e portas escutando no sistema:
-
-```bash
-# Listar portas TCP e UDP escutando no sistema
-ss -tuln
-ps aux | grep sshd
-
-# Verificar serviços vinculados apenas ao loopback local vs todas as interfaces
-lsof -i :22
-lsof -i :631
-
-```
-
-### Passo 3: Captura de Tráfego com Wireshark (Kali Linux)
-
-Captura de pacotes da rede interna filtrando a comunicação entre o Kali (`10.10.10.20`) e o Debian (`10.10.10.10`):
-
-```bash
-# 1. Testar conectividade ICMP
-ping -c 4 10.10.10.10
-
-# 2. Iniciar conexão SSH para captura do Handshake TCP
-ssh debian@10.10.10.10
-
-```
-
-### Passo 4: Escaneamento Ativo de Serviços com Nmap
-
-Mapeamento de portas abertas e detecção de versões de serviço:
-
-```bash
-# Scan de portas TCP mais comuns
-nmap -n 10.10.10.10
-
-# Detecção de versão dos serviços expostos
-nmap -sV -n 10.10.10.10
+# Validação da criação dos snapshots no VirtualBox para ambiente limpo
+VBoxManage snapshot "CyberLab-Linux" take "BASE-LINUX-INSTALADO"
+VBoxManage snapshot "kali-linux-2026.2" take "CYBERLAB-CLEAN-01"
 
 ```
 
 ---
 
-## 📸 Relatório de Evidências Práticas
+## 📸 5. Relatório de Evidências Práticas (Virtualização & Rede)
 
-### 1. Teste de Comunicação em Rede Interna (Debian ↔ Kali)
+### 1. Painel do Oracle VirtualBox & Ativos Provisionados
+![week-02-vms-virtualbox.png](https://raw.githubusercontent.com/thiagoalphabsb/cybersecurity-roadmap/main/evidence/week02/vms-virtualbox.png)
+
+* **O que a imagem demonstra:** Visão geral do Oracle VirtualBox Gerenciador com o ativo Debian em execução e os appliances configurados para a topologia do laboratório.
+* **Resultado:** Validação do provisionamento dos hipervisores e suporte de execução para o CyberLab.
+
+---
+
+### 2. Ponto de Restauração Baseline (Snapshot Debian)
+![week-02-day-02-snapshot-debian.png](https://raw.githubusercontent.com/thiagoalphabsb/cybersecurity-roadmap/main/evidence/week02/day-02-snapshot-debian.png)
+
+* **O que a imagem demonstra:** Registro e criação do Snapshot BASE-LINUX-INSTALADO na VM Debian.
+* **Resultado:** Ponto de restauração limpo (Clean Baseline) estabelecido em 01/09/2026, garantindo a capacidade de rollback rápido do sistema após testes ou falhas.
+
+---
+
+### 3. Teste de Comunicação em Rede Interna (Debian ↔ Kali)
 ![week-02-comunicacaoredeinterna.png](https://raw.githubusercontent.com/thiagoalphabsb/cybersecurity-roadmap/main/evidence/week02/week-02-comunicacaoredeinterna.png)
 
 * **O que a imagem demonstra:** Teste bidirecional de conectividade em Camada 3 (Network Layer) utilizando o utilitário `ping` entre os dois ativos da rede isolada do CyberLab.
@@ -116,18 +113,7 @@ nmap -sV -n 10.10.10.10
 
 ---
 
-### 2. Captura e Análise de Tráfego ICMP no Wireshark
-![week-02-wireshark.png](https://raw.githubusercontent.com/thiagoalphabsb/cybersecurity-roadmap/main/evidence/week02/week-02-wireshark.png)
-
-* **O que a imagem demonstra:** Intercepção em tempo real dos pacotes ICMP no Wireshark na interface `eth1` da máquina Kali (`10.10.10.20`).
-* **Filtro Aplicado:** `icmp`
-* **Análise do Fluxo Confirmada:**
-  - Sequência perfeita de pares **Echo (ping) request** (origem `10.10.10.20` para `10.10.10.10`) e **Echo (ping) reply** (resposta de `10.10.10.10` para `10.10.10.20`).
-  - Inspeção de cabeçalhos mostrando tamanho do quadro (`98 bytes on wire`) e payload contendo a sequência de bytes padrão do ICMP.
-
----
-
-### 3. Análise do TCP 3-Way Handshake & Sessão SSH
+### 4. Análise do TCP 3-Way Handshake & Sessão SSH
 ![week-02-3wayhandshake.png](https://raw.githubusercontent.com/thiagoalphabsb/cybersecurity-roadmap/main/evidence/week02/week-02-3wayhandshake.png)
 
 * **O que a imagem demonstra:** Captura profunda da negociação da sessão TCP e estabelecimento de túnel criptografado SSHv2 entre o Kali (`10.10.10.20`) e o Debian (`10.10.10.10`).
@@ -139,7 +125,7 @@ nmap -sV -n 10.10.10.10
 
 ---
 
-### 4. Reconhecimento & Escaneamento de Serviços com Nmap
+### 5. Reconhecimento & Escaneamento de Serviços com Nmap
 ![week-02-nmap-reconhecimento.png](https://raw.githubusercontent.com/thiagoalphabsb/cybersecurity-roadmap/main/evidence/week02/week-02-nmap-reconhecimento.png)
 
 * **O que a imagem demonstra:** Execução de varreduras ativas de portas no host alvo `10.10.10.10` a partir da estação de auditoria Kali.
@@ -147,25 +133,13 @@ nmap -sV -n 10.10.10.10
   - `nmap -n 10.10.10.10`: Varredura rápida das portas TCP mais comuns (confirmando host ativo com MAC `08:00:27:EE:8E:5F`).
   - `nmap -sV -n 10.10.10.10`: Varredura de detecção de serviços e versões.
 * **Resultado para Análise Defensiva:** Identificação das respostas de reset TCP (*Not shown: 1000 closed tcp ports (reset)*), indicando que portas sem serviço ativo rejeitam conexões explicitamente via pacote `RST`.
-
 ---
 
-## 🛡️ Tabela de Ferramentas & Aplicação em Investigação / SOC
+## 🔍 6. Conclusões & Aprendizados
 
-| Ferramenta / Protocolo | Função Executada | Aplicação Técnica em SOC / Blue Team |
-| :---: | :--- | :--- |
-| **Ping / ICMP** | Verificação de conectividade L3 | Diagnóstico básico de alcance de rede e detecção de bloqueios por firewall |
-| **Wireshark** | Captura e inspeção de quadros/pacotes | Análise detalhada de tráfego, verificação de Handshakes TCP e depuração de protocolos |
-| **TCP 3-Way Handshake** | Estabelecimento de sessão orientada à conexão | Identificação de varreduras *SYN Scan* e tentativas de abuso de recursos (*SYN Flood*) |
-| **Nmap (`-sV`)** | Mapeamento ativo de portas e versões | Mapeamento de superfície de ataque e identificação de serviços desatualizados/vulneráveis |
-
----
-
-## 🔍 5. Conclusões & Aprendizados
-
-* **Diferenciação de IP Bind:** A análise provou que serviços vinculados a `127.0.0.1` (como o CUPS na porta 631) não ficam expostos à rede externa, enquanto serviços em `0.0.0.0` (como o OpenSSH na porta 22) compõem a superfície de ataque pública do host.
-* **Validação do Handshake TCP:** A inspeção no Wireshark confirmou a exatidão das três etapas de sincronização do protocolo TCP antes da troca de dados criptografados da sessão SSH.
-* **Mapeamento Defensivo:** O Nmap permitiu verificar exatamente o que um atacante visualizaria na rede local, permitindo validar as regras de firewall e minimizar a exposição desnecessária de serviços.
+* **Segurança por Isolamento:** A utilização de uma rede interna isolada (*CYBERLAB-INTERNAL*) garante total liberdade para execução de escaneamentos com Nmap, testes de serviços e auditorias sem risco de vazamento de tráfego para a rede física.
+* **Garantia de Reprodutibilidade:** O uso rigoroso de snapshots baseline permite reverter alterações ou arquivos corrompidos em segundos, mantendo a consistência do laboratório ao longo de todo o roadmap.
+* **Validação de Comunicação L3:** A confirmação do tráfego bidirecional entre o Debian e o Kali validou o ambiente para o início das práticas de redes e segurança de sistemas.
 
 ---
 
