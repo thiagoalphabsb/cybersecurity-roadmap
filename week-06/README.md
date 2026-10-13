@@ -54,7 +54,7 @@ Get-ADDomainController -Filter *
 
 📄 Documentação técnica: [`docs/day-01-02-deploy-dc.txt`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/docs)
 
-🖼️ Evidências do dia: [`evidence/week-06/day-02/`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence)
+🖼️ Evidências do dia: [`evidence//windows-server-2025/`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/windows-server-2025)
 
 ---
 
@@ -77,7 +77,7 @@ Get-ADPrincipalGroupMembership ana.silva | Select-Object Name
 
 📄 Documentação técnica: [`docs/day-03-iam-users-groups.txt`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/docs)
 
-🖼️ Evidências do dia: [`evidence/week-06/day-03/`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence)
+🖼️ Evidências do dia: [`evidence//windows-server-2025/`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/windows-server-2025)
 
 ---
 
@@ -115,7 +115,7 @@ Get-ADUser -Filter * | Select-Object Name, DistinguishedName
 
 📄 Documentação técnica: [`docs/day-04-ou-structure.txt`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/docs)
 
-🖼️ Evidências do dia: [`evidence/week-06/day-04/`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence)
+🖼️ Evidências do dia: [`evidence//windows-server-2025/`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/windows-server-2025)
 
 ---
 
@@ -156,7 +156,7 @@ gpupdate /force
 
 📄 Documentação técnica: [`docs/day-05-gpo-security-baseline.txt`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/docs)
 
-🖼️ Evidências do dia: [`evidence/week-06/day-05/`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence)
+🖼️ Evidências do dia: [`evidence//windows-server-2025/`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/windows-server-2025)
 
 ---
 
@@ -193,7 +193,7 @@ $XmlEvent = [xml]$Event.ToXml()
 
 📄 Documentação técnica: [`docs/day-06-incident-investigation.txt`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/docs)
 
-🖼️ Evidências do dia: [`evidence/week-06/day-06/`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence)
+🖼️ Evidências do dia: [`evidence//windows-server-2025/`](https://github.com/thiagoalphabsb/cybersecurity-roadmap/tree/main/evidence/windows-server-2025)
 
 ---
 
