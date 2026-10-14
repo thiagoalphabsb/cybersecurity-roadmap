@@ -17,46 +17,34 @@ A experiência anterior em Suporte N2 faz parte dessa evolução: troubleshootin
 
 ---
 
-## 📍 Progresso atual
+## 📍 Progresso Atual & Navegação por Semanas
 
-**Semana atual: 07 — Python**
-
-| Semana | Tema | Status |
-|---:|---|---|
-| 01 | Fundamentos de Computação | ✅ Concluída |
-| 02 | Virtualização + CyberLab | ✅ Concluída |
-| 03 | Linux | ✅ Concluída |
-| 04 | Redes | ✅ Concluída |
-| 05 | Windows | ✅ Concluída |
-| 06 | Active Directory | ✅ Concluída |
-| **07** | **Python** | 🚧 Em andamento |
-| 08 | Segurança de Redes | 📋 Planejada |
-| 09 | Wireshark | 📋 Planejada |
-| 10 | Web Security | 📋 Planejada |
-| 11 | Vulnerabilidades | 📋 Planejada |
-| 12 | Pentest | 📋 Planejada |
-| 13 | SOC | 📋 Planejada |
-| 14 | SIEM | 📋 Planejada |
-| 15 | Threat Intelligence | 📋 Planejada |
-| 16 | Incident Response | 📋 Planejada |
-| 17 | DFIR | 📋 Planejada |
-| 18 | Malware Analysis | 📋 Planejada |
-| 19 | Cloud | 📋 Planejada |
-| 20 | Cloud Security | 📋 Planejada |
-| 21 | Automação | 📋 Planejada |
-| 22 | Projetos | 📋 Planejada |
-| 23 | Projeto Final | 📋 Planejada |
-| 24 | Revisão + Portfólio | 📋 Planejada |
-
-### Semanas
-
-- [Week 01](./week-01/)
-- [Week 02](./week-02/)
-- [Week 03](./week-03/)
-- [Week 04](./week-04/)
-- [Week 05](./week-05/)
-- [Week 06 — Active Directory](./week-06/)
-- [Week 07 — Python](./week-07/)
+| Semana | Tema / Foco Prático | Status |
+| :---: | :--- | :---: |
+| **01** | [Week 01 — Fundamentos de Computação](./week-01/) | ✅ Concluída |
+| **02** | [Week 02 — Virtualização + CyberLab](./week-02/) | ✅ Concluída |
+| **03** | [Week 03 — Linux Security Fundamentals](./week-03/) | ✅ Concluída |
+| **04** | [Week 04 — Redes (Fundamentos & Análise Prática)](./week-04/) | ✅ Concluída |
+| **05** | [Week 05 — Windows Administration & Security](./week-05/) | ✅ Concluída |
+| **06** | [Week 06 — Active Directory & Identity Management](./week-06/) | ✅ Concluída |
+| **07** | [Week 07 — Python para Cibersegurança & Automação](./week-07/) | 🚧 Em andamento |
+| **08** | [Week 08 — Segurança de Redes & Hardening](./week-08/) | 📋 Planejada |
+| **09** | [Week 09 — Análise Avançada de Tráfego com Wireshark](./week-09/) | 📋 Planejada |
+| **10** | [Week 10 — Web Security & OWASP Top 10](./week-10/) | 📋 Planejada |
+| **11** | [Week 11 — Análise de Vulnerabilidades](./week-11/) | 📋 Planejada |
+| **12** | [Week 12 — Pentest & Exploração Controlada](./week-12/) | 📋 Planejada |
+| **13** | [Week 13 — Operações de SOC & Monitoramento](./week-13/) | 📋 Planejada |
+| **14** | [Week 14 — SIEM & Análise de Logs](./week-14/) | 📋 Planejada |
+| **15** | [Week 15 — Threat Intelligence](./week-15/) | 📋 Planejada |
+| **16** | [Week 16 — Incident Response](./week-16/) | 📋 Planejada |
+| **17** | [Week 17 — Digital Forensics & Incident Response (DFIR)](./week-17/) | 📋 Planejada |
+| **18** | [Week 18 — Análise de Malware](./week-18/) | 📋 Planejada |
+| **19** | [Week 19 — Cloud Computing Fundamentals](./week-19/) | 📋 Planejada |
+| **20** | [Week 20 — Cloud Security (AWS / Azure)](./week-20/) | 📋 Planejada |
+| **21** | [Week 21 — Automação & Scripting de Segurança](./week-21/) | 📋 Planejada |
+| **22** | [Week 22 — Projetos Práticos de Defesa](./week-22/) | 📋 Planejada |
+| **23** | [Week 23 — Projeto Final de Cibersegurança](./week-23/) | 📋 Planejada |
+| **24** | [Week 24 — Consolidação do Portfólio Professional](./week-24/) | 📋 Planejada |
 
 ---
 
@@ -126,8 +114,9 @@ Semanas 13–18
 - Incident Response
 - DFIR
 - Malware Analysis
-- Objetivo
-- Desenvolver habilidades de detecção, investigação, análise e resposta a incidentes.
+
+Objetivo
+Desenvolver habilidades de detecção, investigação, análise e resposta a incidentes.
 ---
 ## ☁️ Fase 5 — Cloud & Automação
 
@@ -180,46 +169,43 @@ Ambiente virtual utilizado nos exercícios práticos.
 
 > Laboratório próprio e destinado exclusivamente a testes autorizados.
 
-[Documentação do CyberLab](./portfolio/cyberlab/README.md)
+📑 [Ver Documentação do CyberLab](./portfolio/cyberlab/README.md)
 
 ---
 
-## 🖼️ Evidências e documentação
+## 🖼️ Central de Evidências & Documentação
 
-- **[Evidências — índice de capturas](./evidence/README.md)**
-- [Evidências Windows Server 2025 / Active Directory](./evidence/windows-server-2025/README.md)
-- [Documentação complementar](./docs/README.md)
-- [Anotações técnicas](./notes/)
+- 📸 **[Índice Geral de Evidências Visualizadas](./evidence/README.md)**
+- 📸 **[Evidências Windows Server 2025 / Active Directory](./evidence/windows-server-2025/README.md)**
+- 📘 **[Documentação complementar](./docs/README.md)**
+- 📑 **[Relatórios de Investigação Técnica](https://github.com/thiagoalphabsb/cybersecurity-roadmap/blob/main/docs/week01/RELATORIO-INCIDENTE-001.txt)**
 
 ---
 
 ## 🛠️ Competências em desenvolvimento
 
-### Sistemas
-Linux · Debian · Kali Linux · Windows · Windows Server · Active Directory
+### Sistemas & Infraestrutura
+Linux (Debian / Kali) · Windows Server 2025 · Active Directory (AD DS / DNS / GPO) · VirtualBox
 
-### Redes
-TCP/IP · IPv4 · ICMP · TCP/UDP · DNS · DHCP · ARP · Routing · Firewall · Nmap · Wireshark · SSH
+### Redes & Análise de Tráfego
+TCP/IP · IPv4 · ICMP · TCP/UDP · DNS · DHCP · ARP · Routing · Host-Based Firewall (nftables) · Nmap · Wireshark · SSH
 
-### Segurança
-Fundamentos de Cybersecurity · Hardening · IAM · MFA · Vulnerability Analysis · SOC/SIEM · Incident Response · DFIR · Threat Intelligence
+### Segurança Defensiva & SOC
+Fundamentos de Cybersecurity · Hardening · IAM · MFA · Análise de Vulnerabilidades · SOC/SIEM · Incident Response · DFIR · Threat Intelligence
 
-### Automação e infraestrutura
-Python · Shell · PowerShell · VirtualBox · Laboratórios virtualizados · Redes isoladas
+### Linguagens & Automação
+Python · Bash Shell Scripting · PowerShell
 
 ---
 
 ## 🎓 Formação e certificações
 
-- Graduação em Segurança da Informação
-- Google Cybersecurity Professional Certificate
-- Cisco Networking Academy — Introduction to Cybersecurity, Endpoint Security, Network Defense e Cyber Threat Management
-- Cisco Academy — trilha profissionalizante Analista de Cibersegurança Júnior
-- FIAP — Cyber Security
-- FIAP — Cloud Fundamentals
-- Solyd — Introdução ao Hacking e Pentest 2.0
-- DIO.me — Segurança e boas práticas em projetos feitos com Vibe Coding
-- ITIL 5 Foundation
+- Graduação: Segurança da Informação (Em andamento)
+- Google: Cybersecurity Professional Certificate
+- Cisco Networking Academy: Introduction to Cybersecurity, Endpoint Security, Network Defense e Cyber Threat Management
+- Cisco Academy: Trilha Profissionalizante — Analista de Cibersegurança Júnior
+- FIAP: Cyber Security & Cloud Fundamentals
+- Solyd Offensive Security: Introdução ao Hacking e Pentest 2.0
 
 ---
 
