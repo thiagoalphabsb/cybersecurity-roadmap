@@ -73,6 +73,7 @@ Semanas 01–04
 
 Objetivo
 Construir uma base sólida antes de avançar para temas específicos de segurança.
+
 ---
 ## 🏢 Fase 2 — Sistemas e Infraestrutura
 
@@ -87,6 +88,7 @@ Semanas 05–08
 
 Objetivo
 Entender como ambientes corporativos funcionam e onde estão seus principais pontos de controle e exposição.
+
 ---
 ## 🔎 Fase 3 — Segurança Ofensiva
 
@@ -100,6 +102,7 @@ Semanas 09–12
 
 Objetivo
 Compreender técnicas ofensivas para desenvolver capacidade de identificação, análise e defesa.
+
 > ⚠️ Todos os testes são realizados exclusivamente em ambientes próprios, autorizados e isolados.
 ---
 ## 🛡️ Fase 4 — Blue Team / SOC
@@ -117,6 +120,7 @@ Semanas 13–18
 
 Objetivo
 Desenvolver habilidades de detecção, investigação, análise e resposta a incidentes.
+
 ---
 ## ☁️ Fase 5 — Cloud & Automação
 
@@ -131,6 +135,7 @@ Semanas 19–21
 
 Objetivo
 Aplicar conceitos de segurança em ambientes modernos e automatizar tarefas repetitivas.
+
 ---
 ## 🚀 Fase 6 — Projetos & Portfólio
 
@@ -145,6 +150,7 @@ Semanas 22–24
 
 Objetivo
 Transformar o conhecimento acumulado durante a jornada em projetos demonstráveis.
+
 ---
 ## 🧪 CyberLab
 
