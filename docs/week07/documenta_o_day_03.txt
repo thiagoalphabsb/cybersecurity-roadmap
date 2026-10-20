@@ -1,0 +1,168 @@
+================================================================================
+CYBERSECURITY ROADMAP - WEEK 07 - DAY 03
+Estruturas de Repetição, Listas e Automação de Análise de Eventos em Python
+================================================================================
+
+[ INFORMACÕES DO AMBIENTE ]
+- Sistema Operacional: Linux (Debian)
+- Linguagem: Python 3.x
+- Diretório do Laboratório: ~/cybersecurity-roadmap/week-07/day-03
+
+--------------------------------------------------------------------------------
+[ RESUMO DAS ATIVIDADES REALIZADAS ]
+--------------------------------------------------------------------------------
+1. Implementação do Script Principal (`analisador_logs.py`):
+   - Estruturação de dados complexos utilizando uma lista de dicionários (`list` de `dict`).
+   - Automação da análise de eventos de login com o laço `for`.
+   - Classificação de eventos e contagem automatizada através de contadores (`+=`).
+
+2. Execução dos Testes Práticos Obrigatórios:
+   - Teste 1 (Alteração do limite): `limite = 8` -> Ajuste da sensibilidade do filtro de alertas.
+   - Teste 2 (Inclusão de evento): Adição do 6º registro de evento na lista.
+   - Teste 3 (Novo contador): Criação do contador `eventos_criticos` para `tentativas >= 10`.
+   - Teste 4 (Filtro por usuário): Adição de verificação e alerta específico para a conta `admin`.
+
+3. Resolução do Desafio Extra (`analisador_logs_agregado.py`):
+   - Implementação de agregação de tentativas por usuário usando um dicionário como acumulador.
+
+--------------------------------------------------------------------------------
+[ CÓDIGOS DESENVOLVIDOS ]
+--------------------------------------------------------------------------------
+
+--- File: analisador_logs.py ---
+# Week 07 - Day 03
+# Analisador de eventos de login com exercicios integrados
+
+eventos = [
+    {"usuario": "ana", "ip": "192.168.1.10", "tentativas": 2},
+    {"usuario": "carlos", "ip": "10.10.10.20", "tentativas": 7},
+    {"usuario": "joao", "ip": "172.16.0.15", "tentativas": 12},
+    {"usuario": "ana", "ip": "192.168.1.10", "tentativas": 3},
+    {"usuario": "admin", "ip": "203.0.113.50", "tentativas": 9},
+    {"usuario": "mariana", "ip": "192.168.1.88", "tentativas": 10}
+]
+
+limite = 8
+
+total_eventos = 0
+total_alertas = 0
+eventos_criticos = 0
+
+print("=== ANALISADOR DE EVENTOS DE LOGIN ===\n")
+
+for evento in eventos:
+    total_eventos += 1
+
+    usuario = evento["usuario"]
+    ip = evento["ip"]
+    tentativas = evento["tentativas"]
+
+    print(f"Usuario: {usuario}")
+    print(f"IP: {ip}")
+    print(f"Tentativas: {tentativas}")
+
+    if usuario == "admin":
+        print("[INVESTIGACAO] Evento associado a conta sensivel (admin)!")
+
+    if tentativas >= 10:
+        eventos_criticos += 1
+
+    if tentativas >= limite:
+        total_alertas += 1
+        print("STATUS: ATENCAO - revisar evento")
+    else:
+        print("STATUS: NORMAL")
+
+    print("-" * 35)
+
+print("\n=== RESUMO DA ANALISE ===")
+print(f"Total de eventos: {total_eventos}")
+print(f"Eventos para revisao (>= {limite} tentativas): {total_alertas}")
+print(f"Eventos abaixo do limite: {total_eventos - total_alertas}")
+print(f"Eventos criticos (>= 10 tentativas): {eventos_criticos}")
+
+
+--- File: analisador_logs_agregado.py (Desafio Extra) ---
+# Week 07 - Day 03
+# Analisador com agrupamento de tentativas por usuario
+
+eventos = [
+    {"usuario": "ana", "ip": "192.168.1.10", "tentativas": 2},
+    {"usuario": "carlos", "ip": "10.10.10.20", "tentativas": 7},
+    {"usuario": "joao", "ip": "172.16.0.15", "tentativas": 12},
+    {"usuario": "ana", "ip": "192.168.1.10", "tentativas": 3},
+    {"usuario": "admin", "ip": "203.0.113.50", "tentativas": 9},
+    {"usuario": "mariana", "ip": "192.168.1.88", "tentativas": 10}
+]
+
+totais_por_usuario = {}
+
+for evento in eventos:
+    usr = evento["usuario"]
+    tentativas = evento["tentativas"]
+
+    if usr in totais_por_usuario:
+        totais_por_usuario[usr] += tentativas
+    else:
+        totais_por_usuario[usr] = tentativas
+
+print("=== RESUMO AGREGADO POR USUARIO ===")
+for usr, total in totais_por_usuario.items():
+    print(f"Usuario: {usr:<10} | Total acumulado de tentativas: {total}")
+
+
+## Objetivo
+Praticar estruturas de dados e repetição em Python criando um analisador de eventos de autenticação capaz de iterar sobre múltiplos registros, calcular métricas e identificar logs de alto risco.
+
+## Tópicos Abordados
+- Listas e dicionários (`list` de `dict`)
+- Laços de repetição `for` para automação
+- Estruturas condicionais (`if`, `else`)
+- Contadores e operadores de acumulação (`+=`)
+- Agregação de dados por chave de usuário
+- Classificação básica de eventos de segurança
+
+## Laboratório Prático
+Desenvolvimento do script `analisador_logs.py` para processar eventos de login simulados. O script calcula a contagem total de eventos, compara as tentativas de login falhas com um limite configurável e sinaliza eventos críticos.
+
+## Validação
+- Execução do script com sucesso no ambiente Linux (Debian).
+- Alteração do limite de alerta de `5` para `8` para observar a alteração na sensibilidade do filtro.
+- Inclusão do sexto registro de evento (`mariana`, `10` tentativas).
+- Implementação de contador específico para eventos severos (`>= 10` tentativas).
+- Inclusão de lógica de alerta direcionada a eventos do usuário `admin`.
+- Criação de resumo agrupado mostrando o total acumulado de tentativas por usuário.
+
+## Evidências
+- `evidence/week07-day03-code.png`
+- `evidence/week07-day03-execution.png`
+
+## Lições Aprendidas
+Laços de repetição e estruturas de dados formam a base do threat hunting e da análise automatizada de logs. Embora alertas baseados em limites ajudem na triagem, filtros contextuais e agregação de dados fornecem uma visão defensiva mais detalhada.
+
+## Conclusão
+O analisador de eventos automatizado foi implementado com sucesso utilizando estruturas padrão do Python. Este laboratório fornece a base necessária para analisar registros reais de autenticação do Linux (`/var/log/auth.log`).
+
+--------------------------------------------------------------------------------
+[ AVALIAÇÃO DO DIA 03 - RESPOSTAS TÉCNICAS ]
+--------------------------------------------------------------------------------
+1. Qual é a diferença entre uma lista e um dicionário?
+   - Lista (`list`): Coleção ordenada de elementos acessada por índices numéricos sequenciais (`0, 1, 2...`). Ideal para sequências e listas de dados.
+   - Dicionário (`dict`): Coleção de pares chave-valor (`key: value`) acessada pelo nome da chave (ex: `evento["usuario"]`). Ideal para representar estruturas com múltiplos atributos.
+
+2. O que o for faz nesse script?
+   - Automatiza a iteração sobre a lista `eventos`. A cada ciclo, ele atribui o registro corrente à variável `evento`, aplicando o bloco de código a todos os itens sem duplicação de código.
+
+3. Por que usamos total_alertas += 1?
+   - É o operador de atribuição com adição, equivalente a `total_alertas = total_alertas + 1`. Ele incrementa o contador toda vez que a condição de alerta é atendida.
+
+4. O que acontece se alterarmos o limite de cinco para oito?
+   - A sensibilidade da regra diminui. Apenas eventos com 8 ou mais tentativas gerarão alerta (reduzindo os alertas gerados para o conjunto de dados).
+
+5. Como poderíamos adaptar o script para analisar registros reais de autenticação do Linux?
+   - Lendo o arquivo `/var/log/auth.log`, filtrando linhas com "Failed password", extraindo IP, data e usuário via expressões regulares (`re`) ou `.split()`, e inserindo os dados extraídos em dicionários dentro da lista `eventos`.
+
+================================================================================
+Status: CONCLUÍDO COM SUCESSO
+Próximo Passo: Day 04 — Leitura e Processamento de Arquivos de Log em Python
+================================================================================

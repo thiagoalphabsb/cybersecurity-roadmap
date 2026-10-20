@@ -1,0 +1,138 @@
+================================================================================
+CYBERSECURITY ROADMAP - WEEK 07 - DAY 02
+Variáveis, Tipos de Dados, Operadores e Lógica Aplicada à Cibersegurança
+================================================================================
+
+[ INFORMACÕES DO AMBIENTE ]
+- Sistema Operacional: Linux (Debian)
+- Linguagem: Python 3.x
+- Diretório do Laboratório: ~/cybersecurity-roadmap/week-07/day-02
+
+--------------------------------------------------------------------------------
+[ RESUMO DAS ATIVIDADES REALIZADAS ]
+--------------------------------------------------------------------------------
+1. Implementação do Script Principal (`detector_login.py`):
+   - Criação de variáveis para armazenar dados de eventos de autenticação.
+   - Aplicação de operadores condicionais e de comparação para classificação de risco.
+
+2. Execução dos Testes Práticos:
+   - Teste 1 (Login normal): `tentativas = 2` -> Status normal, sem alertas.
+   - Teste 2 (Limite atingido): `tentativas = 5` -> Diferença entre `>` e `>=` validada.
+   - Teste 3 (Possível Brute Force): `tentativas = 12` -> Prioridade de investigação urgente ativada.
+   - Teste 4 (Alteração de IP): `ip_origem = "10.10.10.20"` -> Validação da dinamicidade dos dados.
+
+3. Resolução do Desafio Extra (`detector_login_funcao.py`):
+   - Refatoração da lógica para uma estrutura modular utilizando funções (`def`) e retorno de valores (`return`).
+
+--------------------------------------------------------------------------------
+[ CÓDIGOS DESENVOLVIDOS ]
+--------------------------------------------------------------------------------
+
+--- File: detector_login.py ---
+# Week 07 - Day 02
+# Detector simples de tentativas de login
+
+usuario = "analista"
+ip_origem = "192.168.1.50"
+tentativas = 7
+limite = 5
+
+print("=== ANALISE DE AUTENTICACAO ===")
+print(f"Usuario: {usuario}")
+print(f"IP de origem: {ip_origem}")
+print(f"Tentativas de login: {tentativas}")
+
+if tentativas > limite:
+    print("ALERTA: quantidade de tentativas acima do limite!")
+else:
+    print("STATUS: quantidade de tentativas dentro do limite.")
+
+if tentativas >= 10:
+    print("PRIORIDADE: investigar com urgencia.")
+elif tentativas >= 5:
+    print("PRIORIDADE: revisar os registros de autenticacao.")
+else:
+    print("PRIORIDADE: monitoramento normal.")
+
+
+--- File: detector_login_funcao.py (Desafio Extra) ---
+# Week 07 - Day 02
+# Detector com funcao de classificacao de eventos
+
+def classificar_tentativas(tentativas):
+    if tentativas >= 10:
+        return "Suspeito - investigar"
+    elif tentativas >= 5:
+        return "Atençao"
+    else:
+        return "Normal"
+
+# Dados de teste
+usuario = "analista"
+ip_origem = "10.10.10.20"
+tentativas_evento = 12
+
+classificacao = classificar_tentativas(tentativas_evento)
+
+print("=== ANALISE DE AUTENTICACAO (MODO FUNCAO) ===")
+print(f"Usuario: {usuario}")
+print(f"IP de origem: {ip_origem}")
+print(f"Tentativas: {tentativas_evento}")
+print(f"Classificaçao: {classificacao}")
+
+
+## Objetivo
+Praticar variáveis, tipos de dados, operadores de comparação e lógica condicional em Python por meio de um script básico de análise de eventos de autenticação.
+
+## Tópicos Abordados
+- Variáveis e tipos de dados (`str`, `int`, `float`, `bool`)
+- Operadores de comparação (`>`, `>=`, `==`, `!=`)
+- Estruturas condicionais (`if`, `elif`, `else`)
+- Classificação básica de eventos de segurança
+
+## Laboratório Prático
+Desenvolvimento do script `detector_login.py` para avaliar a quantidade de tentativas de autenticação e exibir alertas com base em limites configuráveis. Adicionalmente, foi implementado o `detector_login_funcao.py` para modularizar a lógica utilizando funções em Python.
+
+## Validação
+- Teste de atividade de autenticação normal (`tentativas = 2`)
+- Teste no limite exato de alerta (`tentativas = 5`)
+- Teste com número elevado de tentativas falhas (`tentativas = 12`)
+- Teste com um endereço IP de origem diferente (`10.10.10.20`)
+
+## Evidências
+- `evidence/week07-day02-code.png`
+- `evidence/week07-day02-execution.png`
+
+## Lições Aprendidas
+Os tipos de variáveis permitem a manipulação adequada de dados extraídos de registros (logs). Operadores de comparação e estruturas condicionais viabilizam a automação de checagens básicas para detecção de ameaças.
+
+## Conclusão
+Este exercício apresentou a lógica básica do Python aplicada à segurança defensiva. O script possui caráter educacional e não confirma, isoladamente, a ocorrência de um ataque real.
+
+--------------------------------------------------------------------------------
+[ AVALIAÇÃO DO DIA 02 - RESPOSTAS TÉCNICAS ]
+--------------------------------------------------------------------------------
+1. Qual é a diferença entre str, int e bool?
+   - `str` (String): Sequência de caracteres/texto (ex: "192.168.1.1").
+   - `int` (Integer): Números inteiros sem casas decimais (ex: 7).
+   - `bool` (Boolean): Valor lógico verdadeiro ou falso (`True` ou `False`).
+
+2. Qual é a diferença entre > e >=?
+   - `>` (Maior que): Retorna True apenas se o valor for estritamente maior.
+   - `>=` (Maior ou igual): Retorna True se o valor for maior ou exatamente igual.
+
+3. Para que servem if, elif e else?
+   - `if`: Avalia a primeira condição lógica.
+   - `elif`: Avalia condições secundárias caso as anteriores sejam falsas.
+   - `else`: Executa o bloco padrão se nenhuma condição anterior for satisfeita.
+
+4. Por que sete tentativas de login não são prova definitiva de um ataque?
+   - Podem ser causadas por erro humano, aplicações legadas com credenciais desatualizadas ou falhas de sincronização. A análise defensiva exige validação de contexto e logs adicionais.
+
+5. Como você evoluiria esse script para analisar um arquivo de logs real?
+   - Adicionando leitura de arquivos (`open()`), parsing de linhas (ex: extração via Regex ou `split()`), iteração sobre múltiplos registros e integração com parsing JSON/CSV.
+
+================================================================================
+Status: CONCLUÍDO COM SUCESSO
+Próximo Passo: Day 03 — Manipulação de arquivos e logs em Python
+================================================================================

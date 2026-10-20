@@ -1,0 +1,198 @@
+================================================================================
+CYBERSECURITY ROADMAP - WEEK 07 - DAY 04
+Funções, Tratamento de Erros e Leitura de Arquivos CSV para Análise de Logs
+================================================================================
+
+[ INFORMACÕES DO AMBIENTE ]
+- Sistema Operacional: Linux (kali)
+- Linguagem: Python 3.x
+- Diretório do Laboratório: ~/cybersecurity-roadmap/week-07/day-04
+
+--------------------------------------------------------------------------------
+[ RESUMO DAS ATIVIDADES REALIZADAS ]
+--------------------------------------------------------------------------------
+1. Estruturação do Código com Funções e Modularização:
+   - Encapsulamento da regra de classificação de risco na função `classificar_evento(tentativas)`.
+   - Separação clara entre a lógica de negócio e o processamento I/O do arquivo.
+
+2. Leitura e Validação Estruturada de Arquivos CSV:
+   - Uso do módulo `csv` com `csv.DictReader` para manipulação resiliente das colunas por nome.
+   - Validação da estrutura de cabeçalhos (`issubset`) e checagem de dados obrigatórios vazios ou inválidos.
+
+3. Tratamento de Exceções e Resiliência do Script:
+   - Implementação de blocos `try-except` para capturar exceções de arquivo (`FileNotFoundError`, `PermissionError`, `OSError`).
+   - Tratamento granular de erros de conversão (`ValueError`) por registro, permitindo ignorar linhas corrompidas sem interromper a execução do analisador.
+
+4. Execução dos Testes Obrigatórios e Desafio Extra:
+   - Validação do fluxo normal com `eventos.csv` de 5 registros.
+   - Teste de resiliência com arquivo inexistente e manipulação de linhas com dados inválidos (`abc`).
+   - Implementação da exportação automatizada dos dados processados para um arquivo físico `relatorio.txt`.
+
+--------------------------------------------------------------------------------
+[ CÓDIGOS DESENVOLVIDOS ]
+--------------------------------------------------------------------------------
+
+--- File: eventos.csv ---
+data_hora,usuario,ip,tentativas
+2026-10-14 08:10:00,ana,192.168.1.10,2
+2026-10-14 08:12:00,carlos,10.10.10.20,7
+2026-10-14 08:15:00,joao,172.16.0.15,12
+2026-10-14 08:20:00,ana,192.168.1.10,3
+2026-10-14 08:25:00,admin,203.0.113.50,9
+
+
+--- File: analisador_logs.py (Versão Completa + Desafio Extra) ---
+import csv
+
+
+def classificar_evento(tentativas):
+    """Classifica o evento conforme a quantidade de tentativas."""
+    if tentativas >= 10:
+        return "SUSPEITO"
+    elif tentativas >= 5:
+        return "ATENCAO"
+    return "NORMAL"
+
+
+def analisar_arquivo(caminho):
+    total = 0
+    alertas = 0
+    invalidos = 0
+
+    try:
+        with open(caminho, "r", encoding="utf-8", newline="") as arquivo:
+            leitor = csv.DictReader(arquivo)
+
+            colunas = {"data_hora", "usuario", "ip", "tentativas"}
+
+            if not leitor.fieldnames or not colunas.issubset(leitor.fieldnames):
+                print("Erro: cabecalho CSV invalido.")
+                return
+
+            print("=== ANALISE DE LOGS ===\n")
+
+            for linha in leitor:
+                try:
+                    usuario = linha["usuario"].strip()
+                    ip = linha["ip"].strip()
+                    data_hora = linha["data_hora"].strip()
+                    tentativas = int(linha["tentativas"])
+
+                    if not usuario or not ip or not data_hora:
+                        raise ValueError("Campo obrigatorio vazio")
+
+                    if tentativas < 0:
+                        raise ValueError("Tentativas negativas")
+
+                except (ValueError, AttributeError, TypeError):
+                    invalidos += 1
+                    print("Registro invalido ignorado.")
+                    continue
+
+                classificacao = classificar_evento(tentativas)
+                total += 1
+
+                if classificacao != "NORMAL":
+                    alertas += 1
+
+                print(f"Data/hora: {data_hora}")
+                print(f"Usuario: {usuario}")
+                print(f"IP: {ip}")
+                print(f"Tentativas: {tentativas}")
+                print(f"Classificacao: {classificacao}")
+                print("-" * 35)
+
+    except FileNotFoundError:
+        print(f"Erro: arquivo nao encontrado: {caminho}")
+        return
+    except PermissionError:
+        print("Erro: sem permissao para ler o arquivo.")
+        return
+    except OSError as erro:
+        print(f"Erro ao acessar o arquivo: {erro}")
+        return
+
+    # Exibição do relatório no terminal
+    print("\n=== RELATORIO FINAL ===")
+    print(f"Eventos validos: {total}")
+    print(f"Eventos para revisao: {alertas}")
+    print(f"Registros invalidos: {invalidos}")
+    print(f"Eventos normais: {total - alertas}")
+
+    # Desafio Extra: Gravação do relatório em relatorio.txt
+    try:
+        with open("relatorio.txt", "w", encoding="utf-8") as relatorio:
+            relatorio.write("=== RELATORIO DE ANALISE DE LOGS ===\n")
+            relatorio.write(f"Eventos validos: {total}\n")
+            relatorio.write(f"Eventos para revisao: {alertas}\n")
+            relatorio.write(f"Registros invalidos: {invalidos}\n")
+            relatorio.write(f"Eventos normais: {total - alertas}\n")
+        print("\nRelatorio salvo em 'relatorio.txt' com sucesso.")
+    except OSError as erro:
+        print(f"Erro ao salvar arquivo de relatorio: {erro}")
+
+
+if __name__ == "__main__":
+    analisar_arquivo("eventos.csv")
+
+
+--------------------------------------------------------------------------------
+[ README.MD ]
+--------------------------------------------------------------------------------
+
+# Semana 07 — Dia 04: Leitura de Arquivos e Tratamento de Erros em Python
+
+## Objetivo
+Desenvolver um script em Python para ler eventos de autenticação em formato CSV, classificar os registros, tratar dados inválidos e gerar um resumo consolidado da análise.
+
+## Tópicos Abordados
+- Funções e valores de retorno (`def` e `return`)
+- Processamento de arquivos CSV com `csv.DictReader`
+- Manipulação segura de arquivos com `with open()`
+- Tratamento defensivo de exceções com `try` e `except`
+- Validação e sanitização de dados
+- Classificação básica de eventos de segurança
+
+## Laboratório Prático
+Implementação do script `analisador_logs.py` para processar eventos de autenticação simulados a partir do arquivo `eventos.csv`, classificar cada evento com base em limites configuráveis e reportar a contagem de registros válidos, suspeitos e inválidos.
+
+## Validação
+- Análise do arquivo CSV original com 5 registros
+- Teste de tratamento para arquivo inexistente (`FileNotFoundError`)
+- Teste de descarte para registro com dados corrompidos ou inválidos (`ValueError`)
+- Validação dos limites de classificação (`NORMAL`, `ATENCAO` e `SUSPEITO`)
+- Revisão e conferência do relatório final emitido pelo terminal
+
+## Evidências
+- `evidence/week07-day04-code.png` — Código do script Python no editor
+- `evidence/week07-day04-execution.png` — Saída do terminal e relatório final de execução
+
+## Lições Aprendidas
+O uso de funções melhora a reutilização do código, o módulo CSV simplifica o processamento de dados estruturados e o tratamento de exceções garante que scripts de análise continuem funcionando mesmo diante de dados malformados. A validação rigorosa é indispensável para uma análise de logs confiável em ambiente defensivo.
+
+## Conclusão
+Este laboratório consolidou a leitura de arquivos e o tratamento defensivo de erros em Python. As regras de classificação utilizadas possuem caráter educacional e, isoladamente, servem como triagem inicial de eventos de autenticação.
+
+--------------------------------------------------------------------------------
+[ AVALIAÇÃO DO DIA 04 - RESPOSTAS TÉCNICAS ]
+--------------------------------------------------------------------------------
+1. Qual é a vantagem de usar uma função para classificar eventos?
+   - Desacopla a regra de classificação da leitura do arquivo. Isso garante reutilização do código em múltiplos módulos e facilita manutenções futuras (ex: alterar os thresholds em um único local sem afetar a lógica I/O).
+
+2. Por que csv.DictReader é útil para analisar logs?
+   - Mapeia automaticamente cada linha do CSV em um dicionário utilizando os nomes das colunas como chaves (`linha["usuario"]`). Isso evita dependência de índices numéricos fixos, tornando o script imune a alterações na ordem das colunas do arquivo fonte.
+
+3. Qual é a diferença entre ValueError e FileNotFoundError?
+   - `FileNotFoundError`: Exceção de sistema/arquivo disparada quando o caminho especificado não existe no sistema de arquivos.
+   - `ValueError`: Exceção de conversão/validação de dados disparada quando o tipo recebido está correto, mas o conteúdo é inválido (ex: tentar converter `"abc"` para `int()`).
+
+4. Por que um registro inválido não deve interromper toda a análise?
+   - Em operações de SOC e análise defensiva de logs, arquivos massivos frequentemente possuem registros corrompidos ou incompletos. Interromper o script impediria o processamento do restante do arquivo, gerando pontos cegos na investigação.
+
+5. Como você adaptaria o programa para produzir um relatório útil em uma investigação real?
+   - Adicionando correlação temporal (janelas curtas com muitas falhas do mesmo usuário/IP), exportação estruturada em formato JSON/CEF para envio a um SIEM, e integração com bancos de inteligência de ameaças (Threat Intelligence) para reputação de IP.
+
+================================================================================
+Status: CONCLUÍDO COM SUCESSO
+Próximo Passo: Day 05 — Automação e Análise Avançada de Logs em Python
+================================================================================

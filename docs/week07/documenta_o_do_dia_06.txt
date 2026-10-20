@@ -1,0 +1,190 @@
+================================================================================
+CYBERSECURITY ROADMAP - WEEK 07 - DAY 06
+Laboratório de Consolidação: Python Security Log Analyzer Final
+================================================================================
+
+[ INFORMAÇÕES DO AMBIENTE ]
+- Sistema Operacional: Linux (WSL / Kali)
+- Linguagem: Python 3.x
+- Diretório do Laboratório: ~/cybersecurity-roadmap/week-07/day-06
+
+--------------------------------------------------------------------------------
+[ RESUMO DAS ATIVIDADES REALIZADAS ]
+--------------------------------------------------------------------------------
+1. Desenvolvimento do Analisador Final de Logs (`week07_final_lab.py`):
+   - Refatoração completa do script integrando funções, listas, dicionários e a classe `Counter` do módulo `collections`.
+   - Validação defensiva rigorosa de cabeçalhos do CSV e descarte de linhas malformadas/incompletas.
+   - Tratamento de exceções em múltiplos níveis para evitar interrupções de execução.
+
+2. Implementação dos Testes Obrigatórios de Borda:
+   - Validação com eventos normais, limite (threshold) e acima do limite.
+   - Injeção de tipos inválidos (`tentativas = abc` ou campos vazios) para verificação do contador de inválidos.
+   - Simulação de erro de leitura com arquivo inexistente (`FileNotFoundError`).
+   - Exportação e conferência das métricas no relatório físico (`relatorio_final.txt`).
+
+--------------------------------------------------------------------------------
+[ CÓDIGOS E ARQUIVOS DESENVOLVEDOS ]
+--------------------------------------------------------------------------------
+
+--- File: eventos.csv ---
+data_hora,usuario,ip,tentativas
+2026-10-20 08:00:00,ana,192.168.1.10,2
+2026-10-20 08:05:00,carlos,10.10.10.20,5
+2026-10-20 08:10:00,joao,172.16.0.15,10
+2026-10-20 08:15:00,admin,203.0.113.50,15
+2026-10-20 08:20:00,maria,192.168.1.50,abc
+2026-10-20 08:25:00,,192.168.1.60,3
+
+
+--- File: week07_final_lab.py ---
+import csv
+from collections import Counter
+from datetime import datetime
+
+
+def classificar_evento(tentativas):
+    """Classifica o nível de risco com base no número de tentativas de login falhas."""
+    if tentativas >= 10:
+        return "SUSPEITO"
+    elif tentativas >= 5:
+        return "ATENCAO"
+    return "NORMAL"
+
+
+def analisar_csv(caminho_csv):
+    """Lê, valida e processa o arquivo CSV de eventos."""
+    eventos = []
+    registros_invalidos = 0
+
+    with open(caminho_csv, encoding="utf-8", newline="") as arquivo:
+        leitor = csv.DictReader(arquivo)
+        colunas_obrigatorias = {"data_hora", "usuario", "ip", "tentativas"}
+
+        if not leitor.fieldnames or not colunas_obrigatorias.issubset(leitor.fieldnames):
+            raise ValueError("Cabeçalho CSV inválido ou colunas ausentes.")
+
+        for linha in leitor:
+            try:
+                usuario = linha["usuario"].strip()
+                ip = linha["ip"].strip()
+                data_hora = linha["data_hora"].strip()
+
+                if not usuario or not ip or not data_hora:
+                    registros_invalidos += 1
+                    continue
+
+                tentativas = int(linha["tentativas"])
+                if tentativas < 0:
+                    registros_invalidos += 1
+                    continue
+
+                classificacao = classificar_evento(tentativas)
+
+                eventos.append({
+                    "data_hora": data_hora,
+                    "usuario": usuario,
+                    "ip": ip,
+                    "tentativas": tentativas,
+                    "classificacao": classificacao
+                })
+
+            except (ValueError, TypeError, KeyError):
+                registros_invalidos += 1
+                continue
+
+    return eventos, registros_invalidos
+
+
+def gerar_e_salvar_relatorio(eventos, registros_invalidos, caminho_saida="relatorio_final.txt"):
+    """Exibe o resumo no terminal e grava o relatório completo em disco."""
+    categorias = Counter(evento["classificacao"] for evento in eventos)
+    agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # Impressão no Terminal
+    print("=== RESUMO DA ANALISE ===")
+    print(f"Total de eventos válidos: {len(eventos)}")
+    print(f"Registros inválidos/ignorados: {registros_invalidos}")
+    print(f"Normais: {categorias['NORMAL']}")
+    print(f"Atenção: {categorias['ATENCAO']}")
+    print(f"Suspeitos: {categorias['SUSPEITO']}")
+
+    # Gravação em Arquivo
+    try:
+        with open(caminho_saida, "w", encoding="utf-8") as relatorio:
+            relatorio.write("==================================================\n")
+            relatorio.write("   PYTHON SECURITY LOG ANALYZER - FINAL REPORT   \n")
+            relatorio.write("==================================================\n")
+            relatorio.write(f"Data de Processamento: {agora}\n\n")
+
+            relatorio.write("--- DETALHAMENTO DOS EVENTOS ---\n")
+            for evt in eventos:
+                relatorio.write(
+                    f"[{evt['data_hora']}] User: {evt['usuario']:<10} | IP: {evt['ip']:<15} | "
+                    f"Tentativas: {evt['tentativas']:<2} | Risco: {evt['classificacao']}\n"
+                )
+
+            relatorio.write("\n--- RESUMO CONSOLIDADO ---\n")
+            relatorio.write(f"Total de eventos válidos: {len(eventos)}\n")
+            relatorio.write(f"Registros inválidos:      {registros_invalidos}\n")
+            relatorio.write(f"Classificação NORMAL:     {categorias['NORMAL']}\n")
+            relatorio.write(f"Classificação ATENCAO:    {categorias['ATENCAO']}\n")
+            relatorio.write(f"Classificação SUSPEITO:   {categorias['SUSPEITO']}\n")
+            relatorio.write("==================================================\n")
+
+        print(f"\n[SUCESSO] Relatório salvo com sucesso em '{caminho_saida}'.")
+    except OSError as erro:
+        print(f"\n[ERRO] Não foi possível salvar o relatório: {erro}")
+
+
+def main():
+    arquivo_entrada = "eventos.csv"
+    try:
+        eventos, invalidos = analisar_csv(arquivo_entrada)
+        gerar_e_salvar_relatorio(eventos, invalidos)
+    except FileNotFoundError:
+        print(f"[ERRO] Arquivo '{arquivo_entrada}' não foi encontrado.")
+    except ValueError as erro_val:
+        print(f"[ERRO DE VALIDAÇÃO] {erro_val}")
+    except OSError as erro:
+        print(f"[ERRO DE I/O] Erro ao acessar arquivo: {erro}")
+
+
+if __name__ == "__main__":
+    main()
+
+
+--- File: relatorio_final.txt ---
+==================================================
+   PYTHON SECURITY LOG ANALYZER - FINAL REPORT   
+==================================================
+Data de Processamento: 2026-10-20 08:50:12
+
+--- DETALHAMENTO DOS EVENTOS ---
+[2026-10-20 08:00:00] User: ana        | IP: 192.168.1.10    | Tentativas: 2  | Risco: NORMAL
+[2026-10-20 08:05:00] User: carlos     | IP: 10.10.10.20     | Tentativas: 5  | Risco: ATENCAO
+[2026-10-20 08:10:00] User: joao       | IP: 172.16.0.15     | Tentativas: 10 | Risco: SUSPEITO
+[2026-10-20 08:15:00] User: admin      | IP: 203.0.113.50    | Tentativas: 15 | Risco: SUSPEITO
+
+--- RESUMO CONSOLIDADO ---
+Total de eventos válidos: 4
+Registros inválidos:      2
+Classificação NORMAL:     1
+Classificação ATENCAO:    1
+Classificação SUSPEITO:   2
+==================================================
+
+--------------------------------------------------------------------------------
+[ RESPOSTAS DE ANÁLISE DEFENSIVA ]
+--------------------------------------------------------------------------------
+1. Como o tratamento de registros inválidos evita falsos positivos/negativos?
+   - Garante que dados corrompidos não sejam convertidos erroneamente para valores padrões que alterem os totais da análise, mantendo a integridade do cálculo de risco.
+
+2. Por que o uso de Counter melhora o desempenho e legibilidade na agregação?
+   - A classe `Counter` abstrai a necessidade de laços manuais e estruturas condicionais repetitivas para contagem de chaves, executando a agregação de forma nativa e altamente otimizada em Python.
+
+3. Qual a importância do princípio de falha segura ao manipular logs de segurança?
+   - Se o script falhar de forma não tratada, investigações podem ser interrompidas ou eventos maliciosos ignorados. Tratar erros garante resiliência na coleta de dados defensivos.
+
+================================================================================
+Status: CONCLUÍDO COM SUCESSO
+================================================================================

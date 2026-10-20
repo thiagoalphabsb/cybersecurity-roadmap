@@ -1,0 +1,135 @@
+================================================================================
+CYBERSECURITY ROADMAP - WEEK 07 - DAY 01
+Fundamentos de Python para Cibersegurança
+================================================================================
+
+[ INFORMACÕES DO AMBIENTE ]
+- Sistema Operacional: Debian Linux (CyberLab VM)
+- Linguagem: Python 3.13.5
+- Diretório do Laboratório: /home/debian/CyberLab/week07-python/day01
+- Usuário: debian
+
+--------------------------------------------------------------------------------
+[ RESUMO DAS ATIVIDADES REALIZADAS ]
+--------------------------------------------------------------------------------
+1. Validação do Ambiente:
+   - Verificação da versão do interpretador Python (`python3 --version`).
+   - Confirmação da estrutura de pastas do CyberLab.
+
+2. Manipulação de Variáveis e Tipos de Dados (variables.py):
+   - Criação de variáveis com tipos essenciais: String, Int, Bool.
+   - Utilização de f-strings para formatação de saídas no terminal.
+
+3. Controle de Fluxo com Condicionais (port_check.py):
+   - Implementação de estruturas `if`, `elif` e `else` para associar portas de rede a seus respectivos serviços e orientações de segurança.
+
+4. Laços de Repetição (port_inventory.py):
+   - Automatização da iteração sobre uma lista de portas conhecidas utilizando laço `for`.
+
+5. Relatório Básico de Segurança (security_report.py):
+   - Estruturação de um inventário defensivo combinando dicionários e f-strings para mapear serviços e exibir recomendações técnicas.
+
+--------------------------------------------------------------------------------
+[ CÓDIGOS DESENVOLVIDOS ]
+--------------------------------------------------------------------------------
+
+--- File: variables.py ---
+analyst = "Thiago"
+system = "Debian"
+ip_address = "10.10.10.10"
+port = 22
+service = "SSH"
+authorized = True
+
+print("=== CyberLab Inventory ===")
+print(f"Analista: {analyst}")
+print(f"Sistema: {system}")
+print(f"Endereco IP: {ip_address}")
+print(f"Porta: {port}")
+print(f"Servico: {service}")
+print(f"Autorizado: {authorized}")
+
+
+--- File: port_check.py ---
+port = 22
+
+print("=== Security Port Check ===")
+if port == 22:
+    print("Porta 22: SSH")
+    print("Verifique se o acesso remoto esta protegido.")
+elif port == 3389:
+    print("Porta 3389: RDP")
+    print("Verifique as restricoes de acesso.")
+elif port == 445:
+    print("Porta 445: SMB")
+    print("Verifique as regras de acesso ao compartilhamento.")
+else:
+    print(f"Porta {port}: servico nao identificado neste exemplo.")
+
+
+--- File: port_inventory.py ---
+ports = [22, 80, 443, 445, 3389, 8080]
+
+print("=== Port Inventory ===")
+for port in ports:
+    if port == 22:
+        service = "SSH"
+    elif port == 80:
+        service = "HTTP"
+    elif port == 443:
+        service = "HTTPS"
+    elif port == 445:
+        service = "SMB"
+    elif port == 3389:
+        service = "RDP"
+    else:
+        service = "Other / Unknown"
+    print(f"Porta: {port} | Servico: {service}")
+
+
+--- File: security_report.py ---
+hostname = "debian-cyberlab"
+ip_address = "10.10.10.10"
+services = {
+    22: "SSH",
+    80: "HTTP",
+    443: "HTTPS",
+    445: "SMB",
+    3389: "RDP"
+}
+
+print("================================")
+print(" CYBERLAB - SECURITY INVENTORY")
+print("================================")
+print(f"Host: {hostname}")
+print(f"IP: {ip_address}")
+print("\nServicos para revisao:")
+for port, service in services.items():
+    print(f"Porta {port}: {service}")
+
+print("\nRecomendacoes:")
+print("- Revisar servicos desnecessarios.")
+print("- Restringir acessos administrativos.")
+print("- Confirmar regras de firewall.")
+print("- Manter os sistemas atualizados.")
+
+--------------------------------------------------------------------------------
+[ EVIDÊNCIAS GERADAS ]
+--------------------------------------------------------------------------------
+- week07-day01-python-version.png (Confirmação da versão Python 3.13.5 e caminho do diretório)
+- week07-day01-security-report.png (Execução do relatório e listagem dos arquivos com ls -la)
+
+--------------------------------------------------------------------------------
+[ CHECKLIST DE CONCLUSÃO ]
+--------------------------------------------------------------------------------
+[X] Versão do Python verificada no Debian
+[X] Script variables.py criado e executado
+[X] Condicionais do port_check.py testadas
+[X] Inventário de portas port_inventory.py executado
+[X] Script security_report.py customizado e executado
+[X] Documentação README.md e evidências registradas
+
+================================================================================
+Status: CONCLUÍDO COM SUCESSO
+Próximo Passo: Day 02 — Python aplicado à automação de tarefas de segurança
+================================================================================

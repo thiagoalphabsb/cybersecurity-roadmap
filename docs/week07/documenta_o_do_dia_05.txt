@@ -1,0 +1,267 @@
+================================================================================
+CYBERSECURITY ROADMAP - WEEK 07 - DAY 05
+Security Log Analyzer: Automação, Modularização e Geração de Relatórios
+================================================================================
+
+[ INFORMAÇÕES DO AMBIENTE ]
+- Sistema Operacional: Linux (Kali)
+- Linguagem: Python 3.x
+- Diretório do Laboratório: ~/cybersecurity-roadmap/week-07/day-05
+
+--------------------------------------------------------------------------------
+[ RESUMO DAS ATIVIDADES REALIZADAS ]
+--------------------------------------------------------------------------------
+1. Arquitetura Modular e Reutilização de Código:
+   - Organização do script em funções com responsabilidades únicas (`classificar_evento`, `analisar_eventos`, `salvar_relatorio`, `main`).
+   - Utilização dos módulos nativos `csv` (processamento estruturado) e `datetime` (carimbo temporal).
+
+2. Leitura, Validação e Agregação de Dados:
+   - Processamento de registros de autenticação via `csv.DictReader`.
+   - Validação estrita de cabeçalho e dados para descartar registros corrompidos ou incompletos.
+   - Cálculo automático de estatísticas operacionais (eventos válidos, normais, atenção, suspeitos e inválidos).
+
+3. Automação na Geração de Relatórios:
+   - Formatação e exportação dos resultados detalhados e do resumo consolidado para o arquivo `relatorio.txt`.
+
+4. Bateria de Testes e Validação de Casos de Borda:
+   - Validação com massa de dados padrão (5 registros).
+   - Teste 1: Adição de evento crítico (15 tentativas -> SUSPEITO).
+   - Teste 2: Injeção de dado inválido (`tentativas = abc` -> ignorado e contabilizado).
+   - Teste 3: Simulação de erro de I/O com arquivo inexistente (`FileNotFoundError`).
+   - Teste 4: Inspeção e verificação de integridade do arquivo `relatorio.txt`.
+
+--------------------------------------------------------------------------------
+[ CÓDIGOS E ARQUIVOS DESENVOLVIDOS ]
+--------------------------------------------------------------------------------
+
+--- File: eventos.csv ---
+data_hora,usuario,ip,tentativas
+2026-10-15 08:10:00,ana,192.168.1.10,2
+2026-10-15 08:12:00,carlos,10.10.10.20,7
+2026-10-15 08:15:00,joao,172.16.0.15,12
+2026-10-15 08:20:00,ana,192.168.1.10,3
+2026-10-15 08:25:00,admin,203.0.113.50,9
+2026-10-15 08:30:00,mariana,192.168.1.100,15
+2026-10-15 08:35:00,teste,10.0.0.5,abc
+
+
+--- File: security_analyzer.py ---
+import csv
+from datetime import datetime
+
+
+def classificar_evento(tentativas):
+    """Classifica o risco do evento com base no número de tentativas falhas."""
+    if tentativas >= 10:
+        return "SUSPEITO"
+    elif tentativas >= 5:
+        return "ATENCAO"
+    return "NORMAL"
+
+
+def analisar_eventos(caminho_csv):
+    """Lê o arquivo CSV, valida os campos e agrega as estatísticas dos eventos."""
+    eventos_processados = []
+    estatisticas = {
+        "validos": 0,
+        "invalidos": 0,
+        "normal": 0,
+        "atencao": 0,
+        "suspeito": 0,
+    }
+
+    try:
+        with open(caminho_csv, "r", encoding="utf-8", newline="") as arquivo:
+            leitor = csv.DictReader(arquivo)
+            colunas_esperadas = {"data_hora", "usuario", "ip", "tentativas"}
+
+            if not leitor.fieldnames or not colunas_esperadas.issubset(leitor.fieldnames):
+                raise ValueError("Cabeçalho do arquivo CSV é inválido ou incompleto.")
+
+            for numero_linha, linha in enumerate(leitor, start=2):
+                try:
+                    usuario = linha["usuario"].strip()
+                    ip = linha["ip"].strip()
+                    data_hora = linha["data_hora"].strip()
+
+                    if not usuario or not ip or not data_hora:
+                        raise ValueError("Campo obrigatório vazio.")
+
+                    tentativas = int(linha["tentativas"])
+                    if tentativas < 0:
+                        raise ValueError("Quantidade de tentativas negativa.")
+
+                    classificacao = classificar_evento(tentativas)
+
+                    registro = {
+                        "data_hora": data_hora,
+                        "usuario": usuario,
+                        "ip": ip,
+                        "tentativas": tentativas,
+                        "classificacao": classificacao,
+                    }
+
+                    eventos_processados.append(registro)
+                    estatisticas["validos"] += 1
+
+                    if classificacao == "SUSPEITO":
+                        estatisticas["suspeito"] += 1
+                    elif classificacao == "ATENCAO":
+                        estatisticas["atencao"] += 1
+                    else:
+                        estatisticas["normal"] += 1
+
+                except (ValueError, KeyError, AttributeError):
+                    estatisticas["invalidos"] += 1
+                    continue
+
+    except FileNotFoundError:
+        print(f"[ERRO] O arquivo '{caminho_csv}' não foi encontrado.")
+        return None, None
+    except Exception as e:
+        print(f"[ERRO] Falha ao processar o arquivo: {e}")
+        return None, None
+
+    return eventos_processados, estatisticas
+
+
+def salvar_relatorio(caminho_saida, eventos, estatisticas):
+    """Gera o arquivo TXT do relatório consolidado com carimbo de data/hora."""
+    try:
+        agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        with open(caminho_saida, "w", encoding="utf-8") as relatorio:
+            relatorio.write("==================================================\n")
+            relatorio.write("        RELATÓRIO DE ANÁLISE DE SEGURANÇA        \n")
+            relatorio.write("==================================================\n")
+            relatorio.write(f"Data de Geração: {agora}\n\n")
+
+            relatorio.write("--- REGISTROS PROCESSADOS ---\n")
+            for evt in eventos:
+                relatorio.write(
+                    f"[{evt['data_hora']}] Usuário: {evt['usuario']} | IP: {evt['ip']} | "
+                    f"Tentativas: {evt['tentativas']} | Classificação: {evt['classificacao']}\n"
+                )
+
+            relatorio.write("\n--- RESUMO CONSOLIDADO ---\n")
+            relatorio.write(f"Eventos válidos:      {estatisticas['validos']}\n")
+            relatorio.write(f"Registros inválidos:  {estatisticas['invalidos']}\n")
+            relatorio.write(f"Normais:              {estatisticas['normal']}\n")
+            relatorio.write(f"Atenção:              {estatisticas['atencao']}\n")
+            relatorio.write(f"Suspeitos:            {estatisticas['suspeito']}\n")
+            relatorio.write(f"Total de Alertas:     {estatisticas['atencao'] + estatisticas['suspeito']}\n")
+            relatorio.write("==================================================\n")
+
+        print(f"[SUCESSO] Relatório gerado com sucesso em '{caminho_saida}'.")
+    except OSError as erro:
+        print(f"[ERRO] Não foi possível salvar o relatório: {erro}")
+
+
+def main():
+    arquivo_entrada = "eventos.csv"
+    arquivo_saida = "relatorio.txt"
+
+    print("Iniciando análise de eventos de segurança...")
+    eventos, estatisticas = analisar_eventos(arquivo_entrada)
+
+    if eventos is not None and estatisticas is not None:
+        salvar_relatorio(arquivo_saida, eventos, estatisticas)
+
+
+if __name__ == "__main__":
+    main()
+
+
+--- File: relatorio.txt ---
+==================================================
+        RELATÓRIO DE ANÁLISE DE SEGURANÇA        
+==================================================
+Data de Geração: 2026-10-20 08:44:00
+
+--- REGISTROS PROCESSADOS ---
+[2026-10-15 08:10:00] Usuário: ana | IP: 192.168.1.10 | Tentativas: 2 | Classificação: NORMAL
+[2026-10-15 08:12:00] Usuário: carlos | IP: 10.10.10.20 | Tentativas: 7 | Classificação: ATENCAO
+[2026-10-15 08:15:00] Usuário: joao | IP: 172.16.0.15 | Tentativas: 12 | Classificação: SUSPEITO
+[2026-10-15 08:20:00] Usuário: ana | IP: 192.168.1.10 | Tentativas: 3 | Classificação: NORMAL
+[2026-10-15 08:25:00] Usuário: admin | IP: 203.0.113.50 | Tentativas: 9 | Classificação: ATENCAO
+[2026-10-15 08:30:00] Usuário: mariana | IP: 192.168.1.100 | Tentativas: 15 | Classificação: SUSPEITO
+
+--- RESUMO CONSOLIDADO ---
+Eventos válidos:      6
+Registros inválidos:  1
+Normais:              2
+Atenção:              2
+Suspeitos:            2
+Total de Alertas:     4
+==================================================
+
+--------------------------------------------------------------------------------
+[ README.MD ]
+--------------------------------------------------------------------------------
+
+# Week 07 — Day 05: Python Security Log Analyzer
+
+## Objective
+Build a Python tool to analyze simulated authentication events, classify records and generate a text report.
+
+## Topics Covered
+- Functions and modular code
+- CSV processing with `csv.DictReader`
+- Lists and dictionaries
+- Conditional logic and aggregation
+- Exception handling
+- Report generation with file operations
+- Basic data validation
+
+## Practical Lab
+Developed `security_analyzer.py` to read authentication events from `eventos.csv`, classify records by configurable thresholds and export a summary to `relatorio.txt`.
+
+## Validation
+- Processed the original CSV
+- Tested a suspicious event
+- Tested an invalid record
+- Tested missing-file handling
+- Verified the generated report
+
+## Files
+- `security_analyzer.py` — analysis script
+- `eventos.csv` — simulated input data
+- `relatorio.txt` — generated analysis report
+
+## Evidence
+- `evidence/week07-day05-code.png` — script in the editor
+- `evidence/week07-day05-execution.png` — terminal output
+- `evidence/week07-day05-report.png` — generated report
+
+Store screenshots in the repository's evidence directory and link them using valid relative paths.
+
+## Lessons Learned
+Modular Python code simplifies maintenance and testing. File processing, validation and report generation provide a foundation for automating defensive security tasks.
+
+## Security Considerations
+The events are simulated. Threshold-based classifications are indicators for review and do not independently establish malicious activity. Real investigations require context and corroborating evidence.
+
+## Conclusion
+This lab consolidated Python programming concepts in an end-to-end workflow: data ingestion, validation, classification, aggregation and report generation.
+
+--------------------------------------------------------------------------------
+[ REVISÃO DO DIA 05 - RESPOSTAS TÉCNICAS ]
+--------------------------------------------------------------------------------
+1. Por que dividimos o programa em várias funções?
+   - Facilitar a manutenção, testabilidade e reutilização do código. Cada função cumpre uma responsabilidade única (Princípio da Responsabilidade Única - SRP).
+
+2. Qual é a função de csv.DictReader?
+   - Converter cada linha do arquivo CSV em um dicionário Python utilizando o cabeçalho como chave, permitindo acesso seguro aos dados pelo nome do campo em vez de um índice numérico fixo.
+
+3. Como o script trata registros inválidos sem interromper toda a análise?
+   - Encapsulando a leitura e conversão de cada linha em um bloco `try-except` interno ao loop. Quando uma falha é detectada (ex: `ValueError`), a linha é contabilizada como inválida e a instrução `continue` avança diretamente para o próximo registro.
+
+4. Qual é a diferença entre exibir o resultado no terminal e salvá-lo em um arquivo?
+   - A exibição no terminal é volátil (útil apenas para feedback imediato do operador), enquanto a gravação em arquivo garante rastreabilidade, persistência histórica e capacidade de integração com pipelines automatizadas de auditoria.
+
+5. Como você adaptaria esse programa para ajudar na análise de logs de autenticação do Linux?
+   - Substituindo o leitor CSV por um parser de arquivos de texto (ex: expressões regulares com `re` para ler `/var/log/auth.log` ou `secure`), extraindo os padrões do OpenSSH (`Failed password for...`) e agregando as tentativas de falha por IP de origem em janelas temporais.
+
+================================================================================
+Status: CONCLUÍDO COM SUCESSO
+Próximo Passo: Sincronização final via Git/GitHub
+================================================================================
